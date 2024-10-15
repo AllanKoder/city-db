@@ -11,7 +11,8 @@
 #define ASSERT(cond, statement) \
     do { \
         if (!(cond)) { \
-            std::cerr << "Assertion failed: " << #cond << "\n" \
+            std::cerr   << "---------------------\n" \
+                        << "Assertion failed: " << #cond << "\n" \
                         << "File: " << __FILE__ << "\n" \
                         << "Line: " << __LINE__ << "\n" \
                         << "Message: " << statement << std::endl; \
@@ -21,13 +22,17 @@
 
 namespace Testing 
 {
+    // Mock struct for testing
+    struct MockObject {
+        int value;
+    };
+
     class Test
     {
     public:
-        Test(const char* _testName) {}
+        Test(const char* _testName) : testName(_testName) {}
         const char* getName() {return testName;}
-        virtual void runTests();
-        virtual ~Test() {}
+        virtual void runTests() = 0;
     private:
         const char* testName;
     };

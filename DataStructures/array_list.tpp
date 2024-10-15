@@ -3,11 +3,11 @@
 namespace DataStructures 
 {
     template <typename T>
-    ArrayList<T>::ArrayList() 
+    ArrayList<T>::ArrayList(size_t initalCapacity) 
     {
-        array = new T[10];
-        capacity = 10;
-        count = 10;
+        array = new T[initalCapacity];
+        capacity = initalCapacity;
+        count = 0;
     }
 
     template <typename T>
@@ -18,10 +18,10 @@ namespace DataStructures
     }
 
     template <typename T>
-    ArrayList<T>::ArrayList(const ArrayList& arraylist) : count(arraylist.count), capacity(arraylist.capacity)
+    ArrayList<T>::ArrayList(const ArrayList& other) : count(other.count), capacity(other.capacity)
     {
         array = new T[capacity];
-        std::copy(arraylist.array, arraylist.array + count, array);
+        std::copy(other.array, other.array + count, array);
     }
 
     template <typename T>
@@ -62,7 +62,7 @@ namespace DataStructures
     }
 
     template <typename T>
-    unsigned int ArrayList<T>::size() const
+    size_t ArrayList<T>::size() const
     {
         return count;
     }
@@ -87,12 +87,12 @@ namespace DataStructures
     }
 
     template <typename T>
-    void ArrayList<T>::resize(unsigned int new_capacity)
+    void ArrayList<T>::resize(size_t newCapacity)
     {
-        T* new_array = new T[new_capacity];
+        T* new_array = new T[newCapacity];
         std::copy(array, array + count, new_array);
         delete[] array;
         array = new_array;
-        capacity = new_capacity;
+        capacity = newCapacity;
     }
 }
