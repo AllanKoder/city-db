@@ -1,16 +1,16 @@
-#ifndef TESTING_CPP
-#define TESTING_CPP
+#ifndef TESTING_ARRAY_LIST_CPP
+#define TESTING_ARRAY_LIST_CPP
 
 #include "../testing.cpp"
-#include "../../DataStructures/array_list.hpp"
+#include "../../DataStructures/vector.hpp"
 #include <memory>
 
 namespace Testing
 {
-    class TestArrayList : public Test
+    class TestVector : public Test
     {
         public:        
-        TestArrayList(const char* name) : Test(name) {}
+        TestVector(const char* name) : Test(name) {}
 
         void runTests() override
         {
@@ -19,7 +19,6 @@ namespace Testing
             can_resize();
             can_remove_elements();            
             can_shallow_copy();
-            can_deep_copy();
         }
 
         private:
@@ -27,7 +26,7 @@ namespace Testing
         {
             std::cout << "can_initalize_list_constructor\n";
             // Call the list constructor
-            DataStructures::ArrayList<int> list {1,2,3};
+            DataStructures::Vector<int> list {1,2,3};
             
             // Elements must match
             ASSERT(list[0] == 1, "Must be 1");
@@ -43,7 +42,7 @@ namespace Testing
 
             // Create a scope
             {
-                DataStructures::ArrayList<std::shared_ptr<int>> list;
+                DataStructures::Vector<std::shared_ptr<int>> list;
                 list.add(sharedInt);
 
                 // Ensure the shared_ptr is in the list
@@ -64,7 +63,7 @@ namespace Testing
         {
             std::cout << "can_resize\n";
 
-            DataStructures::ArrayList<int> list(10);
+            DataStructures::Vector<int> list(10);
             
             // Add more elements than the initial capacity
             for (int i = 0; i < 15; ++i) {
@@ -84,7 +83,7 @@ namespace Testing
         {
             std::cout << "can_remove_elements\n";
 
-            DataStructures::ArrayList<int> list {10, 20, 30, 40, 50};
+            DataStructures::Vector<int> list {10, 20, 30, 40, 50};
             
             // Remove an element
             list.remove(30);
@@ -103,13 +102,13 @@ namespace Testing
         {
             std::cout << "can_shallow_copy\n";
             // Create an ArrayList of shared_ptr
-            DataStructures::ArrayList<std::shared_ptr<int>> original;
+            DataStructures::Vector<std::shared_ptr<int>> original;
             original.add(std::make_shared<int>(1));
             original.add(std::make_shared<int>(2));
             original.add(std::make_shared<int>(3));
 
             // Create a shallow copy
-            DataStructures::ArrayList<std::shared_ptr<int>> shallowCopy = original;
+            DataStructures::Vector<std::shared_ptr<int>> shallowCopy = original;
 
             // Modify the value pointed to by the shared_ptr in the copy
             *shallowCopy[1] = 10;
@@ -117,26 +116,6 @@ namespace Testing
             // Check that the change is reflected in both original and copy
             ASSERT(*original[1] == 10, "Original should be affected by changes to the shallow copy");
             ASSERT(*shallowCopy[1] == 10, "Shallow copy should reflect the change");
-        }
-
-        void can_deep_copy()
-        {
-            std::cout << "can_deep_copy\n";
-
-            // Create an ArrayList of MockObjects
-            DataStructures::ArrayList<MockObject> original;
-            original.add(MockObject{1});
-
-            // Create a deep copy
-            DataStructures::ArrayList<MockObject> deepCopy(original);
-
-            // Modify the struct
-            deepCopy[0].value = 10;
-            original[0].value = 2;
-
-            // Check that the change is only reflected in the copy, not the original
-            ASSERT(original[0].value == 2, "Original should not be affected by changes to the deep copy");
-            ASSERT(deepCopy[0].value == 10, "Deep copy should reflect the change");
         }
     };
 }

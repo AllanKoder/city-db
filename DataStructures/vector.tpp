@@ -1,37 +1,35 @@
-#include "array_list.hpp"
+#include "vector.hpp"
 
 namespace DataStructures 
 {
     template <typename T>
-    ArrayList<T>::ArrayList(size_t initalCapacity) 
+    Vector<T>::Vector(size_t initalCapacity) : capacity(initalCapacity), count(0)
     {
         array = new T[initalCapacity];
-        capacity = initalCapacity;
-        count = 0;
     }
 
     template <typename T>
-    ArrayList<T>::ArrayList(std::initializer_list<T> init) : count(init.size()), capacity(init.size())
+    Vector<T>::Vector(std::initializer_list<T> init) : count(init.size()), capacity(init.size())
     {
         array = new T[capacity];
         std::copy(init.begin(), init.end(), array);
     }
 
     template <typename T>
-    ArrayList<T>::ArrayList(const ArrayList& other) : count(other.count), capacity(other.capacity)
+    Vector<T>::Vector(const Vector& other) : count(other.count), capacity(other.capacity)
     {
         array = new T[capacity];
         std::copy(other.array, other.array + count, array);
     }
 
     template <typename T>
-    ArrayList<T>::~ArrayList() 
+    Vector<T>::~Vector() 
     {
         delete[] array;
     }
 
     template <typename T>
-    ArrayList<T>& ArrayList<T>::operator=(const ArrayList& other) 
+    Vector<T>& Vector<T>::operator=(const Vector& other) 
     {
         if (this != &other) {
             delete[] array;
@@ -43,39 +41,57 @@ namespace DataStructures
         return *this;
     }
 
+    template<typename T>
+    Vector<T>& Vector<T>::operator=(Vector&& other) noexcept {
+        if (this != &other) {
+            delete[] array;  // Free existing resources
+            
+            // Transfer ownership
+            array = other.array;
+            count = other.count;
+            capacity = other.capacity;
+            
+            // Reset source object
+            other.array = nullptr;
+            other.count = 0;
+            other.capacity = 0;
+        }
+        return *this;
+    }
+
     template <typename T>
-    T& ArrayList<T>::operator[](size_t index)
+    T& Vector<T>::operator[](size_t index)
     {
-        if (index >= count) {
+        if (index >= this->capacity) {
             throw std::out_of_range("Index out of bounds");
         }
         return array[index];
     }
 
     template <typename T>
-    const T& ArrayList<T>::operator[](size_t index) const
+    const T& Vector<T>::operator[](size_t index) const
     {
-        if (index >= count) {
+        if (index >= this->capacity) {
             throw std::out_of_range("Index out of bounds");
         }
         return array[index];
     }
 
     template <typename T>
-    size_t ArrayList<T>::size() const
+    size_t Vector<T>::size() const
     {
         return count;
     }
 
     template <typename T>
-    void ArrayList<T>::add(const T& element) 
+    void Vector<T>::add(const T& element) 
     {
         if (count >= capacity) resize(static_cast<unsigned int>(capacity * 1.5) + 1);
         array[count++] = element;
     }
 
     template <typename T>
-    void ArrayList<T>::remove(const T& element)
+    void Vector<T>::remove(const T& element)
     {
         for (unsigned int i = 0; i < count; ++i) {
             if (array[i] == element) {
@@ -87,7 +103,7 @@ namespace DataStructures
     }
 
     template <typename T>
-    void ArrayList<T>::resize(size_t newCapacity)
+    void Vector<T>::resize(size_t newCapacity)
     {
         T* new_array = new T[newCapacity];
         std::copy(array, array + count, new_array);

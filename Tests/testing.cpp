@@ -25,6 +25,11 @@ namespace Testing
     // Mock struct for testing
     struct MockObject {
         int value;
+        
+        bool operator==(const MockObject& other) const
+        {
+            return value == other.value;
+        }
     };
 
     class Test

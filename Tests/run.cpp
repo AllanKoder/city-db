@@ -1,7 +1,8 @@
 #include "testing.cpp"
 #include <iostream>
 // Tests
-#include "DataStructures/test_array_list.cpp"
+#include "DataStructures/test_vector.cpp"
+// #include "DataStructures/test_hash_map.cpp"
 
 // Function to run all tests
 void runAllTests(Testing::Test* tests[], int testCount) {
@@ -20,8 +21,9 @@ int main()
     Testing::Test* tests[TEST_COUNT];
 
     // CONFIG TESTS
-    tests[0] = new Testing::TestArrayList("ArrayList Data Structure Tests");
-    
+    tests[0] = new Testing::TestVector("Vector Data Structure Tests");
+    // tests[1] = new Testing::TestHashMap("HashMap Data Structure Tests");
+
     // Run all tests
     runAllTests(tests, TEST_COUNT);
 
