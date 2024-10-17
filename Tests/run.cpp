@@ -4,6 +4,7 @@
 #include "DataStructures/test_vector.cpp"
 #include "DataStructures/test_hash_map.cpp"
 
+
 // Function to run all tests
 void runAllTests(Testing::Test* tests[], int testCount) {
     for (int i = 0; i < testCount; ++i) {
