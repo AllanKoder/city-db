@@ -31,6 +31,4 @@ namespace DataStructures
     };
 };
 
-#include "vector.tpp"
-
 #endif // VECTOR_HPP
