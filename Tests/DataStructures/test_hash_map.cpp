@@ -10,7 +10,7 @@ namespace Testing
 {
     class TestHashMap : public Test
     {
-    public:        
+    public:
         TestHashMap(const char* name) : Test(name) {}
 
         void runTests() override
@@ -20,7 +20,7 @@ namespace Testing
             can_remove_elements();
             can_handle_collisions();
             can_resize();
-            can_handle_tombstones();
+            can_handle_deletions();
             test_copy_constructor();
             test_move_constructor();
         }
@@ -97,12 +97,23 @@ namespace Testing
             }
         }
 
-        void can_handle_tombstones()
+        void can_handle_deletions()
         {
-            std::cout << "can_handle_tombstones\n";
-            DataStructures::HashMap<int, MockObject> map(4);  // Small capacity to force collisions
+            std::cout << "can_handle_deletions\n";
+            DataStructures::HashMap<int, int> map(4);  // Small capacity to force collisions
 
+            for (int i = 0; i < 100; ++i) {
+                map.put(i, i * 10);
+            }
 
+            for (int i = 0; i < 50; ++i) {
+                map.remove(i);
+            }
+
+            ASSERT(map.size() == 50, "Should contain only the last 50 elements");
+            for (int i = 50; i < 100; ++i) {
+                ASSERT(map.get(i) == i * 10, "Shoud be able to access specific key/value");
+            }
         }
 
         void test_copy_constructor()

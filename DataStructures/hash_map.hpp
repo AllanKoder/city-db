@@ -8,9 +8,9 @@ namespace DataStructures
     template<typename K, typename V>
     class HashMap
     {
-    private:
+     private:
         static constexpr size_t DEFAULT_CAPACITY{16};
-        static constexpr float MAX_LOAD_FACTOR{0.50f};
+        static constexpr float MAX_LOAD_FACTOR{0.75f};
 
         enum class BucketState { EMPTY, OCCUPIED, DELETED };
 
@@ -24,7 +24,7 @@ namespace DataStructures
                 : key(k), value(v), state(s) {}
         };
 
-        Vector<KeyValuePair> buckets;
+        KeyValuePair* buckets;
         size_t elementCount;
         size_t capacity;
 
@@ -33,6 +33,11 @@ namespace DataStructures
 
     public:
         HashMap(size_t capacity = DEFAULT_CAPACITY);
+        ~HashMap();
+        HashMap(const HashMap& other);
+        HashMap& operator=(const HashMap& other);
+        HashMap(HashMap&& other) noexcept;
+        HashMap& operator=(HashMap&& other) noexcept;
 
         void put(const K& key, const V& value);
         V get(const K& key) const;

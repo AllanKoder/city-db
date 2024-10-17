@@ -18,7 +18,7 @@ namespace Testing
             test_destructor();
             can_resize();
             can_remove_elements();            
-            can_shallow_copy();
+            test_copy_instructor();
         }
 
         private:
@@ -98,9 +98,9 @@ namespace Testing
             ASSERT(list[3] == 50, "Fourth element should be 50");
         }
 
-        void can_shallow_copy()
+        void test_copy_instructor()
         {
-            std::cout << "can_shallow_copy\n";
+            std::cout << "test_copy_instructor\n";
             // Create an ArrayList of shared_ptr
             DataStructures::Vector<std::shared_ptr<int>> original;
             original.add(std::make_shared<int>(1));
@@ -108,7 +108,7 @@ namespace Testing
             original.add(std::make_shared<int>(3));
 
             // Create a shallow copy
-            DataStructures::Vector<std::shared_ptr<int>> shallowCopy = original;
+            DataStructures::Vector<std::shared_ptr<int>> shallowCopy(original);
 
             // Modify the value pointed to by the shared_ptr in the copy
             *shallowCopy[1] = 10;

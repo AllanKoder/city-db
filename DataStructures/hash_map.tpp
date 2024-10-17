@@ -8,18 +8,74 @@
 namespace DataStructures
 {
     template <typename K, typename V>
-    HashMap<K,V>::HashMap(size_t _capacity) : capacity(_capacity), elementCount(0)
+    HashMap<K,V>::HashMap(size_t _capacity)
+        : capacity(_capacity), elementCount(0)
     {
-        buckets.resize(capacity);
+        buckets = new KeyValuePair[capacity];
     }
-    
-    // FNV-1a hash function
+
+    template <typename K, typename V>
+    HashMap<K,V>::~HashMap()
+    {
+        delete[] buckets;
+    }
+
+    template <typename K, typename V>
+    HashMap<K,V>::HashMap(const HashMap& other)
+        : elementCount(other.elementCount), capacity(other.capacity)
+    {
+        buckets = new KeyValuePair[capacity];
+        for (size_t i = 0; i < capacity; ++i) {
+            buckets[i] = other.buckets[i];
+        }
+    }
+
+    template <typename K, typename V>
+    HashMap<K,V>& HashMap<K,V>::operator=(const HashMap& other)
+    {
+        if (this != &other) {
+            delete[] buckets;
+            elementCount = other.elementCount;
+            capacity = other.capacity;
+            buckets = new KeyValuePair[capacity];
+            for (size_t i = 0; i < capacity; ++i) {
+                buckets[i] = other.buckets[i];
+            }
+        }
+        return *this;
+    }
+
+    template <typename K, typename V>
+    HashMap<K,V>::HashMap(HashMap&& other) noexcept
+        : buckets(other.buckets), elementCount(other.elementCount), capacity(other.capacity)
+    {
+        other.buckets = nullptr;
+        other.elementCount = 0;
+        other.capacity = 0;
+    }
+
+    template <typename K, typename V>
+    HashMap<K,V>& HashMap<K,V>::operator=(HashMap&& other) noexcept
+    {
+        if (this != &other) {
+            delete[] buckets;
+            buckets = other.buckets;
+            elementCount = other.elementCount;
+            capacity = other.capacity;
+            other.buckets = nullptr;
+            other.elementCount = 0;
+            other.capacity = 0;
+        }
+        return *this;
+    }
+
+    // Inspired by simple FNV Hash
     // https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
     template<typename K, typename V>
     size_t HashMap<K,V>::hash(const K& key) const
     {
-        constexpr uint64_t FNV_OFFSET_BASIS = 14695981039346656037ULL;
-        constexpr uint64_t FNV_PRIME = 1099511628211ULL;
+        constexpr uint64_t FNV_OFFSET_BASIS = 0x00000100000001b3ULL;
+        constexpr uint64_t FNV_PRIME = 0xcbf29ce484222325ULL;
 
         const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&key);
         size_t size = sizeof(K);
@@ -46,7 +102,7 @@ namespace DataStructures
     void HashMap<K,V>::rehash()
     {
         size_t newCapacity = capacity * 2;
-        Vector<KeyValuePair> newBuckets(newCapacity);
+        KeyValuePair* newBuckets = new KeyValuePair[newCapacity];
 
         for (size_t i = 0; i < capacity; ++i) {
             if (buckets[i].state == BucketState::OCCUPIED) {
@@ -58,23 +114,19 @@ namespace DataStructures
             }
         }
 
-        buckets = std::move(newBuckets);
+        delete[] buckets;
+        buckets = newBuckets;
         capacity = newCapacity;
     }
 
     template<typename K, typename V>
     void HashMap<K,V>::put(const K& key, const V& value)
     {
-        if (capacity == 0) {
-            std::cerr << "Error: Capacity is zero!" << std::endl;
-            return; 
-        }
         if (static_cast<float>(elementCount) / capacity > MAX_LOAD_FACTOR) {
             rehash();
         }
 
-        size_t hashValue = hash(key);
-        size_t index = hashValue % capacity;
+        size_t index = hash(key) % capacity;
         while (buckets[index].state == BucketState::OCCUPIED) {
             if (buckets[index].key == key) {
                 buckets[index].value = value;
@@ -89,27 +141,25 @@ namespace DataStructures
     template<typename K, typename V>
     V HashMap<K,V>::get(const K& key) const
     {
-        size_t starting_index = hash(key) % capacity;
-        for(size_t index = starting_index; ; index = (index + 1) % capacity)
-        {
+        size_t index = hash(key) % capacity;
+        size_t startIndex = index;
+        do {
             if (buckets[index].state == BucketState::EMPTY) {
                 throw std::out_of_range("Key not found");
             }
-            if (buckets[index].state == BucketState::OCCUPIED && key == buckets[index].key)
-            {
+            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key == key) {
                 return buckets[index].value;
             }
-            if (index == starting_index) {
-                throw std::out_of_range("Key not found");
-            }
-        }
+            index = (index + 1) % capacity;
+        } while (index != startIndex);
+        throw std::out_of_range("Key not found");
     }
 
     template<typename K, typename V>
     bool HashMap<K,V>::remove(const K& key)
     {
         size_t index = hash(key) % capacity;
-        size_t start_index = index;
+        size_t startIndex = index;
         do {
             if (buckets[index].state == BucketState::EMPTY) {
                 return false;
@@ -120,7 +170,7 @@ namespace DataStructures
                 return true;
             }
             index = (index + 1) % capacity;
-        } while (index != start_index);
+        } while (index != startIndex);
         return false;
     }
 
@@ -128,7 +178,7 @@ namespace DataStructures
     bool HashMap<K,V>::contains(const K& key) const
     {
         size_t index = hash(key) % capacity;
-        size_t start_index = index;
+        size_t startIndex = index;
         do {
             if (buckets[index].state == BucketState::EMPTY) {
                 return false;
@@ -137,7 +187,7 @@ namespace DataStructures
                 return true;
             }
             index = (index + 1) % capacity;
-        } while (index != start_index);
+        } while (index != startIndex);
         return false;
     }
 
@@ -156,8 +206,8 @@ namespace DataStructures
     template<typename K, typename V>
     void HashMap<K,V>::clear()
     {
-        for (auto& bucket : buckets) {
-            bucket.state = BucketState::EMPTY;
+        for (size_t i = 0; i < capacity; ++i) {
+            buckets[i].state = BucketState::EMPTY;
         }
         elementCount = 0;
     }

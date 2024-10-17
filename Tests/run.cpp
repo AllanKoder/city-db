@@ -2,7 +2,7 @@
 #include <iostream>
 // Tests
 #include "DataStructures/test_vector.cpp"
-// #include "DataStructures/test_hash_map.cpp"
+#include "DataStructures/test_hash_map.cpp"
 
 // Function to run all tests
 void runAllTests(Testing::Test* tests[], int testCount) {
@@ -15,14 +15,14 @@ void runAllTests(Testing::Test* tests[], int testCount) {
 
 int main()
 {
-    const int TEST_COUNT = 1;  
+    const int TEST_COUNT = 2;  
 
     // An array of Test pointers
     Testing::Test* tests[TEST_COUNT];
 
     // CONFIG TESTS
     tests[0] = new Testing::TestVector("Vector Data Structure Tests");
-    // tests[1] = new Testing::TestHashMap("HashMap Data Structure Tests");
+    tests[1] = new Testing::TestHashMap("HashMap Data Structure Tests");
 
     // Run all tests
     runAllTests(tests, TEST_COUNT);
