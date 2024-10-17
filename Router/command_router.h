@@ -1,6 +1,7 @@
 #ifndef COMMAND_ROUTER_H
 #define COMMAND_ROUTER_H
 
+#include "../Config/config.h"
 /**
  * @brief CommandRouter class for routing string commands to designated functions.
  * 
@@ -9,16 +10,12 @@
  */
 class CommandRouter {
 private:
-    static const int MAX_ROUTES = 100; /// Maximum number of routes that can be registered
-    static const int MAX_COMMAND_LENGTH = 50; /// Maximum length of a command string
-    static const int MAX_ARGS = 10; /// Maximum number of arguments a command can have
-
     /**
      * @brief Function pointer type for command handlers.
      * @param argc Number of arguments.
      * @param argv Array of argument strings.
      */
-    typedef void (*CommandHandler)(int argc, const char** argv);
+    typedef const char* (*CommandHandler)(int argc, const char** argv);
 
     /**
      * @brief Structure to store a route (command and its handler).
@@ -50,7 +47,7 @@ public:
      * @brief Routes a given command to its registered handler.
      * @param command The command string to route.
      */
-    void route(const char* command);
+    const char* route(const char* command);
 };
 
 #endif // COMMAND_ROUTER_H

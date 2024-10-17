@@ -1,6 +1,7 @@
 #include "test_hash_map.h"
 #include <iostream>
 #include <stdexcept>
+#include <cstring>
 
 namespace Testing
 {
@@ -21,7 +22,7 @@ namespace Testing
     void TestHashMap::can_initialize_hash_map()
     {
         std::cout << "can_initialize_hash_map\n";
-        DataStructures::HashMap<int, std::string> map(10);
+        DataStructures::HashMap<int, MockObject> map(10);
         ASSERT(map.size() == 0, "New HashMap should be empty");
         ASSERT(map.isEmpty(), "New HashMap should be empty");
     }
@@ -29,26 +30,26 @@ namespace Testing
     void TestHashMap::can_put_and_get_elements()
     {
         std::cout << "can_put_and_get_elements\n";
-        DataStructures::HashMap<int, std::string> map;
+        DataStructures::HashMap<int, MockObject> map;
         
-        map.put(1, "One");
-        map.put(2, "Two");
-        map.put(3, "Three");
+        map.put(1, MockObject{1});
+        map.put(2, MockObject{2});
+        map.put(3, MockObject{3});
 
         ASSERT(map.size() == 3, "Size should be 3 after adding 3 elements");
-        ASSERT(map.get(1) == "One", "Value for key 1 should be 'One'");
-        ASSERT(map.get(2) == "Two", "Value for key 2 should be 'Two'");
-        ASSERT(map.get(3) == "Three", "Value for key 3 should be 'Three'");
+        ASSERT(map.get(1).value == 1, "Value for key 1 should be 1");
+        ASSERT(map.get(2).value == 2, "Value for key 2 should be 2");
+        ASSERT(map.get(3).value == 3, "Value for key 3 should be 3");
     }
 
     void TestHashMap::can_remove_elements()
     {
         std::cout << "can_remove_elements\n";
-        DataStructures::HashMap<int, std::string> map;
+        DataStructures::HashMap<int, MockObject> map;
         
-        map.put(1, "One");
-        map.put(2, "Two");
-        map.put(3, "Three");
+        map.put(1, MockObject{1});
+        map.put(2, MockObject{2});
+        map.put(3, MockObject{3});
 
         ASSERT(map.remove(2), "Should successfully remove key 2");
         ASSERT(map.size() == 2, "Size should be 2 after removing one element");
@@ -111,32 +112,32 @@ namespace Testing
     void TestHashMap::test_copy_constructor()
     {
         std::cout << "test_copy_constructor\n";
-        DataStructures::HashMap<int, std::string> original;
-        original.put(1, "One");
-        original.put(2, "Two");
+        DataStructures::HashMap<int, MockObject> original;
+        original.put(1, MockObject{1});
+        original.put(2, MockObject{2});
 
-        DataStructures::HashMap<int, std::string> copy(original);
+        DataStructures::HashMap<int, MockObject> copy(original);
 
         ASSERT(copy.size() == original.size(), "Copy should have the same size as original");
-        ASSERT(copy.get(1) == "One", "Copy should have the same values as original");
-        ASSERT(copy.get(2) == "Two", "Copy should have the same values as original");
+        ASSERT(copy.get(1).value == 1, "Copy should have the same values as original");
+        ASSERT(copy.get(2).value == 2, "Copy should have the same values as original");
 
-        original.put(3, "Three");
+        original.put(3, MockObject{3});
         ASSERT(!copy.contains(3), "Changes to original should not affect copy");
     }
 
     void TestHashMap::test_move_constructor()
     {
         std::cout << "test_move_constructor\n";
-        DataStructures::HashMap<int, std::string> original;
-        original.put(1, "One");
-        original.put(2, "Two");
+        DataStructures::HashMap<int, MockObject> original;
+        original.put(1, MockObject{1});
+        original.put(2, MockObject{2});
 
-        DataStructures::HashMap<int, std::string> moved(std::move(original));
+        DataStructures::HashMap<int, MockObject> moved(std::move(original));
 
         ASSERT(moved.size() == 2, "Moved map should have the elements of original");
-        ASSERT(moved.get(1) == "One", "Moved map should have the values of original");
-        ASSERT(moved.get(2) == "Two", "Moved map should have the values of original");
+        ASSERT(moved.get(1).value == 1, "Moved map should have the values of original");
+        ASSERT(moved.get(2).value == 2, "Moved map should have the values of original");
 
         ASSERT(original.isEmpty(), "Original should be empty after move");
     }

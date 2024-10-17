@@ -28,7 +28,7 @@ void CommandRouter::registerRoute(const char* command, CommandHandler handler) {
     }
 }
 
-void CommandRouter::route(const char* command) {
+const char* CommandRouter::route(const char* command) {
     char argv[MAX_ARGS][MAX_COMMAND_LENGTH];
     char* argvPtrs[MAX_ARGS];
     int argc;
@@ -39,15 +39,12 @@ void CommandRouter::route(const char* command) {
 
     splitCommand(command, argvPtrs, &argc);
 
-
     if (argc > 0) {
         for (int i = 0; i < routeCount; i++) {
             if (strcmp(routes[i].command, argv[0]) == 0) {
-                routes[i].handler(argc - 1, (const char**)argvPtrs + 1);
-                return;
+                return routes[i].handler(argc - 1, (const char**)argvPtrs + 1);
             }
         }
-
-        std::cout << "Command not found. Type 'help' for list of commands.\n";
     }
+    return "NULL";
 }

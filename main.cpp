@@ -1,6 +1,6 @@
-#include "Models/City/city.h"
+#include "Views/repl.h"
 
 int main()
 {
-    
+    runREPL();
 }
