@@ -49,4 +49,6 @@ namespace DataStructures
     };
 }
 
+#include "hash_map.tpp"
+
 #endif // HASHMAP_HPP
