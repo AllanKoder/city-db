@@ -1,8 +1,8 @@
-#include "testing.cpp"
+#include "testing.h"
 #include <iostream>
 // Tests
-#include "DataStructures/test_vector.cpp"
-#include "DataStructures/test_hash_map.cpp"
+#include "DataStructures/test_vector.h"
+#include "DataStructures/test_hash_map.h"
 
 
 // Function to run all tests
@@ -30,9 +30,5 @@ int main()
 
     std::cout << "All Tests Completed!\n";
 
-    // Clean up
-    for (int i = 0; i < TEST_COUNT; ++i) {
-        delete tests[i];
-    }
     return 0;
 }

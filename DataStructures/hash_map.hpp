@@ -2,6 +2,8 @@
 #define HASHMAP_HPP
 
 #include "vector.hpp"
+#include <cstddef>
+#include <cstdint>
 
 namespace DataStructures
 {

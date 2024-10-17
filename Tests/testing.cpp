@@ -1,46 +1,16 @@
-#ifndef TEST_H
-#define TEST_H
-
-#include <iostream>
-#include <cstdlib>
-
-/*
-* MACRO to ASSERT that the statement is true.
-* Takes a statement
-*/
-#define ASSERT(cond, statement) \
-    do { \
-        if (!(cond)) { \
-            std::cerr   << "---------------------\n" \
-                        << "Assertion failed: " << #cond << "\n" \
-                        << "File: " << __FILE__ << "\n" \
-                        << "Line: " << __LINE__ << "\n" \
-                        << "Message: " << statement << std::endl; \
-            std::abort(); \
-        } \
-    } while (0)
+#include "testing.h"
 
 namespace Testing 
 {
-    // Mock struct for testing
-    struct MockObject {
-        int value;
-        
-        bool operator==(const MockObject& other) const
-        {
-            return value == other.value;
-        }
-    };
-
-    class Test
+    bool MockObject::operator==(const MockObject& other) const
     {
-    public:
-        Test(const char* _testName) : testName(_testName) {}
-        const char* getName() {return testName;}
-        virtual void runTests() = 0;
-    private:
-        const char* testName;
-    };
-}
+        return value == other.value;
+    }
 
-#endif
+    Test::Test(const char* _testName) : testName(_testName) {}
+
+    const char* Test::getName() 
+    {
+        return testName;
+    }
+}

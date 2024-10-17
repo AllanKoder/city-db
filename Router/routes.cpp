@@ -4,7 +4,7 @@ CommandRouter& getRouter()
 {
     static CommandRouter router;
 
-    
+     
 
     return router;
 }

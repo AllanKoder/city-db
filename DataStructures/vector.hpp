@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 #include <initializer_list>
+#include <cstddef>
+#include <cstdint>
 
 namespace DataStructures 
 {

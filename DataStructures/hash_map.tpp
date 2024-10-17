@@ -4,6 +4,7 @@
 #include "hash_map.hpp"
 #include <stdexcept>
 #include <limits>
+#include <cstdint>
 
 namespace DataStructures
 {
