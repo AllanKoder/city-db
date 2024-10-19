@@ -13,8 +13,6 @@ private:
 
     // Data
     DataStructures::HashMap<const char*, Models::City> cities;
-    DataStructures::HashMap<const char*, Models::Mayor> mayors;
-
 public:
     // Delete copy constructor, and assignment, should only be one instance
     DataRepository(const DataRepository& obj) = delete;
@@ -23,9 +21,12 @@ public:
     // Get the Singleton instance
     static DataRepository* getInstance();
 
+    // CRUD
     // Get the data
     DataStructures::HashMap<const char*, Models::City>& getCities();
-    DataStructures::HashMap<const char*, Models::Mayor>& getMayors();
+
+    // Create
+    void addCity(Models::City city);
 };
 
 #endif // DATA_REPOSITORY_H

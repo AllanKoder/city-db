@@ -1,11 +1,22 @@
 #include <iostream>
+#include "../../DataRepository/data_repository.h"
 
 namespace Controllers::City
 {
-    const char* createCity(int argc, const char* argv[])
+    const char* createCity(int a, char** as)
     {
-        std::cout << "testing, it does it\n";
-        // ... implementation ...
-        return "City added successfully";
+        // Expect 7 arguments:
+        // Name
+        // History
+        // Population
+        // Year
+        // Coordinates
+
+        // Mayor
+        // Name
+        // Address
+
+
+        return "ok";
     }
 }

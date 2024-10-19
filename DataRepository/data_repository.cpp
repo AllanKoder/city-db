@@ -4,17 +4,7 @@
 // Initialize the static instance pointer
 DataRepository* DataRepository::instancePtr = nullptr;
 
-DataRepository::DataRepository() : cities(100), mayors(100) { }
-
-DataStructures::HashMap<const char*, Models::Mayor>& DataRepository::getMayors()
-{
-    return mayors;
-}
-
-DataStructures::HashMap<const char*, Models::City>& DataRepository::getCities()
-{
-    return cities;
-}
+DataRepository::DataRepository() : cities(100) { }
 
 DataRepository* DataRepository::getInstance()
 {
@@ -23,4 +13,15 @@ DataRepository* DataRepository::getInstance()
         instancePtr = new DataRepository();
     }
     return instancePtr;
+}
+
+// CRUD Operations
+DataStructures::HashMap<const char*, Models::City>& DataRepository::getCities()
+{
+    return cities;
+}
+
+void DataRepository::addCity(Models::City city)
+{
+    cities.put(city.name, city);
 }

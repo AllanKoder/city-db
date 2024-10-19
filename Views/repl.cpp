@@ -4,7 +4,6 @@
 
 #include "../DataRepository/data_repository.h"
 #include "../Models/City/city.h"
-#include "../Router/router.h"
 #include "../Config/config.h"
 
 #include "command_decider.h"
@@ -17,9 +16,7 @@ void runREPL()
 
     while(true)
     {
-        // Prompt the User
-        std::cout << "> ";
-        
+        std::cout << "db > ";
         // Clear the input buffer
         std::cin.clear();
         std::cin.getline(input, MAX_INPUT_LENGTH);

@@ -1,13 +1,13 @@
-// File: router.h
-
-#ifndef ROUTER_H
-#define ROUTER_H
+#ifndef COMMAND_DECIDER_H
+#define COMMAND_DECIDER_H
 
 class CommandDecider {
 public:
     void decideAction(const char* input);
 
 private:
+    bool containsArg1(char* arg1);
+    bool containsArg2(char* arg2);
     void addCity(const char* cityName);
     void updateCity(const char* cityName);
     void deleteCity(const char* cityName);
@@ -19,4 +19,4 @@ private:
 
 void runREPL();
 
-#endif // ROUTER_H
+#endif // COMMAND_DECIDER_H

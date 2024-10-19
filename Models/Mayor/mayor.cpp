@@ -4,9 +4,9 @@
 
 namespace Models
 {
-    Mayor::Mayor() : name(""), city() {}
-    Mayor::Mayor(const char* name, const City& city)
-        : city(city)
+    Mayor::Mayor() : name(nullptr) {}
+
+    Mayor::Mayor(const char* name)
     {
         if (name == nullptr) {
             throw std::invalid_argument("Name cannot be null");
@@ -14,7 +14,7 @@ namespace Models
         
         size_t nameLength = strlen(name);
         this->name = new char[nameLength + 1];
-        strcpy(const_cast<char*>(this->name), name);
+        strcpy(this->name, name);
     }
 
     Mayor::~Mayor()
@@ -23,11 +23,14 @@ namespace Models
     }
 
     Mayor::Mayor(const Mayor& other)
-        : city(other.city)
     {
-        size_t nameLength = strlen(other.name);
-        this->name = new char[nameLength + 1];
-        strcpy(const_cast<char*>(this->name), other.name);
+        if (other.name) {
+            size_t nameLength = strlen(other.name);
+            this->name = new char[nameLength + 1];
+            strcpy(this->name, other.name);
+        } else {
+            this->name = nullptr;
+        }
     }
 
     Mayor& Mayor::operator=(const Mayor& other)
@@ -36,17 +39,19 @@ namespace Models
         {
             delete[] name;
 
-            size_t nameLength = strlen(other.name);
-            this->name = new char[nameLength + 1];
-            strcpy(const_cast<char*>(this->name), other.name);
-
-            city = other.city;
+            if (other.name) {
+                size_t nameLength = strlen(other.name);
+                this->name = new char[nameLength + 1];
+                strcpy(this->name, other.name);
+            } else {
+                this->name = nullptr;
+            }
         }
         return *this;
     }
 
     Mayor::Mayor(Mayor&& other) noexcept
-        : name(other.name), city(std::move(other.city))
+        : name(other.name)
     {
         other.name = nullptr;
     }
@@ -58,8 +63,6 @@ namespace Models
             delete[] name;
 
             name = other.name;
-            city = std::move(other.city);
-
             other.name = nullptr;
         }
         return *this;
@@ -68,15 +71,5 @@ namespace Models
     const char* Mayor::getName() const
     {
         return name;
-    }
-
-    const City& Mayor::getCity() const
-    {
-        return city;
-    }
-
-    void Mayor::setCity(const City& newCity)
-    {
-        city = newCity;
     }
 }

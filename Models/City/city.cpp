@@ -1,79 +1,55 @@
 #include "city.h"
 #include <cstring>
 #include <stdexcept>
+#include <algorithm>
 
 namespace Models
 {
-    City::City() : name(nullptr), population(0), year(0), coordinates{0.0, 0.0} {}
+    City::City() : population(0), year(0), coordinates{0.0, 0.0} 
+    {
+        name[0] = '\0';
+    }
 
-    City::City(const char* name, size_t population, unsigned int year)
+    City::City(const char* name, const char* history, size_t population, unsigned int year)
         : population(population), year(year), coordinates{0.0, 0.0}
     {
         if (name == nullptr) {
             throw std::invalid_argument("Name cannot be null");
         }
         
-        this->name = name;
-    }
+        strncpy(this->history, history, MAX_CITY_HISTORY - 1);
+        this->history[MAX_CITY_HISTORY - 1] = '\0'; 
 
-    City::~City()
-    {
-        delete[] name;
+        strncpy(this->name, name, MAX_CITY_NAME - 1);
+        this->name[MAX_CITY_NAME - 1] = '\0';  
     }
 
     City::City(const City& other)
         : population(other.population), year(other.year)
     {
-        this->name = other.name;
-        coordinates[0] = other.coordinates[0];
-        coordinates[1] = other.coordinates[1];
-    }
+        strncpy(this->name, other.name, MAX_CITY_NAME - 1);
+        this->name[MAX_CITY_NAME - 1] = '\0';  
+
+        strncpy(this->history, other.history, MAX_CITY_HISTORY - 1);
+        this->history[MAX_CITY_HISTORY - 1] = '\0'; 
+
+        std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
+         
+   }
 
     City& City::operator=(const City& other)
     {
         if (this != &other)
         {
-            delete[] name;
+            strncpy(this->name, other.name, MAX_CITY_NAME - 1);
+            this->name[MAX_CITY_NAME - 1] = '\0';  
 
-            this->name = other.name;
+            strncpy(this->history, other.history, MAX_CITY_HISTORY - 1);
+            this->history[MAX_CITY_HISTORY - 1] = '\0'; 
+ 
             population = other.population;
             year = other.year;
-            coordinates[0] = other.coordinates[0];
-            coordinates[1] = other.coordinates[1];
-        }
-        return *this;
-    }
-
-    City::City(City&& other) noexcept
-        : name(other.name), population(other.population), year(other.year)
-    {
-        coordinates[0] = other.coordinates[0];
-        coordinates[1] = other.coordinates[1];
-
-        other.name = nullptr;
-        other.population = 0;
-        other.year = 0;
-        other.coordinates[0] = 0.0;
-        other.coordinates[1] = 0.0;
-    }
-
-    City& City::operator=(City&& other) noexcept
-    {
-        if (this != &other)
-        {
-            delete[] name;
-
-            name = other.name;
-            population = other.population;
-            year = other.year;
-            coordinates[0] = other.coordinates[0];
-            coordinates[1] = other.coordinates[1];
-
-            other.name = nullptr;
-            other.population = 0;
-            other.year = 0;
-            other.coordinates[0] = 0.0;
-            other.coordinates[1] = 0.0;
+            std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
         }
         return *this;
     }
