@@ -2,5 +2,5 @@
 
 namespace Controllers::City
 {
-    const char* createCity(int argc, const char* argv[]);
+    Models::City& createCity();
 }

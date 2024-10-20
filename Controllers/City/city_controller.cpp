@@ -3,7 +3,7 @@
 
 namespace Controllers::City
 {
-    const char* createCity(int a, char** as)
+    Models::City& createCity()
     {
         // Expect 7 arguments:
         // Name
@@ -16,7 +16,8 @@ namespace Controllers::City
         // Name
         // Address
 
+        Models::City *newcity = new Models::City();
 
-        return "ok";
+        return *newcity;
     }
 }

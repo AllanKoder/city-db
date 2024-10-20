@@ -1,10 +1,9 @@
 #include "data_repository.h"
 
-
 // Initialize the static instance pointer
 DataRepository* DataRepository::instancePtr = nullptr;
 
-DataRepository::DataRepository() : cities(100) { }
+DataRepository::DataRepository() : cities(100), auto_id(0) { }
 
 DataRepository* DataRepository::getInstance()
 {
@@ -16,12 +15,19 @@ DataRepository* DataRepository::getInstance()
 }
 
 // CRUD Operations
-DataStructures::HashMap<const char*, Models::City>& DataRepository::getCities()
+// Get the cities data
+DataStructures::HashMap<const char*, DataStructures::Vector<Models::City>>& DataRepository::getCities()
 {
     return cities;
 }
 
-void DataRepository::addCity(Models::City city)
+size_t DataRepository::createCity(Models::City city)
 {
-    cities.put(city.name, city);
+    const char* cityName = city.name;
+    city.setId(auto_id++);
+
+    // Check if the city already exists in the HashMap
+    cities.get(cityName).add(city);
+
+    return city.getId(); 
 }

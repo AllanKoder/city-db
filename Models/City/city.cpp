@@ -54,6 +54,16 @@ namespace Models
         return *this;
     }
 
+    void City::setId(size_t id)
+    {
+        this->id = id;
+    }
+
+    size_t City::getId()
+    {
+        return this->id;
+    }
+
     void City::setCoordinates(double latitude, double longitude)
     {
         coordinates[0] = latitude;

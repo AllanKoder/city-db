@@ -9,7 +9,10 @@ namespace Models
 {
     class City
     {
+    private:
+        size_t id;
     public:
+
         char name[MAX_CITY_NAME];
         char history[MAX_CITY_HISTORY];
         size_t population;
@@ -21,6 +24,8 @@ namespace Models
         City(const City& other);
         City& operator=(const City& other);
 
+        size_t getId();
+        void setId(size_t id);
         void setCoordinates(double latitude, double longitude);
     };
 }

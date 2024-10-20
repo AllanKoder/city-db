@@ -137,6 +137,7 @@ void CommandDecider::addCity(const char* cityName)
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
 
+    Models::City createdCity = Controllers::City::createCity();
     // Real command 
     std::cout << "Added city: " << cityName << " with address: " << population << "\n";
 }
