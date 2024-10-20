@@ -1,9 +1,11 @@
 #include <iostream>
 #include "../../DataRepository/data_repository.h"
+#include "../../Router/request.h"
+#include "../../Router/response.h"
 
 namespace Controllers::City
 {
-    Models::City& createCity()
+    Router::Response createCity(const Router::Request& request)
     {
         // Expect 7 arguments:
         // Name
@@ -15,9 +17,7 @@ namespace Controllers::City
         // Mayor
         // Name
         // Address
-
-        Models::City *newcity = new Models::City();
-
-        return *newcity;
+        Router::Response te;
+        return te;
     }
 }

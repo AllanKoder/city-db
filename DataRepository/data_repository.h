@@ -32,7 +32,7 @@ public:
     // Create
     size_t createCity(Models::City city);
 
-    void linkMayorToCity()
+    void linkMayorToCity();
 };
 
 #endif // DATA_REPOSITORY_H
