@@ -24,8 +24,6 @@ namespace Router
         typedef Response (*CommandHandler)(const Request& request);
 
         DataStructures::HashMap<RequestType, CommandHandler> routes;
-        
-        int routeCount; /// Number of currently registered routes
     public:
         /**
          * @brief Constructor initializes the route count to zero.
@@ -36,8 +34,9 @@ namespace Router
          * @brief Registers a new route (request type and its handler).
          * @param type The RequestType to register.
          * @param handler The function to handle this request type.
+         * @param save Write the Request to the write ahead log.
          */
-        void registerRoute(RequestType type, CommandHandler handler);
+        void registerRoute(RequestType type, CommandHandler handler, bool save=false);
 
         /**
          * @brief Routes a given request to its registered handler.

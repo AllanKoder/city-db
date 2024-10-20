@@ -3,7 +3,10 @@
 #include <iostream>
 #include <limits>
 #include "../Config/config.h"
-#include "../Controllers/City/city_controller.h"
+
+#include "../Router/router.h"
+#include "../Router/request.h"
+#include "../Router/response.h"
 
 #include "command_decider.h"
 
@@ -99,31 +102,34 @@ void CommandDecider::addCity(const char* cityName)
         return;
     }
 
-    size_t population;
-    unsigned int year;
-    double latitude, longitude;
+    Router::Request request;
+    request.type = Router::RequestType::CREATE_CITY;
+    
+    // Copy city name
+    strncpy(request.data.createCity.name, cityName, MAX_CITY_NAME - 1);
+    request.data.createCity.name[MAX_CITY_NAME - 1] = '\0';
 
     // Get population
     std::cout << "Enter population: ";
-    while (!(std::cin >> population)) {
+    while (!(std::cin >> request.data.createCity.population)) {
         std::cout << "Invalid input.\nPlease enter a valid population: ";
-        std::cin.clear(); // Clear the error flag
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Discard invalid input
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    std::cin.ignore(); // Clear newline from input buffer
+    std::cin.ignore();
 
     // Get founding year
-    std::cout << "Enter founding year (YYYY): ";
-    while (!(std::cin >> year) || year < 1000 || year > 9999) {
+    std::cout << "Enter founding year:";
+    while (!(std::cin >> request.data.createCity.year) || request.data.createCity.year < 0 || request.data.createCity.year > 9999) {
         std::cout << "Invalid input.\nPlease enter a valid year (YYYY): ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    std::cin.ignore(); // Clear newline from input buffer
+    std::cin.ignore();
 
     // Get latitude
     std::cout << "Enter latitude (-90 to 90): ";
-    while (!(std::cin >> latitude) || latitude < -90 || latitude > 90) {
+    while (!(std::cin >> request.data.createCity.coordinates[0]) || request.data.createCity.coordinates[0] < -90 || request.data.createCity.coordinates[0] > 90) {
         std::cout << "Invalid input.\nPlease enter a valid latitude (-90 to 90): ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -131,14 +137,33 @@ void CommandDecider::addCity(const char* cityName)
 
     // Get longitude
     std::cout << "Enter longitude (-180 to 180): ";
-    while (!(std::cin >> longitude) || longitude < -180 || longitude > 180) {
+    while (!(std::cin >> request.data.createCity.coordinates[1]) || request.data.createCity.coordinates[1] < -180 || request.data.createCity.coordinates[1] > 180) {
         std::cout << "Invalid input.\nPlease enter a valid longitude (-180 to 180): ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    std::cin.ignore();
 
-    // Real command 
-    std::cout << "Added city: " << cityName << " with address: " << population << "\n";
+    // Get city history
+    std::cout << "Enter city history: ";
+    std::cin.getline(request.data.createCity.history, MAX_CITY_HISTORY);
+
+    // Get mayor information
+    std::cout << "Enter mayor's name: ";
+    std::cin.getline(request.data.createCity.mayor.name, MAX_CITY_NAME);
+
+    std::cout << "Enter mayor's address: ";
+    std::cin.getline(request.data.createCity.mayor.address, MAX_CITY_ADDRESS);
+
+    // Now you have a fully populated Request struct
+    // You can pass this to your router or controller
+    Router::Response response = Router::router().route(request);
+
+    if (response.success) {
+        std::cout << "City added successfully!\n";
+    } else {
+        std::cout << "Failed to add city: " << response.error << "\n";
+    }
 }
 
 void CommandDecider::updateCity(const char* cityName) 

@@ -18,6 +18,8 @@ namespace Models
         size_t population;
         unsigned int year;
         double coordinates[2];
+
+        Mayor mayor;
         
         City();
         City(const char* name, const char* history, size_t population, unsigned int year);

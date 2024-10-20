@@ -18,6 +18,8 @@ namespace Controllers::City
         // Name
         // Address
         Router::Response te;
+        te.success = false;
+        te.error = "Damn bro";
         return te;
     }
 }

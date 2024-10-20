@@ -5,9 +5,6 @@
 
 namespace Router
 {
-    // Function prototype for the test command
-    void test(int argc, const char** argv);
-
     // Function to initialize routes
     void initializeRoutes(CommandRouter& router);
 
