@@ -5,23 +5,24 @@
 
 namespace Models
 {
-    City::City() : population(0), year(0), coordinates{0.0, 0.0} 
+    City::City() : population(0), year(0), coordinates{0.0, 0.0}, id(0) 
     {
         name[0] = '\0';
+        history[0] = '\0';
     }
 
-    City::City(const char* name, const char* history, size_t population, unsigned int year)
-        : population(population), year(year), coordinates{0.0, 0.0}
+    City::City(const char* name, const char* history, size_t population, unsigned int year, double latitude, double longitude, const Mayor& mayor)
+        : population(population), year(year), coordinates{latitude, longitude}, mayor(mayor), id(0)
     {
-        if (name == nullptr) {
-            throw std::invalid_argument("Name cannot be null");
+        if (name == nullptr || history == nullptr) {
+            throw std::invalid_argument("Name and history cannot be null");
         }
         
-        strncpy(this->history, history, MAX_CITY_HISTORY - 1);
-        this->history[MAX_CITY_HISTORY - 1] = '\0'; 
-
         strncpy(this->name, name, MAX_CITY_NAME - 1);
-        this->name[MAX_CITY_NAME - 1] = '\0';  
+        this->name[MAX_CITY_NAME - 1] = '\0';
+
+        strncpy(this->history, history, MAX_CITY_HISTORY - 1);
+        this->history[MAX_CITY_HISTORY - 1] = '\0';
     }
 
     City::City(const City& other)

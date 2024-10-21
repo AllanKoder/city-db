@@ -4,72 +4,56 @@
 
 namespace Models
 {
-    Mayor::Mayor() : name(nullptr) {}
-
-    Mayor::Mayor(const char* name)
+    Mayor::Mayor()
     {
-        if (name == nullptr) {
-            throw std::invalid_argument("Name cannot be null");
+        name[0] = '\0';
+        address[0] = '\0';
+    }
+
+    Mayor::Mayor(const char* name, const char* address)
+    {
+        if (name == nullptr || address == nullptr) {
+            throw std::invalid_argument("Name and address cannot be null");
         }
         
-        size_t nameLength = strlen(name);
-        this->name = new char[nameLength + 1];
-        strcpy(this->name, name);
+        strncpy(this->name, name, MAX_CITY_NAME - 1);
+        this->name[MAX_CITY_NAME - 1] = '\0'; 
+
+        strncpy(this->address, address, MAX_CITY_ADDRESS - 1);
+        this->address[MAX_CITY_ADDRESS - 1] = '\0'; 
     }
 
-    Mayor::~Mayor()
-    {
-        delete[] name;
-    }
 
     Mayor::Mayor(const Mayor& other)
     {
-        if (other.name) {
-            size_t nameLength = strlen(other.name);
-            this->name = new char[nameLength + 1];
-            strcpy(this->name, other.name);
-        } else {
-            this->name = nullptr;
-        }
+        strncpy(this->name, other.name, MAX_CITY_NAME - 1);
+        this->name[MAX_CITY_NAME - 1] = '\0';
+
+        strncpy(this->address, other.address, MAX_CITY_ADDRESS - 1);
+        this->address[MAX_CITY_ADDRESS - 1] = '\0';
     }
 
     Mayor& Mayor::operator=(const Mayor& other)
     {
         if (this != &other)
         {
-            delete[] name;
+            strncpy(this->name, other.name, MAX_CITY_NAME - 1);
+            this->name[MAX_CITY_NAME - 1] = '\0';
 
-            if (other.name) {
-                size_t nameLength = strlen(other.name);
-                this->name = new char[nameLength + 1];
-                strcpy(this->name, other.name);
-            } else {
-                this->name = nullptr;
-            }
+            strncpy(this->address, other.address, MAX_CITY_ADDRESS - 1);
+            this->address[MAX_CITY_ADDRESS - 1] = '\0';
         }
         return *this;
     }
 
-    Mayor::Mayor(Mayor&& other) noexcept
-        : name(other.name)
+    void Mayor::setId(size_t id)
     {
-        other.name = nullptr;
+        this->id = id;
     }
 
-    Mayor& Mayor::operator=(Mayor&& other) noexcept
+    size_t Mayor::getId()
     {
-        if (this != &other)
-        {
-            delete[] name;
-
-            name = other.name;
-            other.name = nullptr;
-        }
-        return *this;
+        return this->id;
     }
 
-    const char* Mayor::getName() const
-    {
-        return name;
-    }
 }

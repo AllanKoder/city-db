@@ -44,6 +44,8 @@ namespace DataStructures
         void put(const K& key, const V& value);
         V get(const K& key) const;
         bool remove(const K& key);
+        DataStructures::Vector<K> getKeys() const;
+        DataStructures::Vector<V> getValues() const;
         bool contains(const K& key) const;
         size_t size() const;
         bool isEmpty() const;

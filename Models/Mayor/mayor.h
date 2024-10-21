@@ -2,25 +2,26 @@
 #define MAYOR_MODEL_H
 
 #include <cstdlib>
+#include "../../Config/config.h"
 
 namespace Models
 {
     class Mayor
     {
     private:
-        char* name;
-        char* address;
-
+        size_t id;
     public:
+        char name[MAX_CITY_NAME];
+        char address[MAX_CITY_ADDRESS];
+
         Mayor();
-        Mayor(const char*);
-        ~Mayor();
+        Mayor(const char* name, const char* address);
         Mayor(const Mayor& other);
         Mayor& operator=(const Mayor& other);
         Mayor(Mayor&& other) noexcept;
-        Mayor& operator=(Mayor&& other) noexcept;
 
-        const char* getName() const;
+        void setId(size_t id);
+        size_t getId();
     };
 }
 

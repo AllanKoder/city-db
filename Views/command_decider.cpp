@@ -155,8 +155,6 @@ void CommandDecider::addCity(const char* cityName)
     std::cout << "Enter mayor's address: ";
     std::cin.getline(request.data.createCity.mayor.address, MAX_CITY_ADDRESS);
 
-    // Now you have a fully populated Request struct
-    // You can pass this to your router or controller
     Router::Response response = Router::router().route(request);
 
     if (response.success) {

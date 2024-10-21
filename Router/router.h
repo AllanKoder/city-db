@@ -14,8 +14,5 @@ namespace Router
     // Get the router instance
     CommandRouter& router();
 
-    // Optional: Add a cleanup function
-    void cleanupRouter();
-
     #endif // ROUTES_H
 }

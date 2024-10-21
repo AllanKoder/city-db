@@ -11,6 +11,7 @@ namespace Router
     void initializeRoutes(CommandRouter& router)
     {
         router.registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
+
         // Add other routes..
     }
 

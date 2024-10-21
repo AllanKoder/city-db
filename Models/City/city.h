@@ -22,7 +22,7 @@ namespace Models
         Mayor mayor;
         
         City();
-        City(const char* name, const char* history, size_t population, unsigned int year);
+        City(const char* name, const char* history, size_t population, unsigned int year, double latitude, double longitude, const Mayor& mayor);
         City(const City& other);
         City& operator=(const City& other);
 

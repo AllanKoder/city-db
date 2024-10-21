@@ -175,6 +175,30 @@ namespace DataStructures
         return false;
     }
 
+    template <typename K, typename V>
+    DataStructures::Vector<K> HashMap<K,V>::getKeys() const 
+    {
+        Vector<K> keys;
+        for (size_t i = 0; i < capacity; ++i) {
+            if (buckets[i].state == BucketState::OCCUPIED) {
+                keys.add(buckets[i].key);
+            }
+        }
+        return keys;
+    }
+
+    template <typename K, typename V>
+    DataStructures::Vector<V> HashMap<K,V>::getValues() const 
+    {
+        Vector<V> values;
+        for (size_t i = 0; i < capacity; ++i) {
+            if (buckets[i].state == BucketState::OCCUPIED) {
+                values.add(buckets[i].value);
+            }
+        }
+        return values;
+    }
+
     template<typename K, typename V>
     bool HashMap<K,V>::contains(const K& key) const
     {

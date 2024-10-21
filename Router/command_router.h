@@ -16,18 +16,10 @@ namespace Router
      */
     class CommandRouter {
     private:
-        /**
-         * @brief Function pointer type for command handlers.
-         * @param request The input Request structure.
-         * @return Response The output Response structure.
-         */
         typedef Response (*CommandHandler)(const Request& request);
 
         DataStructures::HashMap<RequestType, CommandHandler> routes;
     public:
-        /**
-         * @brief Constructor initializes the route count to zero.
-         */
         CommandRouter();
 
         /**
