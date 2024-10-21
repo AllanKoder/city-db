@@ -33,7 +33,7 @@ public:
     const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& getCities() const;
 
     // Create
-    void createCity(Models::City city, Models::Mayor);
+    void createCity(Models::City city);
 
     // Read
     Models::City* getCityById(size_t id);

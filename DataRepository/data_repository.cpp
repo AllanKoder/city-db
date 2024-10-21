@@ -19,7 +19,7 @@ const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>
     return cities;
 }
 
-void DataRepository::createCity(Models::City city, Models::Mayor mayor)
+void DataRepository::createCity(Models::City city)
 {
     size_t newId = auto_id++;
     city.setId(newId);
@@ -32,8 +32,6 @@ void DataRepository::createCity(Models::City city, Models::Mayor mayor)
         DataStructures::Vector<Models::City*>* newVector = new DataStructures::Vector<Models::City*>;
         cities.put(cityName, newVector);
     }
-
-    cityPtr->mayor = mayor; // Assign the Mayor to the City
 
     cities.get(cityName)->add(cityPtr);
 }

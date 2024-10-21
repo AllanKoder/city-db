@@ -26,7 +26,7 @@ namespace Models
     }
 
     City::City(const City& other)
-        : population(other.population), year(other.year)
+        : population(other.population), year(other.year), mayor(other.mayor)
     {
         strncpy(this->name, other.name, MAX_CITY_NAME - 1);
         this->name[MAX_CITY_NAME - 1] = '\0';  
@@ -35,7 +35,6 @@ namespace Models
         this->history[MAX_CITY_HISTORY - 1] = '\0'; 
 
         std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
-         
    }
 
     City& City::operator=(const City& other)
@@ -50,6 +49,7 @@ namespace Models
  
             population = other.population;
             year = other.year;
+            mayor = other.mayor;
             std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
         }
         return *this;

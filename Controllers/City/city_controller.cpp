@@ -30,7 +30,7 @@ namespace Controllers::City
             DataRepository* repo = DataRepository::getInstance();
 
             // Create the city
-            repo->createCity(newCity, mayor);
+            repo->createCity(newCity);
 
             response.success = true;
             response.error = nullptr;
