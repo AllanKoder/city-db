@@ -15,7 +15,7 @@ private:
     size_t auto_id;
 
     // Data
-    DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>> cities;
+    DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*> cities;
     DataStructures::HashMap<size_t, Models::City*> idToCities;
 
     // Helper function for case-insensitive string comparison
@@ -30,10 +30,10 @@ public:
 
     // CRUD
     // Get the data
-    const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>>& getCities() const;
+    const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& getCities() const;
 
     // Create
-    void createCity(Models::City city);
+    void createCity(Models::City city, Models::Mayor);
 
     // Read
     Models::City* getCityById(size_t id);

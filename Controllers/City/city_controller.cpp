@@ -30,7 +30,7 @@ namespace Controllers::City
             DataRepository* repo = DataRepository::getInstance();
 
             // Create the city
-            repo->createCity(newCity);
+            repo->createCity(newCity, mayor);
 
             response.success = true;
             response.error = nullptr;
@@ -38,6 +38,46 @@ namespace Controllers::City
             response.success = false;
             response.error = "An error occurred while creating the city";
         }
+
+        return response;
+    }
+
+    Router::Response displayCities(const Router::Request& request)
+    {
+        Router::Response response;
+        response.type = Router::ResponseType::PRINT_MESSAGE;
+        DataRepository* repo = DataRepository::getInstance();
+
+        DataStructures::Vector<Models::City*> cities = repo->getAllCities();
+        
+        char message[MAX_RESPONSE_MESSAGE] {0}; 
+        
+        if (cities.size() == 0) {
+            snprintf(message, sizeof(message), "No cities found.");
+            response.success = false; 
+        }
+        else
+        {
+            // Build the string for displaying all cities
+            size_t offset = 0;
+            for (size_t i = 0; i < cities.size(); i++)
+            {
+                Models::City* city = cities[i];
+                if (city)
+                {
+                    // Use printCity to get formatted details
+                    const char* cityDetails = city->printCity();
+                    offset += snprintf(message + offset, sizeof(message) - offset, "%s\n", cityDetails);
+
+                    if (offset >= sizeof(message)) {
+                        break; // Prevent buffer overflow
+                    }
+                }
+            }
+        }
+
+        strncpy(response.resp.message, message, MAX_RESPONSE_MESSAGE - 1);
+        response.resp.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
 
         return response;
     }

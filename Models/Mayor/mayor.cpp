@@ -1,6 +1,7 @@
 #include "mayor.h"
 #include <cstring>
 #include <stdexcept>
+#include <iostream>
 
 namespace Models
 {
@@ -16,32 +17,32 @@ namespace Models
             throw std::invalid_argument("Name and address cannot be null");
         }
         
-        strncpy(this->name, name, MAX_CITY_NAME - 1);
-        this->name[MAX_CITY_NAME - 1] = '\0'; 
+        strncpy(this->name, name, MAX_MAYOR_NAME - 1);
+        this->name[MAX_MAYOR_NAME - 1] = '\0'; 
 
-        strncpy(this->address, address, MAX_CITY_ADDRESS - 1);
-        this->address[MAX_CITY_ADDRESS - 1] = '\0'; 
+        strncpy(this->address, address, MAX_MAYOR_ADDRESS - 1);
+        this->address[MAX_MAYOR_ADDRESS - 1] = '\0'; 
     }
 
 
     Mayor::Mayor(const Mayor& other)
     {
-        strncpy(this->name, other.name, MAX_CITY_NAME - 1);
-        this->name[MAX_CITY_NAME - 1] = '\0';
+        strncpy(this->name, other.name, MAX_MAYOR_NAME - 1);
+        this->name[MAX_MAYOR_NAME - 1] = '\0';
 
-        strncpy(this->address, other.address, MAX_CITY_ADDRESS - 1);
-        this->address[MAX_CITY_ADDRESS - 1] = '\0';
+        strncpy(this->address, other.address, MAX_MAYOR_ADDRESS - 1);
+        this->address[MAX_MAYOR_ADDRESS - 1] = '\0';
     }
 
     Mayor& Mayor::operator=(const Mayor& other)
     {
         if (this != &other)
         {
-            strncpy(this->name, other.name, MAX_CITY_NAME - 1);
-            this->name[MAX_CITY_NAME - 1] = '\0';
+            strncpy(this->name, other.name, MAX_MAYOR_NAME - 1);
+            this->name[MAX_MAYOR_NAME - 1] = '\0';
 
-            strncpy(this->address, other.address, MAX_CITY_ADDRESS - 1);
-            this->address[MAX_CITY_ADDRESS - 1] = '\0';
+            strncpy(this->address, other.address, MAX_MAYOR_ADDRESS - 1);
+            this->address[MAX_MAYOR_ADDRESS - 1] = '\0';
         }
         return *this;
     }
@@ -56,4 +57,11 @@ namespace Models
         return this->id;
     }
 
+    const char* Mayor::printMayor() const
+    {
+        static char mayorInfo[256];
+        snprintf(mayorInfo, sizeof(mayorInfo), "Mayor Name: %s\nAddress: %s", this->name, this->address);
+
+        return mayorInfo;
+    }
 }

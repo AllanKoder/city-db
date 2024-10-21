@@ -75,6 +75,10 @@ void CommandDecider::decideAction(const char* input) {
         {
             if (containsArg2(arg2)) displayCity(arg2);
         }
+        else if (strcmp(arg1, "cities") == 0)
+        {
+            displayCities();   
+        }
         else
         {
             std::cout << "Invalid display type: Use 'mayor' or 'city'\n";
@@ -150,10 +154,12 @@ void CommandDecider::addCity(const char* cityName)
 
     // Get mayor information
     std::cout << "Enter mayor's name: ";
-    std::cin.getline(request.data.createCity.mayor.name, MAX_CITY_NAME);
+    std::cin.getline(request.data.createCity.mayor.name, MAX_MAYOR_NAME);
 
     std::cout << "Enter mayor's address: ";
-    std::cin.getline(request.data.createCity.mayor.address, MAX_CITY_ADDRESS);
+    std::cin.getline(request.data.createCity.mayor.address, MAX_MAYOR_ADDRESS);
+
+    std::cout << request.data.createCity.mayor.address; 
 
     Router::Response response = Router::router().route(request);
 
@@ -177,6 +183,17 @@ void CommandDecider::deleteCity(const char* cityName)
 void CommandDecider::displayCity(const char* cityName) 
 {
     std::cout << "Displaying information for: " << cityName << "\n";
+}
+
+void CommandDecider::displayCities()
+{
+    std::cout << "Here are the Cities:\n";
+    
+    Router::Request request;
+    request.type = Router::RequestType::DISPLAY_CITIES;
+    Router::Response response = Router::router().route(request);
+
+    std::cout << response.resp.message << "\n";
 }
 
 void CommandDecider::displayMayor(const char* cityName) 

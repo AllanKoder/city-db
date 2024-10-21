@@ -7,8 +7,8 @@ namespace Router
 {
     struct CreateMayorDTO
     {
-        char name[MAX_CITY_NAME];
-        char address[MAX_CITY_ADDRESS];
+        char name[MAX_MAYOR_NAME];
+        char address[MAX_MAYOR_ADDRESS];
     };
 
     struct CreateCityDTO
@@ -24,9 +24,14 @@ namespace Router
 
     enum class RequestType 
     {
-        CREATE_CITY
+        CREATE_CITY,
+        DISPLAY_CITIES,
     };
 
+    /*
+     * @brief Requests are how the router will recieve information.
+     * Data must be a POD for it to write the bytes to a log file.
+     */
     struct Request
     {
         RequestType type;

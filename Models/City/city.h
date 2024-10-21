@@ -18,13 +18,14 @@ namespace Models
         size_t population;
         unsigned int year;
         double coordinates[2];
-
         Mayor mayor;
         
         City();
         City(const char* name, const char* history, size_t population, unsigned int year, double latitude, double longitude, const Mayor& mayor);
         City(const City& other);
         City& operator=(const City& other);
+
+        const char* printCity() const;
 
         size_t getId();
         void setId(size_t id);

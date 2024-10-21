@@ -5,7 +5,7 @@
 
 namespace Models
 {
-    City::City() : population(0), year(0), coordinates{0.0, 0.0}, id(0) 
+    City::City() : population(0), year(0), coordinates{0.0, 0.0}, id(0), mayor() 
     {
         name[0] = '\0';
         history[0] = '\0';
@@ -53,6 +53,18 @@ namespace Models
             std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
         }
         return *this;
+    }
+
+    const char* City::printCity() const
+    {
+        static char cityInfo[1024]; 
+        snprintf(cityInfo, sizeof(cityInfo), 
+                "City Name: %s\nHistory: %s\nPopulation: %zu\nYear: %u\nCoordinates: (%.2f, %.2f)\n%s",
+                name, history, population, year,
+                coordinates[0], coordinates[1],
+                mayor.printMayor()); 
+
+        return cityInfo; 
     }
 
     void City::setId(size_t id)
