@@ -42,7 +42,21 @@ namespace Controllers::City
         return response;
     }
 
-    Routes::Response displayCities(const Routes::Request& request)
+    Routes::Response getCityOptions(const Routes::Request& request)
+    {
+        // Display the list of cities which are possible to get from the key
+        Routes::Response response;
+        DataStructures::Vector<size_t>* citiesIds = new DataStructures::Vector<size_t>();
+
+        const char* cityName = request.data.requestCityOptions.cityName;
+
+        DataRepository* repo = DataRepository::getInstance();
+        DataStructures::Vector<Models::City*> cities = repo->getCitiesByName(cityName);
+        
+        
+    }
+
+    Routes::Response displayCities(const Routes::Request& _request)
     {
         Routes::Response response;
         response.type = Routes::ResponseType::PRINT_MESSAGE;
@@ -76,8 +90,8 @@ namespace Controllers::City
             }
         }
 
-        strncpy(response.resp.message, message, MAX_RESPONSE_MESSAGE - 1);
-        response.resp.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
+        strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);
+        response.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
 
         return response;
     }

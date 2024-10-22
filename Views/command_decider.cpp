@@ -191,7 +191,7 @@ void CommandDecider::displayCities()
     request.type = Routes::RequestType::DISPLAY_CITIES;
     Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
 
-    std::cout << response.resp.message << "\n";
+    std::cout << response.message << "\n";
 }
 
 void CommandDecider::displayMayor(const char* cityName) 

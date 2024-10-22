@@ -22,14 +22,20 @@ namespace Routes
         CreateMayorDTO mayor;
     };
 
+    struct RequestCityOptions
+    {
+        const char* cityName;
+    };
+
     enum class RequestType 
     {
         CREATE_CITY,
+        GET_CITY_OPTIONS,
         DISPLAY_CITIES,
     };
 
     /*
-     * @brief Requests are how the router will recieve information.
+     * Requests are how the router will recieve information.
      * Data must be a POD for it to write the bytes to a log file.
      */
     struct Request
@@ -38,6 +44,7 @@ namespace Routes
         union request
         {
             CreateCityDTO createCity;
+            RequestCityOptions requestCityOptions;
         } data;
     };
 }

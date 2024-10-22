@@ -11,23 +11,27 @@ class DataRepository
 {
 private:
     static DataRepository* instancePtr;
-    DataRepository(); // Private constructor
-    size_t auto_id;
-
-    // Data
-    DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*> cities;
-    DataStructures::HashMap<size_t, Models::City*> idToCities;
-
     // Helper function for case-insensitive string comparison
     static bool caseInsensitiveCompare(const char* str1, const char* str2);
 
-public:
-    DataRepository(const DataRepository& obj) = delete;
-    DataRepository& operator=(const DataRepository&) = delete;
+    size_t auto_id;
 
+    // Data
+    DataStructures::HashMap<size_t, Models::City*> idToCities;
+    DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*> cities;
+
+    DataRepository(); // Private constructor
+
+public:
     // Get the Singleton instance
     static DataRepository* getInstance();
 
+    // Destructor
+    ~DataRepository();
+
+    DataRepository(const DataRepository& obj) = delete;
+    DataRepository& operator=(const DataRepository&) = delete;
+    
     // CRUD
     // Get the data
     const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& getCities() const;
@@ -39,9 +43,6 @@ public:
     Models::City* getCityById(size_t id);
     DataStructures::Vector<Models::City*> getCitiesByName(const char* name);
     DataStructures::Vector<Models::City*> getAllCities();
-
-    // Destructor
-    ~DataRepository();
 };
 
 #endif // DATA_REPOSITORY_H

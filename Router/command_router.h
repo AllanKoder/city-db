@@ -8,12 +8,7 @@
 
 namespace Routes
 {   
-    /**
-     * @brief CommandRouter class for routing requests to designated functions.
-     * 
-     * This class takes in a Request as input and routes it to the designated function.
-     * The routed function is called with the Request and returns a Response.
-     */
+    // class for routing requests to designated functions.
     class CommandRouter {
     private:
         typedef Response (*CommandHandler)(const Request& request);
@@ -22,19 +17,10 @@ namespace Routes
     public:
         CommandRouter();
 
-        /**
-         * @brief Registers a new route (request type and its handler).
-         * @param type The RequestType to register.
-         * @param handler The function to handle this request type.
-         * @param save Write the Request to the write ahead log.
-         */
+        // Registers a new route (request type and its handler).
         void registerRoute(RequestType type, CommandHandler handler, bool save=false);
 
-        /**
-         * @brief Routes a given request to its registered handler.
-         * @param request The Request structure to route.
-         * @return Response The Response structure returned by the handler.
-         */
+        // Routes a given request to its registered handler.
         Response route(const Request& request);
     };
 }
