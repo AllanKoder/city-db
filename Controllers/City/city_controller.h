@@ -4,6 +4,6 @@
 
 namespace Controllers::City
 {
-    Router::Response createCity(const Router::Request&);
-    Router::Response displayCities(const Router::Request&);
+    Routes::Response createCity(const Routes::Request&);
+    Routes::Response displayCities(const Routes::Request&);
 }

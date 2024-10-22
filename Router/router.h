@@ -3,16 +3,23 @@
 
 #include "command_router.h"
 
-namespace Router
+namespace Routes
 {
-    // Function to initialize routes
-    void initializeRoutes(CommandRouter& router);
+    class Router
+    {
+    private:
+        Router();
+        static Router* globalRouter;
+        CommandRouter* commandRouter;
 
-    // Initialize the router
-    void initializeRouter();
+        // Function to initialize routes
+        void initializeRoutes();
 
-    // Get the router instance
-    CommandRouter& router();
-
-    #endif // ROUTES_H
+    public:
+        // Get the router instance
+        static Router* getInstance();
+        CommandRouter& getRouter();
+    };
 }
+
+#endif // ROUTES_H

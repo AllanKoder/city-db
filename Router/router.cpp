@@ -1,37 +1,38 @@
-#include "command_router.h"
 #include "router.h"
-#include <iostream>
 #include "request.h"
 #include "response.h"
 
 // Controllers
 #include "../Controllers/City/city_controller.h"
-namespace Router
+
+namespace Routes
 {
-    void initializeRoutes(CommandRouter& router)
+    Router* Router::globalRouter = nullptr;
+
+    Router::Router()
     {
-        router.registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
-        router.registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
+        commandRouter = new CommandRouter();
+        initializeRoutes();
+    }
+
+    void Router::initializeRoutes()
+    {
+        commandRouter->registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
+        commandRouter->registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
 
         // Add other routes..
     }
 
-    static CommandRouter* globalRouter = nullptr;
-
-    void initializeRouter()
+    Router* Router::getInstance()
     {
         if (!globalRouter) {
-            globalRouter = new CommandRouter();
-            initializeRoutes(*globalRouter);
+            globalRouter = new Router();
         }
+        return globalRouter;
     }
 
-    // Get the router instance
-    CommandRouter& router()
+    CommandRouter& Router::getRouter()
     {
-        if (!globalRouter) {
-            initializeRouter();
-        }
-        return *globalRouter;
+        return *commandRouter;
     }
 }

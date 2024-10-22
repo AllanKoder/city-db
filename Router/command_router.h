@@ -6,7 +6,7 @@
 #include "request.h"
 #include "response.h"
 
-namespace Router
+namespace Routes
 {   
     /**
      * @brief CommandRouter class for routing requests to designated functions.

@@ -5,13 +5,13 @@
 
 namespace Controllers::City
 {
-    Router::Response createCity(const Router::Request& request)
+    Routes::Response createCity(const Routes::Request& request)
     {
-        Router::Response response;
-        response.type = Router::ResponseType::CREATE_CITY;
+        Routes::Response response;
+        response.type = Routes::ResponseType::CREATE_CITY;
 
         try {
-            const Router::CreateCityDTO& cityData = request.data.createCity;
+            const Routes::CreateCityDTO& cityData = request.data.createCity;
 
             // Create Mayor object
             Models::Mayor mayor(cityData.mayor.name, cityData.mayor.address);
@@ -42,10 +42,10 @@ namespace Controllers::City
         return response;
     }
 
-    Router::Response displayCities(const Router::Request& request)
+    Routes::Response displayCities(const Routes::Request& request)
     {
-        Router::Response response;
-        response.type = Router::ResponseType::PRINT_MESSAGE;
+        Routes::Response response;
+        response.type = Routes::ResponseType::PRINT_MESSAGE;
         DataRepository* repo = DataRepository::getInstance();
 
         DataStructures::Vector<Models::City*> cities = repo->getAllCities();

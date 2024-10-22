@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 
-namespace Router
+namespace Routes
 {   
     CommandRouter::CommandRouter() {}
 

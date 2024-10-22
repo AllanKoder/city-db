@@ -3,7 +3,7 @@
 
 #include "../Config/config.h"
 
-namespace Router
+namespace Routes
 {
     struct testing
     {

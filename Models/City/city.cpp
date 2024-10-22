@@ -1,7 +1,6 @@
 #include "city.h"
 #include <cstring>
 #include <stdexcept>
-#include <algorithm>
 
 namespace Models
 {

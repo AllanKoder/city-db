@@ -3,7 +3,7 @@
 #include "../Config/config.h"
 #include <cstdlib>
 
-namespace Router
+namespace Routes
 {
     struct CreateMayorDTO
     {

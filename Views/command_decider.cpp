@@ -106,8 +106,8 @@ void CommandDecider::addCity(const char* cityName)
         return;
     }
 
-    Router::Request request;
-    request.type = Router::RequestType::CREATE_CITY;
+    Routes::Request request;
+    request.type = Routes::RequestType::CREATE_CITY;
     
     // Copy city name
     strncpy(request.data.createCity.name, cityName, MAX_CITY_NAME - 1);
@@ -159,9 +159,7 @@ void CommandDecider::addCity(const char* cityName)
     std::cout << "Enter mayor's address: ";
     std::cin.getline(request.data.createCity.mayor.address, MAX_MAYOR_ADDRESS);
 
-    std::cout << request.data.createCity.mayor.address; 
-
-    Router::Response response = Router::router().route(request);
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
 
     if (response.success) {
         std::cout << "City added successfully!\n";
@@ -189,9 +187,9 @@ void CommandDecider::displayCities()
 {
     std::cout << "Here are the Cities:\n";
     
-    Router::Request request;
-    request.type = Router::RequestType::DISPLAY_CITIES;
-    Router::Response response = Router::router().route(request);
+    Routes::Request request;
+    request.type = Routes::RequestType::DISPLAY_CITIES;
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
 
     std::cout << response.resp.message << "\n";
 }
