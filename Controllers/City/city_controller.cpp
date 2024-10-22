@@ -51,9 +51,11 @@ namespace Controllers::City
         const char* cityName = request.data.requestCityOptions.cityName;
 
         DataRepository* repo = DataRepository::getInstance();
-        DataStructures::Vector<Models::City*> cities = repo->getCitiesByName(cityName);
-        
-        
+        DataStructures::Vector<Models::City*>& cities = repo->getCitiesByName(cityName);
+
+        // TODO: finish this 
+
+        return response;
     }
 
     Routes::Response displayCities(const Routes::Request& _request)
@@ -62,7 +64,7 @@ namespace Controllers::City
         response.type = Routes::ResponseType::PRINT_MESSAGE;
         DataRepository* repo = DataRepository::getInstance();
 
-        DataStructures::Vector<Models::City*> cities = repo->getAllCities();
+        const DataStructures::Vector<Models::City*>& cities = repo->getAllCities();
         
         char message[MAX_RESPONSE_MESSAGE] {0}; 
         
@@ -88,6 +90,7 @@ namespace Controllers::City
                     }
                 }
             }
+            response.success = true;
         }
 
         strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);

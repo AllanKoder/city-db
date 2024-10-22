@@ -111,4 +111,13 @@ namespace DataStructures
         array = new_array;
         capacity = newCapacity;
     }
+
+    template <typename T>
+    void Vector<T>::clear()
+    {
+        for (size_t i = 0; i < count; ++i) {
+            array[i].~T();  // Call destructor for each element
+        }
+        count = 0;
+    }
 }

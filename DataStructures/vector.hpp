@@ -25,7 +25,7 @@ namespace DataStructures
         void remove(const T& element);
         bool contains(const T& element);
         void resize(size_t newCapacity);
-
+        void clear();
     private:
         T* array;
         size_t capacity;

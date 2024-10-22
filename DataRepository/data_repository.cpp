@@ -44,20 +44,22 @@ Models::City* DataRepository::getCityById(size_t id)
     return nullptr;
 }
 
-DataStructures::Vector<Models::City*> DataRepository::getCitiesByName(const char* name)
+DataStructures::Vector<Models::City*>& DataRepository::getCitiesByName(const char* name)
 {
+    static DataStructures::Vector<Models::City*> emptyVector;
     DataStructures::Vector<const char*> cityNames = cities.getKeys();
     for (size_t i = 0; i < cityNames.size(); ++i) {
         if (caseInsensitiveCompare(cityNames[i], name)) {
             return *(cities.get(cityNames[i]));
         }
     }
-    return DataStructures::Vector<Models::City*>(); 
+    return emptyVector;
 }
 
-DataStructures::Vector<Models::City*> DataRepository::getAllCities()
+DataStructures::Vector<Models::City*>& DataRepository::getAllCities()
 {
-    DataStructures::Vector<Models::City*> output;
+    static DataStructures::Vector<Models::City*> allCities;
+    allCities.clear();  // Clear previous contents
 
     DataStructures::Vector<DataStructures::Vector<Models::City*>*> cityVectors = cities.getValues();
     for (size_t i = 0; i < cityVectors.size(); i++)
@@ -65,10 +67,11 @@ DataStructures::Vector<Models::City*> DataRepository::getAllCities()
         const DataStructures::Vector<Models::City*>* currentCities = cityVectors[i];
         for (size_t j = 0; j < currentCities->size(); j++)
         {
-            output.add((*currentCities)[j]);
+            allCities.add((*currentCities)[j]);
         }
     }
-    return output;
+
+    return allCities;
 }
 
 bool DataRepository::caseInsensitiveCompare(const char* str1, const char* str2)
