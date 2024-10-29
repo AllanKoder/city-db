@@ -41,8 +41,8 @@ public:
 
     // Read
     Models::City* getCityById(size_t id);
-    DataStructures::Vector<Models::City*>& getCitiesByName(const char* name);
-    DataStructures::Vector<Models::City*>& getAllCities();
+    DataStructures::Vector<Models::City*>* getCitiesByName(const char* name);
+    DataStructures::Vector<Models::City*>* getAllCities();
 };
 
 #endif // DATA_REPOSITORY_H

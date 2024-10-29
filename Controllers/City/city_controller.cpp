@@ -51,9 +51,11 @@ namespace Controllers::City
         const char* cityName = request.data.requestCityOptions.cityName;
 
         DataRepository* repo = DataRepository::getInstance();
-        DataStructures::Vector<Models::City*>& cities = repo->getCitiesByName(cityName);
+        DataStructures::Vector<Models::City*>* cities = repo->getCitiesByName(cityName);
 
-        // TODO: finish this 
+        response.data.cities = cities;
+        response.success = true;
+        // The responder will get the cities
 
         return response;
     }
@@ -64,11 +66,11 @@ namespace Controllers::City
         response.type = Routes::ResponseType::PRINT_MESSAGE;
         DataRepository* repo = DataRepository::getInstance();
 
-        const DataStructures::Vector<Models::City*>& cities = repo->getAllCities();
+        const DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
         
         char message[MAX_RESPONSE_MESSAGE] {0}; 
         
-        if (cities.size() == 0) {
+        if (cities->size() == 0) {
             snprintf(message, sizeof(message), "No cities found.");
             response.success = false; 
         }
@@ -76,9 +78,9 @@ namespace Controllers::City
         {
             // Build the string for displaying all cities
             size_t offset = 0;
-            for (size_t i = 0; i < cities.size(); i++)
+            for (size_t i = 0; i < cities->size(); i++)
             {
-                Models::City* city = cities[i];
+                Models::City* city = (*cities)[i];
                 if (city)
                 {
                     // Use printCity to get formatted details

@@ -9,16 +9,14 @@
 * Takes a statement
 */
 #define ASSERT(cond, statement) \
-    do { \
-        if (!(cond)) { \
-            std::cerr   << "---------------------\n" \
-                        << "Assertion failed: " << #cond << "\n" \
-                        << "File: " << __FILE__ << "\n" \
-                        << "Line: " << __LINE__ << "\n" \
-                        << "Message: " << statement << std::endl; \
-            std::abort(); \
-        } \
-    } while (0)
+    if (!(cond)) { \
+        std::cerr   << "---------------------\n" \
+                    << "Assertion failed: " << #cond << "\n" \
+                    << "File: " << __FILE__ << "\n" \
+                    << "Line: " << __LINE__ << "\n" \
+                    << "Message: " << statement << std::endl; \
+        std::abort(); \
+    } \
 
 namespace Testing 
 {

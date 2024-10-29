@@ -4,6 +4,9 @@
 #include <limits>
 #include "../Config/config.h"
 
+#include "../DataStructures/vector.hpp"
+#include "../Models/City/city.h"
+
 #include "../Router/router.h"
 #include "../Router/request.h"
 #include "../Router/response.h"
@@ -170,6 +173,46 @@ void CommandDecider::addCity(const char* cityName)
 
 void CommandDecider::updateCity(const char* cityName) 
 {
+    // Update city, check the name first, then verify which one, then update the fields with default being an empty enter
+    Routes::Request request;
+    request.type = Routes::RequestType::GET_CITY_OPTIONS;
+    request.data.requestCityOptions.cityName = cityName;
+
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+
+    if (response.success == false)
+    {
+        std::cout << "Failed to fetch city name\n";
+        return;
+    }
+    DataStructures::Vector<Models::City*>* cities = response.data.cities;
+
+    size_t chosen_city = 0;
+
+    // If there are more than 1, then fix this problem
+    if (cities->size() > 1)
+    {
+        std::cout << "There are multiple cities with the same city name, which one do you intend to choose?\n"; 
+        for (size_t i = 0; i < cities->size(); i++)
+        {
+            std::cout << "\nOption " << i <<  ".\n";
+            std::cout << (*cities)[i]->printCity() << "\n";
+            std::cout << "-------------------------\n";
+        }
+        // Select options
+
+        do
+        {
+            std::cout << "Which city ? (0-" << cities->size()-1 << ")?\n"; 
+            std::cin >> chosen_city;
+        } 
+        while (chosen_city >= cities->size() || std::cin.fail());
+    }
+
+    std::cout << chosen_city << "nice! \n";
+
+    
+
     std::cout << "Updating city: " << cityName << "\n";
 }
 
