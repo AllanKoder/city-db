@@ -171,9 +171,9 @@ void CommandDecider::addCity(const char* cityName)
     }
 }
 
-void CommandDecider::updateCity(const char* cityName) 
+std::optional<const Models::City> CommandDecider::resolveCityFromName(const char* cityName)
 {
-    // Update city, check the name first, then verify which one, then update the fields with default being an empty enter
+    // Request all cities by the name, then filter out the 
     Routes::Request request;
     request.type = Routes::RequestType::GET_CITY_OPTIONS;
     request.data.requestCityOptions.cityName = cityName;
@@ -182,8 +182,7 @@ void CommandDecider::updateCity(const char* cityName)
 
     if (response.success == false)
     {
-        std::cout << "Failed to fetch city name\n";
-        return;
+        return {}; 
     }
     DataStructures::Vector<Models::City*>* cities = response.data.cities;
 
@@ -192,7 +191,7 @@ void CommandDecider::updateCity(const char* cityName)
     // If there are more than 1, then fix this problem
     if (cities->size() > 1)
     {
-        std::cout << "There are multiple cities with the same city name, which one do you intend to choose?\n"; 
+        std::cout << "There are multiple cities with the same city name(" << cityName << "), which one do you intend to choose?\n"; 
         for (size_t i = 0; i < cities->size(); i++)
         {
             std::cout << "\nOption " << i <<  ".\n";
@@ -208,10 +207,20 @@ void CommandDecider::updateCity(const char* cityName)
         } 
         while (chosen_city >= cities->size() || std::cin.fail());
     }
+    const Models::City city = Models::City(*(*cities)[chosen_city]); 
+    return city;
+}
 
-    std::cout << chosen_city << "nice! \n";
 
-    
+void CommandDecider::updateCity(const char* cityName) 
+{
+    // Update city, check the name first, then verify which one, then update the fields with default being an empty enter
+    std::optional<const Models::City> city = resolveCityFromName(cityName);
+    if (city.has_value() == false)
+    {
+        std::cout << "Invalid city name\n";
+        return;
+    }
 
     std::cout << "Updating city: " << cityName << "\n";
 }
@@ -240,6 +249,18 @@ void CommandDecider::displayCities()
 void CommandDecider::displayMayor(const char* cityName) 
 {
     std::cout << "Displaying mayor information for: " << cityName << "\n";
+    // Check the city, then print the mayor
+    std::optional<const Models::City> city = resolveCityFromName(cityName);
+    if (city.has_value() == false)
+    {
+        std::cout << "Invalid city name\n";
+        return;
+    }
+
+    // Get the mayor
+    Routes::Request request;
+    request.type = Routes::RequestType::DISPLAY_MAYOR;
+
 }
 
 void CommandDecider::calculateDistance(const char* city1, const char* city2) 

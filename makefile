@@ -2,7 +2,7 @@
 CXX = g++
 
 # Compiler flags
-CXXFLAGS = -std=c++11 -Wall -Wextra -Wreorder	 -g
+CXXFLAGS = -std=c++17 -Wall -Wextra -Wreorder	 -g
 
 # Source files
 SOURCES = main.cpp \

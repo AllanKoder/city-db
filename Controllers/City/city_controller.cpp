@@ -53,6 +53,12 @@ namespace Controllers::City
         DataRepository* repo = DataRepository::getInstance();
         DataStructures::Vector<Models::City*>* cities = repo->getCitiesByName(cityName);
 
+        if (cities == nullptr)
+        {
+            response.success = false;
+            return response;
+        }
+
         response.data.cities = cities;
         response.success = true;
         // The responder will get the cities
@@ -85,7 +91,48 @@ namespace Controllers::City
                 {
                     // Use printCity to get formatted details
                     const char* cityDetails = city->printCity();
-                    offset += snprintf(message + offset, sizeof(message) - offset, "%s\n", cityDetails);
+                    offset += snprintf(message + offset, sizeof(message) - offset, "%zu.\n%s\n", i+1, cityDetails);
+
+                    if (offset >= sizeof(message)) {
+                        break; // Prevent buffer overflow
+                    }
+                }
+            }
+            response.success = true;
+        }
+
+        strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);
+        response.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
+
+        return response;
+    }
+
+    Routes::Response displayMayor(const Routes::Request& request)
+    {
+        Routes::Response response;
+        response.type = Routes::ResponseType::PRINT_MESSAGE;
+        DataRepository* repo = DataRepository::getInstance();
+
+        const DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
+        
+        char message[MAX_RESPONSE_MESSAGE] {0}; 
+        
+        if (cities->size() == 0) {
+            snprintf(message, sizeof(message), "No cities found.");
+            response.success = false; 
+        }
+        else
+        {
+            // Build the string for displaying all cities
+            size_t offset = 0;
+            for (size_t i = 0; i < cities->size(); i++)
+            {
+                Models::City* city = (*cities)[i];
+                if (city)
+                {
+                    // Use printCity to get formatted details
+                    const char* cityDetails = city->printCity();
+                    offset += snprintf(message + offset, sizeof(message) - offset, "%zu.\n%s\n", i+1, cityDetails);
 
                     if (offset >= sizeof(message)) {
                         break; // Prevent buffer overflow

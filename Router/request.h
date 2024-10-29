@@ -22,7 +22,7 @@ namespace Routes
         CreateMayorDTO mayor;
     };
 
-    struct RequestCityOptions
+   struct RequestCityOptions
     {
         const char* cityName;
     };
@@ -31,6 +31,7 @@ namespace Routes
     {
         CREATE_CITY,
         GET_CITY_OPTIONS,
+        DISPLAY_MAYOR,
         DISPLAY_CITIES,
     };
 
@@ -45,6 +46,7 @@ namespace Routes
         {
             CreateCityDTO createCity;
             RequestCityOptions requestCityOptions;
+            size_t cityId;
         } data;
     };
 }

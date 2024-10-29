@@ -22,10 +22,10 @@ const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>
 void DataRepository::createCity(Models::City city)
 {
     size_t newId = auto_id++;
-    city.setId(newId);
 
     Models::City* cityPtr = new Models::City(city);
     idToCities.put(newId, cityPtr);
+    cityPtr->setId(newId);
 
     const char* cityName = city.name;
     if (!cities.contains(cityName)) {
@@ -46,14 +46,13 @@ Models::City* DataRepository::getCityById(size_t id)
 
 DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name)
 {
-    static DataStructures::Vector<Models::City*> emptyVector;
     DataStructures::Vector<const char*> cityNames = cities.getKeys();
     for (size_t i = 0; i < cityNames.size(); ++i) {
         if (caseInsensitiveCompare(cityNames[i], name)) {
             return cities.get(cityNames[i]);
         }
     }
-    return &emptyVector;
+    return nullptr;
 }
 
 DataStructures::Vector<Models::City*>* DataRepository::getAllCities()
@@ -73,6 +72,7 @@ DataStructures::Vector<Models::City*>* DataRepository::getAllCities()
 
     return &allCities;
 }
+
 
 bool DataRepository::caseInsensitiveCompare(const char* str1, const char* str2)
 {
