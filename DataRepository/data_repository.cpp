@@ -1,5 +1,6 @@
 #include "data_repository.h"
 #include <iostream>
+
 // Initialize the static instance pointer
 DataRepository* DataRepository::instancePtr = nullptr;
 
@@ -19,15 +20,30 @@ const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>
     return cities;
 }
 
-void DataRepository::createCity(Models::City city)
+void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
 {
     size_t newId = auto_id++;
 
-    Models::City* cityPtr = new Models::City(city);
-    idToCities.put(newId, cityPtr);
-    cityPtr->setId(newId);
+    // Create Mayor object
+    Models::Mayor mayor = Models::Mayor(
+        cityDTO.mayor.name,
+        cityDTO.mayor.address
+    );
 
-    const char* cityName = city.name;
+    // Create City object
+    Models::City* cityPtr = new Models::City(
+        newId,
+        cityDTO.name,
+        cityDTO.history,
+        cityDTO.population,
+        cityDTO.year,
+        cityDTO.coordinates[0],
+        cityDTO.coordinates[1],
+        mayor
+    );
+    idToCities.put(newId, cityPtr);
+
+    const char* cityName = cityDTO.name;
     if (!cities.contains(cityName)) {
         DataStructures::Vector<Models::City*>* newVector = new DataStructures::Vector<Models::City*>;
         cities.put(cityName, newVector);

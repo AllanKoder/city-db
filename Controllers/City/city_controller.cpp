@@ -12,25 +12,10 @@ namespace Controllers::City
 
         try {
             const Routes::CreateCityDTO& cityData = request.data.createCity;
-
-            // Create Mayor object
-            Models::Mayor mayor(cityData.mayor.name, cityData.mayor.address);
-
-            // Create City object
-            Models::City newCity(
-                cityData.name,
-                cityData.history,
-                cityData.population,
-                cityData.year,
-                cityData.coordinates[0],
-                cityData.coordinates[1],
-                mayor
-            );
-
             DataRepository* repo = DataRepository::getInstance();
 
             // Create the city
-            repo->createCity(newCity);
+            repo->createCity(cityData);
 
             response.success = true;
             response.error = nullptr;

@@ -10,8 +10,8 @@ namespace Models
         history[0] = '\0';
     }
 
-    City::City(const char* name, const char* history, size_t population, unsigned int year, double latitude, double longitude, const Mayor& mayor)
-        : population(population), year(year), coordinates{latitude, longitude}, mayor(mayor), id(0)
+    City::City(size_t id, const char* name, const char* history, size_t population, unsigned int year, double latitude, double longitude, const Mayor& mayor)
+        : id(id), population(population), year(year), coordinates{latitude, longitude}, mayor(mayor)
     {
         if (name == nullptr || history == nullptr) {
             throw std::invalid_argument("Name and history cannot be null");
@@ -64,16 +64,6 @@ namespace Models
                 mayor.printMayor()); 
 
         return cityInfo; 
-    }
-
-    void City::setId(size_t id)
-    {
-        this->id = id;
-    }
-
-    size_t City::getId()
-    {
-        return this->id;
     }
 
     void City::setCoordinates(double latitude, double longitude)

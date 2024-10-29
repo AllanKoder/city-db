@@ -5,6 +5,7 @@
 #include "../DataStructures/vector.hpp"
 #include "../Models/City/city.h"
 #include "../Models/Mayor/mayor.h"
+#include "../Router/request.h"
 #include <cstring> 
 
 class DataRepository
@@ -37,7 +38,7 @@ public:
     const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& getCities() const;
 
     // Create
-    void createCity(Models::City city);
+    void createCity(Routes::CreateCityDTO city);
 
     // Read
     Models::City* getCityById(size_t id);
