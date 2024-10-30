@@ -4,51 +4,53 @@
 #include "hash_map.hpp"
 #include <stdexcept>
 #include <limits>
-#include <cstdint>
 #include <iostream>
 
 namespace DataStructures
 {
     template <typename K, typename V>
-    HashMap<K,V>::HashMap(size_t _capacity)
+    HashMap<K, V>::HashMap(size_t _capacity)
         : capacity(_capacity), elementCount(0)
     {
         buckets = new KeyValuePair[capacity];
     }
 
     template <typename K, typename V>
-    HashMap<K,V>::~HashMap()
+    HashMap<K, V>::~HashMap()
     {
         delete[] buckets;
     }
 
     template <typename K, typename V>
-    HashMap<K,V>::HashMap(const HashMap& other)
+    HashMap<K, V>::HashMap(const HashMap &other)
         : elementCount(other.elementCount), capacity(other.capacity)
     {
         buckets = new KeyValuePair[capacity];
-        for (size_t i = 0; i < capacity; ++i) {
-            buckets[i] = other.buckets[i];
+        for (size_t i = 0; i < capacity; ++i)
+        {
+            buckets[i] = other.buckets[i]; // Copy each KeyValuePair
         }
     }
 
     template <typename K, typename V>
-    HashMap<K,V>& HashMap<K,V>::operator=(const HashMap& other)
+    HashMap<K, V> &HashMap<K, V>::operator=(const HashMap &other)
     {
-        if (this != &other) {
+        if (this != &other)
+        {
             delete[] buckets;
             elementCount = other.elementCount;
             capacity = other.capacity;
             buckets = new KeyValuePair[capacity];
-            for (size_t i = 0; i < capacity; ++i) {
-                buckets[i] = other.buckets[i];
+            for (size_t i = 0; i < capacity; ++i)
+            {
+                buckets[i] = other.buckets[i]; // Copy each KeyValuePair
             }
         }
         return *this;
     }
 
     template <typename K, typename V>
-    HashMap<K,V>::HashMap(HashMap&& other) noexcept
+    HashMap<K, V>::HashMap(HashMap &&other) noexcept
         : buckets(other.buckets), elementCount(other.elementCount), capacity(other.capacity)
     {
         other.buckets = nullptr;
@@ -57,9 +59,10 @@ namespace DataStructures
     }
 
     template <typename K, typename V>
-    HashMap<K,V>& HashMap<K,V>::operator=(HashMap&& other) noexcept
+    HashMap<K, V> &HashMap<K, V>::operator=(HashMap &&other) noexcept
     {
-        if (this != &other) {
+        if (this != &other)
+        {
             delete[] buckets;
             buckets = other.buckets;
             elementCount = other.elementCount;
@@ -71,33 +74,10 @@ namespace DataStructures
         return *this;
     }
 
-    // Inspired by simple FNV Hash
-    // https://en.wikipedia.org/wiki/Fowler–Noll–Vo_hash_function
-    template<typename K, typename V>
-    size_t HashMap<K,V>::hash(const K& key) const
+    template <typename K, typename V>
+    size_t HashMap<K, V>::hash(const K &key) const
     {
-        constexpr uint64_t FNV_OFFSET_BASIS = 0x00000100000001b3ULL;
-        constexpr uint64_t FNV_PRIME = 0xcbf29ce484222325ULL;
-
-        const unsigned char* bytes = reinterpret_cast<const unsigned char*>(&key);
-        size_t size = sizeof(K);
-
-        uint64_t hash = FNV_OFFSET_BASIS;
-
-        for (size_t i = 0; i < size; ++i)
-        {
-            hash ^= bytes[i];
-            hash *= FNV_PRIME;
-        }
-
-        // Additional mixing to improve distribution
-        hash ^= hash >> 32;
-        hash *= 0xff51afd7ed558ccdULL;
-        hash ^= hash >> 32;
-        hash *= 0xc4ceb9fe1a85ec53ULL;
-        hash ^= hash >> 32;
-
-        return hash;    
+        return key.hash(); // Use the hash method from the Hashable interface
     }
 
     template<typename K, typename V>
@@ -109,10 +89,14 @@ namespace DataStructures
         for (size_t i = 0; i < capacity; ++i) {
             if (buckets[i].state == BucketState::OCCUPIED) {
                 size_t newIndex = hash(buckets[i].key) % newCapacity;
+                
                 while (newBuckets[newIndex].state == BucketState::OCCUPIED) {
-                    newIndex = (newIndex + 1) % newCapacity;
+                    newIndex = (newIndex + 1) % newCapacity; // Find next available slot
                 }
+
+                // Move the existing pair to the new bucket
                 newBuckets[newIndex] = buckets[i];
+                newBuckets[newIndex].state = BucketState::OCCUPIED; // Ensure state is set
             }
         }
 
@@ -129,114 +113,129 @@ namespace DataStructures
         }
 
         size_t index = hash(key) % capacity;
+
+        // Linear probing for collision resolution
         while (buckets[index].state == BucketState::OCCUPIED) {
-            if (buckets[index].key == key) {
-                buckets[index].value = value;
+            if (buckets[index].key.areEqual(key)) { // Use areEqual to compare keys
+                buckets[index].value = value; // Update value if key exists
+                std::cout << "I hit a duplicate\n";
                 return;
             }
-            index = (index + 1) % capacity;
+            index = (index + 1) % capacity; // Move to the next index
         }
-        buckets[index] = KeyValuePair(key, value, BucketState::OCCUPIED);
-        ++elementCount;
-    }
 
-    template<typename K, typename V>
-    V HashMap<K,V>::get(const K& key) const
-    {
-        size_t index = hash(key) % capacity;
-        size_t startIndex = index;
-        do {
-            std::cout << index << "\n";
-            if (buckets[index].state == BucketState::EMPTY) {
-                throw std::out_of_range("Reached Empty Bucker state: Key not found");
-            }
-            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key == key) {
-                return buckets[index].value;
-            }
-            index = (index + 1) % capacity;
-        } while (index != startIndex);
-        throw std::out_of_range("Looped til end: Key not found");
-    }
-
-    template<typename K, typename V>
-    bool HashMap<K,V>::remove(const K& key)
-    {
-        size_t index = hash(key) % capacity;
-        size_t startIndex = index;
-        do {
-            if (buckets[index].state == BucketState::EMPTY) {
-                return false;
-            }
-            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key == key) {
-                buckets[index].state = BucketState::DELETED;
-                --elementCount;
-                return true;
-            }
-            index = (index + 1) % capacity;
-        } while (index != startIndex);
-        return false;
+        // Insert new key-value pair
+        buckets[index] = KeyValuePair(key, value);
+        buckets[index].state = BucketState::OCCUPIED; // Set state to OCCUPIED
+        ++elementCount; // Increment element count
     }
 
     template <typename K, typename V>
-    DataStructures::Vector<K> HashMap<K,V>::getKeys() const 
+    V HashMap<K, V>::get(const K &key) const
+    {
+        size_t index = hash(key) % capacity;
+
+        while (buckets[index].state != BucketState::EMPTY)
+        {
+            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key.areEqual(key))
+            {
+                return buckets[index].value; // Return the associated value
+            }
+            index = (index + 1) % capacity; // Linear probing
+        }
+
+        throw std::out_of_range("Key not found");
+    }
+
+    template <typename K, typename V>
+    bool HashMap<K, V>::remove(const K &key)
+    {
+        size_t index = hash(key) % capacity;
+
+        while (buckets[index].state != BucketState::EMPTY)
+        {
+            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key.areEqual(key))
+            {
+                buckets[index].state = BucketState::DELETED; // Mark as deleted
+                --elementCount; // Decrement count
+                return true; // Successfully removed
+            }
+            index = (index + 1) % capacity; // Linear probing
+        }
+
+        return false; // Key not found
+    }
+
+    template <typename K, typename V>
+    DataStructures::Vector<K> HashMap<K, V>::getKeys() const
     {
         Vector<K> keys;
-        for (size_t i = 0; i < capacity; ++i) {
-            if (buckets[i].state == BucketState::OCCUPIED) {
-                keys.add(buckets[i].key);
+
+        for (size_t i = 0; i < capacity; ++i)
+        {
+            if (buckets[i].state == BucketState::OCCUPIED)
+            {
+                keys.add(buckets[i].key); // Add actual keys directly
             }
         }
+
         return keys;
     }
 
     template <typename K, typename V>
-    DataStructures::Vector<V> HashMap<K,V>::getValues() const 
+    DataStructures::Vector<V> HashMap<K, V>::getValues() const
     {
         Vector<V> values;
-        for (size_t i = 0; i < capacity; ++i) {
-            if (buckets[i].state == BucketState::OCCUPIED) {
-                values.add(buckets[i].value);
+
+        for (size_t i = 0; i < capacity; ++i)
+        {
+            if (buckets[i].state == BucketState::OCCUPIED)
+            {
+                values.add(buckets[i].value); // Add actual values directly
             }
         }
+
         return values;
     }
 
-    template<typename K, typename V>
-    bool HashMap<K,V>::contains(const K& key) const
+    template <typename K, typename V>
+    bool HashMap<K, V>::contains(const K &key) const
     {
         size_t index = hash(key) % capacity;
-        size_t startIndex = index;
-        do {
-            if (buckets[index].state == BucketState::EMPTY) {
-                return false;
-            }
-            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key == key) {
-                return true;
+
+        while (buckets[index].state != BucketState::EMPTY)
+        {
+            if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key.areEqual(key))
+            {
+                return true; // Key exists in the map
             }
             index = (index + 1) % capacity;
-        } while (index != startIndex);
-        return false;
-    }
-
-    template<typename K, typename V>
-    size_t HashMap<K,V>::size() const
-    {
-        return elementCount;
-    }
-
-    template<typename K, typename V>
-    bool HashMap<K,V>::isEmpty() const
-    {
-        return elementCount == 0;
-    }
-
-    template<typename K, typename V>
-    void HashMap<K,V>::clear()
-    {
-        for (size_t i = 0; i < capacity; ++i) {
-            buckets[i].state = BucketState::EMPTY;
         }
-        elementCount = 0;
+
+        return false; // Key not found
+    }
+
+    template <typename K, typename V>
+    size_t HashMap<K, V>::size() const
+    {
+        return elementCount; // Return number of elements in the map
+    }
+
+    template <typename K, typename V>
+    bool HashMap<K, V>::isEmpty() const
+    {
+        return elementCount == 0; // Check if the map is empty
+    }
+
+    template <typename K, typename V>
+    void HashMap<K, V>::clear()
+    {
+        for (size_t i = 0; i < capacity; ++i)
+        {
+            buckets[i].state = BucketState::EMPTY; // Reset bucket state to EMPTY
+        }
+
+        elementCount = 0; // Reset element count to zero
     }
 }
 

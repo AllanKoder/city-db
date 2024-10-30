@@ -3,6 +3,7 @@
 
 #include "hashable.h"
 #include <cstring>
+#include <iostream>
 
 namespace DataStructures
 {
@@ -12,7 +13,13 @@ namespace DataStructures
         const char* string; 
 
         // Constructor
-        HashableString(const char* str) : string(str) {}
+        HashableString(const char* str = "") : string(str) {}
+
+        HashableString(const HashableString& other) {
+            // Allocate memory and copy the string
+            string = new char[strlen(other.string) + 1]; // +1 for null terminator
+            strcpy(const_cast<char*>(string), other.string); // Copy the string
+        }
 
         // Override hash function
         // Inspired by simple FNV Hash
@@ -24,17 +31,21 @@ namespace DataStructures
             unsigned long long hash = FNV_OFFSET_BASIS;
 
             for (const char* s = string; *s; ++s) {
-                hash *= FNV_PRIME;          // Multiply by the prime
+                hash *= FNV_PRIME; // Multiply by the prime
                 hash ^= static_cast<unsigned char>(*s); // XOR with the byte
             }
+
+            std::cout << "Hash for \"" << string << "\": " << static_cast<size_t>(hash) << "\n"; // Debugging output
 
             return static_cast<size_t>(hash); // Return as size_t
         }
 
-        // Override equality function
+        // equality function
         bool areEqual(const Hashable& other) const override {
             const HashableString* otherStr = dynamic_cast<const HashableString*>(&other);
             if (otherStr) {
+                std::cout << "Comparing: " << string << " with " << otherStr->string << "\n"; // Debugging output
+
                 return strcmp(string, otherStr->string) == 0;
             }
             return false; // Not the same type
