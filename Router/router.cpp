@@ -20,6 +20,7 @@ namespace Routes
         commandRouter->registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
         commandRouter->registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
         commandRouter->registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
+        commandRouter->registerRoute(RequestType::DISPLAY_MAYOR, Controllers::City::displayMayor);
         // Add other routes..
     }
 

@@ -182,12 +182,17 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
 
     if (response.success == false)
     {
+        std::cout << "Failed: " << response.error << "\n";
         return {}; 
     }
     DataStructures::Vector<Models::City*>* cities = response.data.cities;
 
-    size_t chosen_city = 0;
+    if (cities == nullptr)
+    {
+        return {};
+    }
 
+    size_t chosen_city = 0;
     // If there are more than 1, then fix this problem
     if (cities->size() > 1)
     {
@@ -198,8 +203,8 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
             std::cout << (*cities)[i]->printCity() << "\n";
             std::cout << "-------------------------\n";
         }
-        // Select options
 
+        // Select option
         do
         {
             std::cout << "Which city ? (0-" << cities->size()-1 << ")?\n"; 
@@ -260,7 +265,13 @@ void CommandDecider::displayMayor(const char* cityName)
     // Get the mayor
     Routes::Request request;
     request.type = Routes::RequestType::DISPLAY_MAYOR;
+    request.data.cityId = city.value().id;
 
+    // Request the mayor 
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+    
+    // Print the message
+    std::cout << response.message << "\n";
 }
 
 void CommandDecider::calculateDistance(const char* city1, const char* city2) 

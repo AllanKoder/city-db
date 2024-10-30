@@ -41,7 +41,6 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
         cityDTO.coordinates[1],
         mayor
     );
-    idToCities.put(newId, cityPtr);
 
     const char* cityName = cityDTO.name;
     if (!cities.contains(cityName)) {
@@ -50,28 +49,32 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
     }
 
     cities.get(cityName)->add(cityPtr);
+
+    std::cout << "success?";
 }
 
-Models::City* DataRepository::getCityById(size_t id)
+Models::City* DataRepository::getCityById(size_t id) const
 {
-    if (idToCities.contains(id)) {
-        return idToCities.get(id);
+    if (id < idToCities.size()) {
+        return idToCities[id];
     }
     return nullptr;
 }
 
-DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name)
+DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name) const
 {
     DataStructures::Vector<const char*> cityNames = cities.getKeys();
     for (size_t i = 0; i < cityNames.size(); ++i) {
+        std::cout << "keys: " << cityNames[i] << "\n";
         if (caseInsensitiveCompare(cityNames[i], name)) {
-            return cities.get(cityNames[i]);
+            std::cout << "found!" << "\n";
+            return cities.get(name);
         }
     }
     return nullptr;
 }
 
-DataStructures::Vector<Models::City*>* DataRepository::getAllCities()
+DataStructures::Vector<Models::City*>* DataRepository::getAllCities() const
 {
     static DataStructures::Vector<Models::City*> allCities;
     allCities.clear();  // Clear previous contents
@@ -97,8 +100,7 @@ bool DataRepository::caseInsensitiveCompare(const char* str1, const char* str2)
 
 DataRepository::~DataRepository()
 {
-    DataStructures::Vector<size_t> ids = idToCities.getKeys();
-    for (size_t i = 0; i < ids.size(); ++i) {
-        delete idToCities.get(ids[i]);
+    for (size_t i = 0; i < idToCities.size(); ++i) {
+        delete idToCities[i];
     }
 }

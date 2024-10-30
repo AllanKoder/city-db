@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <limits>
 #include <cstdint>
+#include <iostream>
 
 namespace DataStructures
 {
@@ -145,15 +146,16 @@ namespace DataStructures
         size_t index = hash(key) % capacity;
         size_t startIndex = index;
         do {
+            std::cout << index << "\n";
             if (buckets[index].state == BucketState::EMPTY) {
-                throw std::out_of_range("Key not found");
+                throw std::out_of_range("Reached Empty Bucker state: Key not found");
             }
             if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key == key) {
                 return buckets[index].value;
             }
             index = (index + 1) % capacity;
         } while (index != startIndex);
-        throw std::out_of_range("Key not found");
+        throw std::out_of_range("Looped til end: Key not found");
     }
 
     template<typename K, typename V>

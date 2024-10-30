@@ -18,7 +18,7 @@ private:
     size_t auto_id;
 
     // Data
-    DataStructures::HashMap<size_t, Models::City*> idToCities;
+    DataStructures::Vector<Models::City*> idToCities;
     DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*> cities;
 
     DataRepository(); // Private constructor
@@ -41,9 +41,9 @@ public:
     void createCity(Routes::CreateCityDTO city);
 
     // Read
-    Models::City* getCityById(size_t id);
-    DataStructures::Vector<Models::City*>* getCitiesByName(const char* name);
-    DataStructures::Vector<Models::City*>* getAllCities();
+    Models::City* getCityById(size_t id) const;
+    DataStructures::Vector<Models::City*>* getCitiesByName(const char* name) const;
+    DataStructures::Vector<Models::City*>* getAllCities() const;
 };
 
 #endif // DATA_REPOSITORY_H
