@@ -110,16 +110,38 @@ void CommandDecider::seed()
     const unsigned int dataSize = 5;
     
     // Hardcoded city names
-    const char* cityName[] = {"City1", "City1", "City1", "City2", "City2"}; 
+    const char* cityName[] = {"1", "1", "1", "2", "2"}; 
 
-    // Example Hardcoded Data
+    // Hardcoded Data
     const int hardcodedPopulation[] = {500000, 24000, 20004, 2, 53}; 
     const int hardcodedYear[] = {1800, 2020, 10, 2034, 2011};        
-    const float hardcodedLatitude[] = {34.0522, 34.0522, 34.0522, 34.0522, 34.0522};
-    const float hardcodedLongitude[] = {-118.2437, -118.2437, -118.2437, -118.2437, -118.2437}; 
-    const char* hardcodedHistory = "Founded as a small settlement.";
-    const char* hardcodedMayorName = "John Doe"; 
-    const char* hardcodedMayorAddress = "123 Mayor St.";
+    const float hardcodedLatitude[] = {34.0522, 34.0522, 34.0522, 34.0522, 34.0522}; // Example latitude for all
+    const float hardcodedLongitude[] = {-118.2437, -118.2437, -118.2437, -118.2437, -118.2437}; // Example longitude for all
+
+    // Hardcoded history, mayor names and addresses
+    const char* hardcodedHistory[] = {
+        "Founded as a small settlement.",
+        "A bustling metropolis since the early 1800s.",
+        "Known for its vibrant culture.",
+        "A new city with a bright future.",
+        "A historical town with rich traditions."
+    };
+
+    const char* hardcodedMayorName[] = {
+        "John Doe", 
+        "Jane Smith", 
+        "Alice Johnson", 
+        "Bob Brown", 
+        "Charlie Davis"
+    };
+
+    const char* hardcodedMayorAddress[] = {
+        "123 Mayor St.", 
+        "456 Elm St.", 
+        "789 Maple Ave.", 
+        "101 Pine Rd.", 
+        "202 Oak Blvd."
+    };
 
     for (int i = 0; i < dataSize; ++i) // Loop to add the cities
     {
@@ -137,14 +159,14 @@ void CommandDecider::seed()
         request.data.createCity.coordinates[1] = hardcodedLongitude[i];
 
         // Copy city history
-        strncpy(request.data.createCity.history, hardcodedHistory, MAX_CITY_HISTORY - 1);
+        strncpy(request.data.createCity.history, hardcodedHistory[i], MAX_CITY_HISTORY - 1);
         request.data.createCity.history[MAX_CITY_HISTORY - 1] = '\0';
 
         // Copy mayor information
-        strncpy(request.data.createCity.mayor.name, hardcodedMayorName, MAX_MAYOR_NAME - 1);
+        strncpy(request.data.createCity.mayor.name, hardcodedMayorName[i], MAX_MAYOR_NAME - 1);
         request.data.createCity.mayor.name[MAX_MAYOR_NAME - 1] = '\0';
 
-        strncpy(request.data.createCity.mayor.address, hardcodedMayorAddress, MAX_MAYOR_ADDRESS - 1);
+        strncpy(request.data.createCity.mayor.address, hardcodedMayorAddress[i], MAX_MAYOR_ADDRESS - 1);
         request.data.createCity.mayor.address[MAX_MAYOR_ADDRESS - 1] = '\0';
 
         // Route the request and handle the response
