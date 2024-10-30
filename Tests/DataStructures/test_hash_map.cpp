@@ -35,12 +35,14 @@ namespace Testing
 
         map.put(DataStructures::HashableString("key1"), 1);
         map.put(DataStructures::HashableString("key2"), 2);
-        map.put(DataStructures::HashableString("key3"), 3);
+        map.put(DataStructures::HashableString("odd3"), 3);
+        map.put(DataStructures::HashableString("weird4"), 4);
 
-        ASSERT(map.size() == 3, "Size should be 3 after adding 3 elements");
+        ASSERT(map.size() == 4, "Size should be 4 after adding 4 elements");
         ASSERT(map.get(DataStructures::HashableString("key1")) == 1, "Value for key 'key1' should be 1");
         ASSERT(map.get(DataStructures::HashableString("key2")) == 2, "Value for key 'key2' should be 2");
-        ASSERT(map.get(DataStructures::HashableString("key3")) == 3, "Value for key 'key3' should be 3");
+        ASSERT(map.get(DataStructures::HashableString("odd3")) == 3, "Value for key 'odd3' should be 3");
+        ASSERT(map.get(DataStructures::HashableString("weird4")) == 4, "Value for key 'weird4' should be 4");
     }
 
     void TestHashMap::can_remove_elements()
@@ -88,7 +90,6 @@ namespace Testing
         {
             std::string key = "key" + std::to_string(i);
             map.put(DataStructures::HashableString(key.c_str()), i * 10);
-            std::cout << "Current size after inserting " << key << ": " << map.size() << "\n"; 
         }
 
         ASSERT(map.size() == 100, "Should contain all 100 elements after resizing");

@@ -176,7 +176,7 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
     // Request all cities by the name, then filter out the 
     Routes::Request request;
     request.type = Routes::RequestType::GET_CITY_OPTIONS;
-    request.data.requestCityOptions.cityName = cityName;
+    strncpy(request.data.requestCityOptions.cityName, cityName, MAX_CITY_NAME);
 
     Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
 

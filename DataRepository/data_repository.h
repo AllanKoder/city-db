@@ -6,6 +6,8 @@
 #include "../Models/City/city.h"
 #include "../Models/Mayor/mayor.h"
 #include "../Router/request.h"
+#include "../DataStructures/hashable_string.h"
+#include "../DataStructures/hashable_number.h"
 #include <cstring> 
 
 class DataRepository
@@ -18,8 +20,8 @@ private:
     size_t auto_id;
 
     // Data
-    DataStructures::Vector<Models::City*> idToCities;
-    DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*> cities;
+    DataStructures::HashMap<DataStructures::HashableNumber, Models::City*> idToCity; // Use HashableNumber as key
+    DataStructures::HashMap<DataStructures::HashableString, DataStructures::Vector<Models::City*>*> cities; // Use HashableString as key
 
     DataRepository(); // Private constructor
 
@@ -35,7 +37,7 @@ public:
     
     // CRUD
     // Get the data
-    const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& getCities() const;
+    const DataStructures::HashMap<DataStructures::HashableString, DataStructures::Vector<Models::City*>*>& getCities() const;
 
     // Create
     void createCity(Routes::CreateCityDTO city);

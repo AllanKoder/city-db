@@ -3,17 +3,18 @@
 
 #include "../Config/config.h"
 #include "../DataStructures/hash_map.hpp"
+#include "../DataStructures/hashable_number.h"
 #include "request.h"
 #include "response.h"
 
 namespace Routes
-{   
+{ 
     // class for routing requests to designated functions.
     class CommandRouter {
     private:
         typedef Response (*CommandHandler)(const Request& request);
 
-        DataStructures::HashMap<RequestType, CommandHandler> routes;
+        DataStructures::HashMap<DataStructures::HashableNumber, CommandHandler> routes;
     public:
         CommandRouter();
 

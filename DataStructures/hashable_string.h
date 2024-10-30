@@ -35,8 +35,6 @@ namespace DataStructures
                 hash ^= static_cast<unsigned char>(*s); // XOR with the byte
             }
 
-            std::cout << "Hash for \"" << string << "\": " << static_cast<size_t>(hash) << "\n"; // Debugging output
-
             return static_cast<size_t>(hash); // Return as size_t
         }
 
@@ -44,8 +42,6 @@ namespace DataStructures
         bool areEqual(const Hashable& other) const override {
             const HashableString* otherStr = dynamic_cast<const HashableString*>(&other);
             if (otherStr) {
-                std::cout << "Comparing: " << string << " with " << otherStr->string << "\n"; // Debugging output
-
                 return strcmp(string, otherStr->string) == 0;
             }
             return false; // Not the same type

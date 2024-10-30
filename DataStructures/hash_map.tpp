@@ -113,12 +113,13 @@ namespace DataStructures
         }
 
         size_t index = hash(key) % capacity;
+        
+        std::cout << "hash: " << index << "\n";
 
         // Linear probing for collision resolution
         while (buckets[index].state == BucketState::OCCUPIED) {
             if (buckets[index].key.areEqual(key)) { // Use areEqual to compare keys
                 buckets[index].value = value; // Update value if key exists
-                std::cout << "I hit a duplicate\n";
                 return;
             }
             index = (index + 1) % capacity; // Move to the next index
@@ -134,6 +135,8 @@ namespace DataStructures
     V HashMap<K, V>::get(const K &key) const
     {
         size_t index = hash(key) % capacity;
+
+        std::cout << "hash: " << index << "\n";
 
         while (buckets[index].state != BucketState::EMPTY)
         {

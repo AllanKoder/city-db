@@ -24,10 +24,10 @@ namespace Routes
 
    struct RequestCityOptions
     {
-        const char* cityName;
+        char cityName[MAX_CITY_NAME];
     };
 
-    enum class RequestType 
+    enum RequestType 
     {
         CREATE_CITY,
         GET_CITY_OPTIONS,

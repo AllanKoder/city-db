@@ -4,7 +4,7 @@
 // Initialize the static instance pointer
 DataRepository* DataRepository::instancePtr = nullptr;
 
-DataRepository::DataRepository() : cities(100), idToCities(100), auto_id(0) { }
+DataRepository::DataRepository() : cities(100), idToCity(100), auto_id(0) { }
 
 DataRepository* DataRepository::getInstance()
 {
@@ -15,7 +15,7 @@ DataRepository* DataRepository::getInstance()
     return instancePtr;
 }
 
-const DataStructures::HashMap<const char*, DataStructures::Vector<Models::City*>*>& DataRepository::getCities() const
+const DataStructures::HashMap<DataStructures::HashableString, DataStructures::Vector<Models::City*>*>& DataRepository::getCities() const
 {
     return cities;
 }
@@ -42,47 +42,55 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
         mayor
     );
 
-    const char* cityName = cityDTO.name;
+    // Use HashableString for key
+    DataStructures::HashableString cityName(cityDTO.name);
+    
+    // Add to Vector Hashmap 
     if (!cities.contains(cityName)) {
-        DataStructures::Vector<Models::City*>* newVector = new DataStructures::Vector<Models::City*>;
+        auto newVector = new DataStructures::Vector<Models::City*>();
         cities.put(cityName, newVector);
     }
-
     cities.get(cityName)->add(cityPtr);
+
+    // Add to ID Hashmap
+    idToCity.put(newId, cityPtr);
 
     std::cout << "success?";
 }
 
 Models::City* DataRepository::getCityById(size_t id) const
 {
-    if (id < idToCities.size()) {
-        return idToCities[id];
-    }
-    return nullptr;
+    return idToCity.get(DataStructures::HashableNumber(id));
 }
 
 DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name) const
 {
-    DataStructures::Vector<const char*> cityNames = cities.getKeys();
+    DataStructures::Vector<DataStructures::HashableString> cityNames = cities.getKeys();
+    
     for (size_t i = 0; i < cityNames.size(); ++i) {
-        std::cout << "keys: " << cityNames[i] << "\n";
-        if (caseInsensitiveCompare(cityNames[i], name)) {
+        std::cout << "keys: " << cityNames[i].string << "\n"; // Accessing string in HashableString
+        
+        if (cityNames[i].areEqual(DataStructures::HashableString(name))) {
             std::cout << "found!" << "\n";
-            return cities.get(name);
+            return cities.get(cityNames[i]);
         }
     }
+    
     return nullptr;
 }
 
 DataStructures::Vector<Models::City*>* DataRepository::getAllCities() const
 {
     static DataStructures::Vector<Models::City*> allCities;
+    
     allCities.clear();  // Clear previous contents
 
     DataStructures::Vector<DataStructures::Vector<Models::City*>*> cityVectors = cities.getValues();
+    
     for (size_t i = 0; i < cityVectors.size(); i++)
     {
-        const DataStructures::Vector<Models::City*>* currentCities = cityVectors[i];
+        const auto currentCities = cityVectors[i];
+        
         for (size_t j = 0; j < currentCities->size(); j++)
         {
             allCities.add((*currentCities)[j]);
@@ -92,7 +100,6 @@ DataStructures::Vector<Models::City*>* DataRepository::getAllCities() const
     return &allCities;
 }
 
-
 bool DataRepository::caseInsensitiveCompare(const char* str1, const char* str2)
 {
     return strcasecmp(str1, str2) == 0;
@@ -100,7 +107,8 @@ bool DataRepository::caseInsensitiveCompare(const char* str1, const char* str2)
 
 DataRepository::~DataRepository()
 {
-    for (size_t i = 0; i < idToCities.size(); ++i) {
-        delete idToCities[i];
+    auto keys = idToCity.getKeys();
+    for (size_t i = 0; i < keys.size(); ++i) {
+        delete idToCity.get(keys[i]);
     }
 }
