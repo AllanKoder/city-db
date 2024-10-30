@@ -14,6 +14,7 @@ namespace Routes
     private:
         typedef Response (*CommandHandler)(const Request& request);
 
+        // Turns the Enum to the Hashable Number for routing
         DataStructures::HashMap<DataStructures::HashableNumber, CommandHandler> routes;
     public:
         CommandRouter();

@@ -7,7 +7,7 @@ namespace Routes
     CommandRouter::CommandRouter() {}
 
     void CommandRouter::registerRoute(RequestType type, CommandHandler handler, bool save) {
-        routes.put(type, handler);
+        routes.put(DataStructures::HashableNumber((size_t) type), handler);
     }
 
     Response CommandRouter::route(const Request& request) {

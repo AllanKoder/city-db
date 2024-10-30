@@ -32,7 +32,7 @@ namespace DataStructures
 
             for (const char* s = string; *s; ++s) {
                 hash *= FNV_PRIME; // Multiply by the prime
-                hash ^= static_cast<unsigned char>(*s); // XOR with the byte
+                hash ^= *s; // XOR with the byte
             }
 
             return static_cast<size_t>(hash); // Return as size_t

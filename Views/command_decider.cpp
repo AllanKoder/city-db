@@ -201,7 +201,6 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
         {
             std::cout << "\nOption " << i <<  ".\n";
             std::cout << (*cities)[i]->printCity() << "\n";
-            std::cout << "-------------------------\n";
         }
 
         // Select option
@@ -212,6 +211,11 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
         } 
         while (chosen_city >= cities->size() || std::cin.fail());
     }
+
+    std::cin.clear();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    // return the const cast of the city
     const Models::City city = Models::City(*(*cities)[chosen_city]); 
     return city;
 }

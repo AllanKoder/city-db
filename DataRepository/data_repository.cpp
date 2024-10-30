@@ -54,8 +54,6 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
 
     // Add to ID Hashmap
     idToCity.put(newId, cityPtr);
-
-    std::cout << "success?";
 }
 
 Models::City* DataRepository::getCityById(size_t id) const
@@ -68,10 +66,7 @@ DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const cha
     DataStructures::Vector<DataStructures::HashableString> cityNames = cities.getKeys();
     
     for (size_t i = 0; i < cityNames.size(); ++i) {
-        std::cout << "keys: " << cityNames[i].string << "\n"; // Accessing string in HashableString
-        
         if (cityNames[i].areEqual(DataStructures::HashableString(name))) {
-            std::cout << "found!" << "\n";
             return cities.get(cityNames[i]);
         }
     }
