@@ -36,12 +36,12 @@ public:
     DataRepository& operator=(const DataRepository&) = delete;
     
     // CRUD
-    // Get the data
-    const DataStructures::HashMap<DataStructures::HashableString, DataStructures::Vector<Models::City*>*>& getCities() const;
-
     // Create
     void createCity(Routes::CreateCityDTO city);
 
+    // Delete
+    void deleteCity(size_t id);
+    
     // Read
     Models::City* getCityById(size_t id) const;
     DataStructures::Vector<Models::City*>* getCitiesByName(const char* name) const;

@@ -15,9 +15,14 @@ DataRepository* DataRepository::getInstance()
     return instancePtr;
 }
 
-const DataStructures::HashMap<DataStructures::HashableString, DataStructures::Vector<Models::City*>*>& DataRepository::getCities() const
+Models::City* DataRepository::getCityById(size_t id) const
 {
-    return cities;
+    return idToCity.get(DataStructures::HashableNumber(id));
+}
+
+DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name) const
+{
+    return cities.get(DataStructures::HashableString(name));
 }
 
 void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
@@ -56,22 +61,37 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
     idToCity.put(newId, cityPtr);
 }
 
-Models::City* DataRepository::getCityById(size_t id) const
-{
-    return idToCity.get(DataStructures::HashableNumber(id));
-}
+void DataRepository::deleteCity(size_t cityId)
+{ 
+    std::cout << "Attempting to delete city with ID: " << cityId << "\n";
 
-DataStructures::Vector<Models::City*>* DataRepository::getCitiesByName(const char* name) const
-{
-    DataStructures::Vector<DataStructures::HashableString> cityNames = cities.getKeys();
+    // Retrieve the city pointer from idToCity
+    Models::City* city = idToCity.get(cityId);
     
-    for (size_t i = 0; i < cityNames.size(); ++i) {
-        if (cityNames[i].areEqual(DataStructures::HashableString(name))) {
-            return cities.get(cityNames[i]);
+    if (city) {
+        std::cout << "City found: " << city->name << "\n";
+
+        // Delete from the Vector using the city's name
+        DataStructures::HashableString cityName(city->name);
+        DataStructures::Vector<Models::City*>* cityVector = cities.get(cityName);
+        
+        if (cityVector) {
+            std::cout << "Removing city from vector: " << city->name << "\n";
+            cityVector->remove(city); // Remove the city from the vector
+        } else {
+            std::cout << "No vector found for city: " << city->name << "\n";
         }
+
+        // Delete from the idToCity
+        std::cout << "Removing city from idToCity with ID: " << cityId << "\n";
+        idToCity.remove(DataStructures::HashableNumber(cityId));
+
+        // Call the destructor
+        std::cout << "Deleting city object: " << city->name << "\n";
+        delete city;
+    } else {
+        std::cout << "No city found with ID: " << cityId << "\n";
     }
-    
-    return nullptr;
 }
 
 DataStructures::Vector<Models::City*>* DataRepository::getAllCities() const

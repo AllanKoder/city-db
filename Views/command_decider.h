@@ -10,6 +10,7 @@ private:
     std::optional<const Models::City> resolveCityFromName(const char* cityName);
     bool containsArg1(char* arg1);
     bool containsArg2(char* arg2);
+    void seed();
     void addCity(const char* cityName);
     void updateCity(const char* cityName);
     void deleteCity(const char* cityName);

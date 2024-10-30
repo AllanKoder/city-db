@@ -8,9 +8,8 @@ namespace Models
 {
     class Mayor
     {
-    private:
-        size_t id;
     public:
+        size_t id;
         char name[MAX_MAYOR_NAME];
         char address[MAX_MAYOR_ADDRESS];
 
@@ -21,9 +20,6 @@ namespace Models
         Mayor(Mayor&& other) noexcept;
 
         const char* printMayor() const;
-
-        void setId(size_t id);
-        size_t getId();
     };
 }
 

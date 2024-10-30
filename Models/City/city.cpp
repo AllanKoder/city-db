@@ -25,7 +25,7 @@ namespace Models
     }
 
     City::City(const City& other)
-        : population(other.population), year(other.year), mayor(other.mayor)
+        : population(other.population), year(other.year), mayor(other.mayor), id(other.id)
     {
         strncpy(this->name, other.name, MAX_CITY_NAME - 1);
         this->name[MAX_CITY_NAME - 1] = '\0';  
@@ -49,9 +49,20 @@ namespace Models
             population = other.population;
             year = other.year;
             mayor = other.mayor;
+            id = other.id;
             std::copy(std::begin(other.coordinates), std::end(other.coordinates), std::begin(coordinates));
         }
         return *this;
+    }
+
+    const char* City::printCityBrief() const
+    {
+        static char cityInfoBrief[1024]; 
+        snprintf(cityInfoBrief, sizeof(cityInfoBrief), 
+                "History: %s\nCoordinates: (%.2f, %.2f)",
+                history, coordinates[0], coordinates[1]);
+
+        return cityInfoBrief; 
     }
 
     const char* City::printCity() const

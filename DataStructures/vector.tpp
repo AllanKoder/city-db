@@ -93,13 +93,16 @@ namespace DataStructures
     template <typename T>
     void Vector<T>::remove(const T& element)
     {
-        for (unsigned int i = 0; i < count; ++i) {
+        // Shift all of the elements back by one once found, does not call destructor.
+        for (size_t i = 0; i < count; ++i) {
             if (array[i] == element) {
                 std::copy(array + i + 1, array + count, array + i);
                 --count;
                 return;
             }
         }
+
+        throw std::invalid_argument("Element not found");
     }
 
     template <typename T>

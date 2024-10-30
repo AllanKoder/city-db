@@ -52,7 +52,11 @@ void CommandDecider::decideAction(const char* input) {
         return;
     }
 
-    if (strcmp(command, "add") == 0) 
+    if (strcmp(command, "seed") == 0)
+    {
+        seed();
+    }
+    else if (strcmp(command, "add") == 0) 
     {
         if (containsArg1(arg1)) addCity(arg1);
     } 
@@ -98,6 +102,59 @@ void CommandDecider::decideAction(const char* input) {
     else 
     {
         std::cout << "Unknown command\n";
+    }
+}
+
+void CommandDecider::seed() 
+{
+    const unsigned int dataSize = 5;
+    
+    // Hardcoded city names
+    const char* cityName[] = {"City1", "City1", "City1", "City2", "City2"}; 
+
+    // Example Hardcoded Data
+    const int hardcodedPopulation[] = {500000, 24000, 20004, 2, 53}; 
+    const int hardcodedYear[] = {1800, 2020, 10, 2034, 2011};        
+    const float hardcodedLatitude[] = {34.0522, 34.0522, 34.0522, 34.0522, 34.0522};
+    const float hardcodedLongitude[] = {-118.2437, -118.2437, -118.2437, -118.2437, -118.2437}; 
+    const char* hardcodedHistory = "Founded as a small settlement.";
+    const char* hardcodedMayorName = "John Doe"; 
+    const char* hardcodedMayorAddress = "123 Mayor St.";
+
+    for (int i = 0; i < dataSize; ++i) // Loop to add the cities
+    {
+        Routes::Request request;
+        request.type = Routes::RequestType::CREATE_CITY;
+
+        // Copy city name
+        strncpy(request.data.createCity.name, cityName[i], MAX_CITY_NAME - 1);
+        request.data.createCity.name[MAX_CITY_NAME - 1] = '\0';
+
+        // Set hardcoded values
+        request.data.createCity.population = hardcodedPopulation[i];
+        request.data.createCity.year = hardcodedYear[i];
+        request.data.createCity.coordinates[0] = hardcodedLatitude[i];
+        request.data.createCity.coordinates[1] = hardcodedLongitude[i];
+
+        // Copy city history
+        strncpy(request.data.createCity.history, hardcodedHistory, MAX_CITY_HISTORY - 1);
+        request.data.createCity.history[MAX_CITY_HISTORY - 1] = '\0';
+
+        // Copy mayor information
+        strncpy(request.data.createCity.mayor.name, hardcodedMayorName, MAX_MAYOR_NAME - 1);
+        request.data.createCity.mayor.name[MAX_MAYOR_NAME - 1] = '\0';
+
+        strncpy(request.data.createCity.mayor.address, hardcodedMayorAddress, MAX_MAYOR_ADDRESS - 1);
+        request.data.createCity.mayor.address[MAX_MAYOR_ADDRESS - 1] = '\0';
+
+        // Route the request and handle the response
+        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+
+        if (response.success) {
+            std::cout << "Seed City added successfully!\n";
+        } else {
+            std::cout << "Failed to add seed City: " << response.error << "\n";
+        }
     }
 }
 
@@ -187,7 +244,7 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
     }
     DataStructures::Vector<Models::City*>* cities = response.data.cities;
 
-    if (cities == nullptr)
+    if (cities == nullptr || cities->size() == 0)
     {
         return {};
     }
@@ -200,23 +257,22 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
         for (size_t i = 0; i < cities->size(); i++)
         {
             std::cout << "\nOption " << i <<  ".\n";
-            std::cout << (*cities)[i]->printCity() << "\n";
+            std::cout << (*cities)[i]->printCityBrief() << "\n";
         }
 
         // Select option
         do
         {
-            std::cout << "Which city ? (0-" << cities->size()-1 << ")?\n"; 
+            std::cout << "Which city ? (0-" << cities->size()-1 << ")?\n";
             std::cin >> chosen_city;
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         } 
         while (chosen_city >= cities->size() || std::cin.fail());
     }
-
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-
     // return the const cast of the city
     const Models::City city = Models::City(*(*cities)[chosen_city]); 
+    std::cout << "ID: " << city.id << "\n";
     return city;
 }
 
@@ -236,7 +292,27 @@ void CommandDecider::updateCity(const char* cityName)
 
 void CommandDecider::deleteCity(const char* cityName) 
 {
-    std::cout << "Deleted city: " << cityName << "\n";
+    // Check for which city, then delete it 
+    std::optional<const Models::City> city = resolveCityFromName(cityName);
+    if (city.has_value() == false)
+    {
+        std::cout << "Invalid city name\n";
+        return;
+    }
+
+    Routes::Request request;
+    request.type = Routes::RequestType::DELETE_CITY;
+    request.data.cityId = city.value().id;
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+    
+    if (response.success == true)
+    {
+        std::cout << "Deleted the city!\n";
+    }
+    else
+    {
+        std::cout << "Failed to delete city: " << response.error << "\n";
+    }
 }
 
 void CommandDecider::displayCity(const char* cityName) 

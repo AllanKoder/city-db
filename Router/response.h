@@ -13,7 +13,6 @@ namespace Routes
      */
     enum class ResponseType 
     {
-        CREATE_CITY,
         PRINT_MESSAGE,
         CITY_OPTIONS,
         REQUEST_NOT_FOUND

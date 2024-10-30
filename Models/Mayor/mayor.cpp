@@ -25,7 +25,7 @@ namespace Models
     }
 
 
-    Mayor::Mayor(const Mayor& other)
+    Mayor::Mayor(const Mayor& other) : id(other.id)
     {
         strncpy(this->name, other.name, MAX_MAYOR_NAME - 1);
         this->name[MAX_MAYOR_NAME - 1] = '\0';
@@ -43,18 +43,10 @@ namespace Models
 
             strncpy(this->address, other.address, MAX_MAYOR_ADDRESS - 1);
             this->address[MAX_MAYOR_ADDRESS - 1] = '\0';
+
+            id = other.id;
         }
         return *this;
-    }
-
-    void Mayor::setId(size_t id)
-    {
-        this->id = id;
-    }
-
-    size_t Mayor::getId()
-    {
-        return this->id;
     }
 
     const char* Mayor::printMayor() const

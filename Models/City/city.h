@@ -24,6 +24,7 @@ namespace Models
         City& operator=(const City& other);
 
         const char* printCity() const;
+        const char* printCityBrief() const;
 
         void setCoordinates(double latitude, double longitude);
     };

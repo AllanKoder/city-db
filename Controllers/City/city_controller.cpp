@@ -8,46 +8,75 @@ namespace Controllers::City
     Routes::Response createCity(const Routes::Request& request)
     {
         Routes::Response response;
-        response.type = Routes::ResponseType::CREATE_CITY;
-
+        response.type = Routes::ResponseType::PRINT_MESSAGE;
+ 
         try {
             const Routes::CreateCityDTO& cityData = request.data.createCity;
             DataRepository* repo = DataRepository::getInstance();
-
+ 
             // Create the city
             repo->createCity(cityData);
+ 
+            response.success = true;
+            response.error = nullptr;
+        } catch (const std::exception& e) {
+            response.success = false;
+            response.error = e.what();
+        }
+ 
+        return response;
+    }
+ 
+    Routes::Response deleteCity(const Routes::Request& request)
+    {
+        Routes::Response response;
+        response.type = Routes::ResponseType::PRINT_MESSAGE;
+        DataRepository* repo = DataRepository::getInstance();
+
+        try {
+            // Delete the city
+            repo->deleteCity(request.data.cityId);
 
             response.success = true;
             response.error = nullptr;
         } catch (const std::exception& e) {
             response.success = false;
-            response.error = "An error occurred while creating the city";
+            response.error = e.what();
         }
 
         return response;
     }
-
+   
     Routes::Response getCityOptions(const Routes::Request& request)
     {
         // Display the list of cities which are possible to get from the key
         Routes::Response response;
         DataStructures::Vector<size_t>* citiesIds = new DataStructures::Vector<size_t>();
-
-        const char* cityName = request.data.requestCityOptions.cityName;
-
         DataRepository* repo = DataRepository::getInstance();
-        DataStructures::Vector<Models::City*>* cities = repo->getCitiesByName(cityName);
 
-        if (cities == nullptr)
+        try
+        {
+            const char* cityName = request.data.requestCityOptions.cityName;
+
+            // Get the cities with the name
+            DataStructures::Vector<Models::City*>* cities = repo->getCitiesByName(cityName);
+
+            // No city with name
+            if (cities == nullptr)
+            {
+                response.success = false;
+                response.error = "Could not find the city with name";
+                return response;
+            }
+
+            response.data.cities = cities;
+            response.success = true;
+        }
+        catch(const std::exception& e)
         {
             response.success = false;
-            response.error = "Could not find the city with name";
-            return response;
+            response.error = e.what();
         }
-
-        response.data.cities = cities;
-        response.success = true;
-        // The responder will get the cities
 
         return response;
     }

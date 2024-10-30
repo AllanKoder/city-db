@@ -147,7 +147,7 @@ namespace DataStructures
     }
 
     template <typename K, typename V>
-    bool HashMap<K, V>::remove(const K &key)
+    void HashMap<K, V>::remove(const K &key)
     {
         size_t index = hash(key) % capacity;
 
@@ -157,12 +157,12 @@ namespace DataStructures
             {
                 buckets[index].state = BucketState::DELETED; // Mark as deleted
                 --elementCount; // Decrement count
-                return true; // Successfully removed
+                return; // Successfully removed
             }
             index = (index + 1) % capacity; // Linear probing
         }
 
-        return false; // Key not found
+        throw std::out_of_range("Key not found");
     }
 
     template <typename K, typename V>

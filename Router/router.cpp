@@ -18,6 +18,7 @@ namespace Routes
     void Router::initializeRoutes()
     {
         commandRouter->registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
+        commandRouter->registerRoute(RequestType::DELETE_CITY, Controllers::City::deleteCity);
         commandRouter->registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
         commandRouter->registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
         commandRouter->registerRoute(RequestType::DISPLAY_MAYOR, Controllers::City::displayMayor);

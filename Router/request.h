@@ -30,6 +30,7 @@ namespace Routes
     enum RequestType 
     {
         CREATE_CITY,
+        DELETE_CITY,
         GET_CITY_OPTIONS,
         DISPLAY_MAYOR,
         DISPLAY_CITIES,
