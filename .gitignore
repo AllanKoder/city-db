@@ -1,0 +1,8 @@
+# VSCode Setup
+.vscode/*
+
+# Executables
+*.exe
+
+# Object Files
+*.o

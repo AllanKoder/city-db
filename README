@@ -1,0 +1,24 @@
+Running the code:
+
+`make; ./exec.exe`
+
+g++ .\main.cpp .\Views\repl.cpp .\DataRepository\data_repository.cpp .\Models\City\city.cpp .\Models\Mayor\mayor.cpp .\Controllers\City\city_controller.cpp .\Views\command_decider.cpp .\Router\router.cpp .\Router\command_router.cpp -o exec
+
+
+Questions and answers:
+- Templates 
+ - fine
+- Comments
+ - should do
+- Need to use stdint for fixed width types?
+ - no
+- Overkill
+ - Just document it well
+- windows
+ - Fine
+- c++ version is 11
+ - fine
+- Relationship between mayors
+ - Keep it simple
+- error handling with inputs
+ - only if you want

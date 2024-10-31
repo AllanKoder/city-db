@@ -1,0 +1,4 @@
+
+Running Tests as of now:
+
+`g++ .\run.cpp .\DataStructures\test_hash_map.cpp .\DataStructures\test_vector.cpp testing.cpp -o run`
