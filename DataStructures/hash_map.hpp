@@ -18,7 +18,7 @@ namespace DataStructures
 
         struct KeyValuePair
         {
-            K key; // Store the actual key value
+            K key; // Store the key value
             V value; // Store the actual value
             BucketState state;
 

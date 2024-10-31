@@ -337,9 +337,21 @@ void CommandDecider::deleteCity(const char* cityName)
     }
 }
 
+
 void CommandDecider::displayCity(const char* cityName) 
 {
-    std::cout << "Displaying information for: " << cityName << "\n";
+    // Confirm which city , then print it
+    std::optional<const Models::City> city = resolveCityFromName(cityName);
+    if (city.has_value() == false)
+    {
+        std::cout << "Invalid city name\n";
+        return;
+    }
+
+    // Local instance of city, since we cannot access the functions in a readonly instance
+    Models::City cityCopy(city.value());
+    // Print it
+    std::cout << cityCopy.printCity() << "\n";
 }
 
 void CommandDecider::displayCities()

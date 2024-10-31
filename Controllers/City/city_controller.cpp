@@ -87,38 +87,45 @@ namespace Controllers::City
         response.type = Routes::ResponseType::PRINT_MESSAGE;
         DataRepository* repo = DataRepository::getInstance();
 
-        const DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
-        
-        char message[MAX_RESPONSE_MESSAGE] {0}; 
-        
-        if (cities->size() == 0) {
-            snprintf(message, sizeof(message), "No cities found.");
-            response.success = false; 
-        }
-        else
+        try
         {
-            // Build the string for displaying all cities
-            size_t offset = 0;
-            for (size_t i = 0; i < cities->size(); i++)
+            const DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
+            
+            char message[MAX_RESPONSE_MESSAGE] {0}; 
+            
+            if (cities->size() == 0) {
+                snprintf(message, sizeof(message), "No cities found.");
+                response.success = true; 
+            }
+            else
             {
-                Models::City* city = (*cities)[i];
-                if (city)
+                // Build the string for displaying all cities
+                size_t offset = 0;
+                for (size_t i = 0; i < cities->size(); i++)
                 {
-                    // Use printCity to get formatted details
-                    const char* cityDetails = city->printCity();
-                    offset += snprintf(message + offset, sizeof(message) - offset, "%zu.\n%s\n", i+1, cityDetails);
+                    Models::City* city = (*cities)[i];
+                    if (city)
+                    {
+                        // Use printCity to get formatted details
+                        const char* cityDetails = city->printCity();
+                        offset += snprintf(message + offset, sizeof(message) - offset, "%zu.\n%s\n", i+1, cityDetails);
 
-                    if (offset >= sizeof(message)) {
-                        break; // Prevent buffer overflow
+                        if (offset >= sizeof(message)) {
+                            break; // Prevent buffer overflow
+                        }
                     }
                 }
+                response.success = true;
             }
-            response.success = true;
+
+            strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);
+            response.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
         }
-
-        strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);
-        response.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
-
+        catch(const std::exception& e)
+        {
+            response.success = false;
+            response.error = e.what();
+        }
         return response;
     }
 
@@ -128,13 +135,22 @@ namespace Controllers::City
         response.type = Routes::ResponseType::PRINT_MESSAGE;
         DataRepository* repo = DataRepository::getInstance();
 
-        Models::City* city = repo->getCityById(request.data.cityId);
-        if (city == nullptr)
+        try
         {
-            snprintf(response.message, MAX_RESPONSE_MESSAGE, "Cannot find the city requested");
+            Models::City* city = repo->getCityById(request.data.cityId);
+            if (city == nullptr)
+            {
+                snprintf(response.message, MAX_RESPONSE_MESSAGE, "Cannot find the city requested");
+            }
+            
+            snprintf(response.message, MAX_RESPONSE_MESSAGE, city->mayor.printMayor());
         }
-        
-        snprintf(response.message, MAX_RESPONSE_MESSAGE, city->mayor.printMayor());
+        catch(const std::exception& e)
+        {
+            response.success = false;
+            response.error = e.what();
+        }
+
         return response;
     }
 }
