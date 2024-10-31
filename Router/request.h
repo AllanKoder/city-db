@@ -22,6 +22,23 @@ namespace Routes
         CreateMayorDTO mayor;
     };
 
+    struct UpdateMayorDTO 
+    {
+        char name[MAX_MAYOR_NAME];
+        char address[MAX_MAYOR_ADDRESS];
+    };
+
+    struct UpdateCityDTO
+    {
+        size_t cityId;
+        char history[MAX_CITY_HISTORY];
+        size_t population;
+        unsigned int year;
+        double coordinates[2];
+
+        UpdateMayorDTO mayor;
+    };
+
    struct RequestCityOptions
     {
         char cityName[MAX_CITY_NAME];
@@ -30,6 +47,7 @@ namespace Routes
     enum RequestType 
     {
         CREATE_CITY,
+        UPDATE_CITY,
         DELETE_CITY,
         GET_CITY_OPTIONS,
         DISPLAY_MAYOR,
@@ -46,6 +64,7 @@ namespace Routes
         union request
         {
             CreateCityDTO createCity;
+            UpdateCityDTO updateCity;
             RequestCityOptions requestCityOptions;
             size_t cityId;
         } data;

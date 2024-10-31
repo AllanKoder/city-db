@@ -14,6 +14,7 @@ namespace Routes
     enum class ResponseType 
     {
         PRINT_MESSAGE,
+        SUCCESS,
         CITY_OPTIONS,
         REQUEST_NOT_FOUND
     };

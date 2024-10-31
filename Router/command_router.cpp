@@ -15,7 +15,7 @@ namespace Routes
         {
             // TODO: save it to a write ahead log
             CommandHandler handler = routes.get(request.type);
-            return handler(request); 
+            return handler(request);
         }
 
         // If no matching route is found, return an error response

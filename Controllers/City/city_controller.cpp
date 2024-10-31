@@ -25,6 +25,28 @@ namespace Controllers::City
         }
  
         return response;
+    }   
+    
+    Routes::Response updateCity(const Routes::Request& request)
+    {
+        Routes::Response response;
+        response.type = Routes::ResponseType::SUCCESS;
+        DataRepository* repo = DataRepository::getInstance();
+ 
+        try {
+            const Routes::UpdateCityDTO& cityData = request.data.updateCity;
+ 
+            // Create the city
+            repo->updateCity(cityData);
+ 
+            response.success = true;
+            response.error = nullptr;
+        } catch (const std::exception& e) {
+            response.success = false;
+            response.error = e.what();
+        }
+ 
+        return response;
     }
  
     Routes::Response deleteCity(const Routes::Request& request)

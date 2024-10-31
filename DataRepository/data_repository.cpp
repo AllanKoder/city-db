@@ -61,6 +61,30 @@ void DataRepository::createCity(Routes::CreateCityDTO cityDTO)
     idToCity.put(newId, cityPtr);
 }
 
+
+void DataRepository::updateCity(Routes::UpdateCityDTO cityDTO)
+{   
+    Models::City* cityInDatabase = idToCity.get(cityDTO.cityId);
+
+    // Update the fields
+    // History
+    std::strncpy(cityInDatabase->history, cityDTO.history, MAX_CITY_HISTORY);
+    
+    // Population
+    cityInDatabase->population = cityDTO.population;
+
+    // Year
+    cityInDatabase->year = cityDTO.year; 
+
+    // Coordinates
+    std::copy(std::begin(cityDTO.coordinates), std::end(cityDTO.coordinates), std::begin(cityInDatabase->coordinates));
+
+    // Mayor Name
+    std::strncpy(cityInDatabase->mayor.name, cityDTO.mayor.name, MAX_MAYOR_NAME);
+
+    // Mayor Address
+    std::strncpy(cityInDatabase->mayor.address, cityDTO.mayor.address, MAX_MAYOR_ADDRESS);
+}
 void DataRepository::deleteCity(size_t cityId)
 { 
     std::cout << "Attempting to delete city with ID: " << cityId << "\n";

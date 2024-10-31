@@ -37,15 +37,19 @@ public:
     
     // CRUD
     // Create
-    void createCity(Routes::CreateCityDTO city);
+    void createCity(Routes::CreateCityDTO cityDTO);
 
-    // Delete
-    void deleteCity(size_t id);
-    
     // Read
     Models::City* getCityById(size_t id) const;
     DataStructures::Vector<Models::City*>* getCitiesByName(const char* name) const;
     DataStructures::Vector<Models::City*>* getAllCities() const;
+
+    // Update
+    void updateCity(Routes::UpdateCityDTO cityDTO);
+
+    // Delete
+    void deleteCity(size_t id);
+    
 };
 
 #endif // DATA_REPOSITORY_H

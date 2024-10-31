@@ -309,7 +309,38 @@ void CommandDecider::updateCity(const char* cityName)
         return;
     }
 
-    std::cout << "Updating city: " << cityName << "\n";
+    // Update the city:
+    Routes::Request request;
+    request.type = Routes::RequestType::UPDATE_CITY;
+
+    const Models::City& rawCity = city.value(); 
+    // Set the Id 
+    request.data.updateCity.cityId = rawCity.id;
+    
+    // Set the updated values
+    // History
+    std::strncpy(request.data.updateCity.history, rawCity.history, MAX_CITY_HISTORY);
+    // Population
+    request.data.updateCity.population = rawCity.population;
+    // Year
+    request.data.updateCity.year = rawCity.year; 
+    // Coordinates
+    std::copy(std::begin(rawCity.coordinates), std::end(rawCity.coordinates), std::begin(request.data.updateCity.coordinates));
+    // Mayor Name
+    std::strncpy(request.data.updateCity.mayor.name, rawCity.mayor.name, MAX_MAYOR_NAME);
+    // Mayor Address
+    std::strncpy(request.data.updateCity.mayor.address, rawCity.mayor.address, MAX_MAYOR_ADDRESS);
+
+    // Perform the action
+    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+    if (response.success)
+    {
+        std::cout << "successfully updated: " << cityName << "!\n";
+    }
+    else
+    {
+        std::cout << "Failed to update: " << response.error << "\n";
+    }
 }
 
 void CommandDecider::deleteCity(const char* cityName) 
@@ -362,7 +393,15 @@ void CommandDecider::displayCities()
     request.type = Routes::RequestType::DISPLAY_CITIES;
     Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
 
-    std::cout << response.message << "\n";
+    if (response.success)
+    {
+        // Print the cities
+        std::cout << response.message << "\n";
+    }
+    else
+    {
+        std::cout << "Failed to get mayor: " << response.error << "\n";
+    }
 }
 
 void CommandDecider::displayMayor(const char* cityName) 
@@ -384,8 +423,15 @@ void CommandDecider::displayMayor(const char* cityName)
     // Request the mayor 
     Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
     
-    // Print the message
-    std::cout << response.message << "\n";
+    if (response.success)
+    {
+        // Print the message
+        std::cout << response.message << "\n";
+    }
+    else
+    {
+        std::cout << "Failed to get mayor: " << response.error << "\n";
+    }
 }
 
 void CommandDecider::calculateDistance(const char* city1, const char* city2) 
