@@ -3,6 +3,7 @@
 
 #include "../Config/config.h"
 #include "../Models/City/city.h"
+#include "../DataStructures/vector.hpp"
 
 namespace Routes
 {

@@ -11,6 +11,7 @@ SOURCES = main.cpp \
           Models/City/city.cpp \
           Models/Mayor/mayor.cpp \
           Controllers/City/city_controller.cpp \
+		  Controllers/Mayor/mayor_controller.cpp \
           CommandLineInterface/command_decider.cpp \
           Router/router.cpp \
           Router/command_router.cpp \

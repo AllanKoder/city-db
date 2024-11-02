@@ -4,6 +4,7 @@
 
 // Controllers
 #include "../Controllers/City/city_controller.h"
+#include "../Controllers/Mayor/mayor_controller.h"
 
 namespace Routes
 {
@@ -22,7 +23,7 @@ namespace Routes
         commandRouter->registerRoute(RequestType::DELETE_CITY, Controllers::City::deleteCity);
         commandRouter->registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
         commandRouter->registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
-        commandRouter->registerRoute(RequestType::DISPLAY_MAYOR, Controllers::City::displayMayor);
+        commandRouter->registerRoute(RequestType::DISPLAY_MAYOR, Controllers::Mayor::displayMayor);
         // Add other routes..
     }
 

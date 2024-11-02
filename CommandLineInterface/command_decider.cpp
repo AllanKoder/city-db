@@ -14,6 +14,7 @@
 
 #include "../Views/City/views_city.h"
 #include "../Views/Mayor/views_mayor.h"
+#include "../Views/Helpers/city_helpers.h"
 
 #include "command_decider.h"
 
@@ -59,7 +60,7 @@ void CommandDecider::decideAction(const char *input)
 
     if (strcmp(command, "seed") == 0)
     {
-        Views::City::seed();
+        Views::Helpers::seed();
     }
     else if (strcmp(command, "add") == 0)
     {

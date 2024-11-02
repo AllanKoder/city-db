@@ -6,6 +6,7 @@
 namespace Views::Helpers
 {
     std::optional<const Models::City> resolveCityFromName(const char *cityName);
+    void seed();
 }
 
 #endif

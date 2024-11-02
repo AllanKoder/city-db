@@ -9,6 +9,5 @@ namespace Controllers::City
     Routes::Response deleteCity(const Routes::Request&);
     Routes::Response getCityOptions(const Routes::Request&);
     Routes::Response displayCity(const Routes::Request&);
-    Routes::Response displayMayor(const Routes::Request&);
     Routes::Response displayCities(const Routes::Request&);
 }
