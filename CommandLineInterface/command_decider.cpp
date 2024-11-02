@@ -105,7 +105,7 @@ void CommandDecider::decideAction(const char *input)
     else if (strcmp(command, "distance") == 0)
     {
         if (containsArg1(arg1) && containsArg2(arg2))
-            calculateDistance(arg1, arg2);
+            Views::City::calculateDistance(arg1, arg2);
     }
     else if (strcmp(command, "population") == 0)
     {
@@ -118,24 +118,6 @@ void CommandDecider::decideAction(const char *input)
     }
 }
 
-void CommandDecider::calculateDistance(const char *cityName1, const char *cityName2)
-{
-    //// Get the cities
-    // std::optional<const Models::City> city1 = resolveCityFromName(cityName1);
-    // if (city1.has_value() == false)
-    //{
-    // std::cout << "Invalid city name\n";
-    // return;
-    //}
-
-    // std::optional<const Models::City> city2 = resolveCityFromName(cityName2);
-    // if (city2.has_value() == false)
-    //{
-    // std::cout << "Invalid city name\n";
-    // return;
-    //}
-    // std::cout << "Calculating distance between " << cityName1 << " and " << cityName2 << "\n";
-}
 
 void CommandDecider::displayPopulation(const char *cityName)
 {

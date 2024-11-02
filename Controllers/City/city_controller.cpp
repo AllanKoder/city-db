@@ -149,4 +149,16 @@ namespace Controllers::City
         }
         return response;
     }
+
+    Routes::Response getDistanceBetweenCities(const Routes::Request& request)
+    {
+        Routes::Response response;
+        response.type = Routes::ResponseType::PRINT_MESSAGE;
+        DataRepository* repo = DataRepository::getInstance();
+
+        strncpy(response.message, "test", MAX_RESPONSE_MESSAGE - 1);
+        response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';
+        response.success = true;
+        return response;
+    }
 }

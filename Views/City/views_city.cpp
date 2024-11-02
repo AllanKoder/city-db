@@ -157,7 +157,7 @@ namespace Views::City
         std::cin.getline(latitudeInput, sizeof(latitudeInput));
 
         if (latitudeInput[0] != '\0')
-        { 
+        {
             // Check if input is not empty
             try
             {
@@ -327,6 +327,41 @@ namespace Views::City
         else
         {
             std::cout << "Failed to get mayor: " << response.error << "\n";
+        }
+    }
+
+    void calculateDistance(const char *cityName1, const char *cityName2)
+    {
+        // Get the cities
+        std::optional<const Models::City> city1 = Views::Helpers::resolveCityFromName(cityName1);
+        if (city1.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
+        std::optional<const Models::City> city2 = Views::Helpers::resolveCityFromName(cityName2);
+        if (city2.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+        std::cout << "Calculating distance between " << cityName1 << " and " << cityName2 << ":\n";
+        
+        Routes::Request request;
+        request.type = Routes::RequestType::DISTANCE_BETWEEN_CITIES;
+
+        request.data.cityPair.city1 = city1.value().id;
+        request.data.cityPair.city2 = city2.value().id;
+
+        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        if (response.success)
+        {
+            std::cout << "Distance is: " << response.message << "\n";
+        }
+        else
+        {
+            std::cout << "Error calculating distance: " << response.error << "\n";
         }
     }
 }

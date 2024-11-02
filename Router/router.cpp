@@ -22,6 +22,7 @@ namespace Routes
         commandRouter->registerRoute(RequestType::UPDATE_CITY, Controllers::City::updateCity);
         commandRouter->registerRoute(RequestType::DELETE_CITY, Controllers::City::deleteCity);
         commandRouter->registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
+        commandRouter->registerRoute(RequestType::DISTANCE_BETWEEN_CITIES, Controllers::City::getDistanceBetweenCities);
         commandRouter->registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
         commandRouter->registerRoute(RequestType::DISPLAY_MAYOR, Controllers::Mayor::displayMayor);
         // Add other routes..

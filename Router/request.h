@@ -22,6 +22,12 @@ namespace Routes
         CreateMayorDTO mayor;
     };
 
+    struct CityPair
+    {
+        size_t city1;
+        size_t city2;
+    };
+
     struct UpdateMayorDTO 
     {
         char name[MAX_MAYOR_NAME];
@@ -50,6 +56,7 @@ namespace Routes
         UPDATE_CITY,
         DELETE_CITY,
         GET_CITY_OPTIONS,
+        DISTANCE_BETWEEN_CITIES,
         DISPLAY_MAYOR,
         DISPLAY_CITIES,
     };
@@ -66,6 +73,7 @@ namespace Routes
             CreateCityDTO createCity;
             UpdateCityDTO updateCity;
             RequestCityOptions requestCityOptions;
+            CityPair cityPair;
             size_t cityId;
         } data;
     };

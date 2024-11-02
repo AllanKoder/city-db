@@ -3,11 +3,11 @@
 
 namespace Views::City
 {
-    void seed();
     void addCity(const char* cityName);
     void updateCity(const char* cityName);
     void deleteCity(const char* cityName);
     void displayCity(const char* cityName);
     void displayCities();
+    void calculateDistance(const char *cityName1, const char *cityName2);
 }
 #endif
