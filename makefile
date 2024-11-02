@@ -6,14 +6,17 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -Wreorder -g
 
 # Source files
 SOURCES = main.cpp \
-          Views/repl.cpp \
+          CommandLineInterface/repl.cpp \
           DataRepository/data_repository.cpp \
           Models/City/city.cpp \
           Models/Mayor/mayor.cpp \
           Controllers/City/city_controller.cpp \
-          Views/command_decider.cpp \
+          CommandLineInterface/command_decider.cpp \
           Router/router.cpp \
-          Router/command_router.cpp
+          Router/command_router.cpp \
+		  Views/City/views_city.cpp \
+		  Views/Mayor/views_mayor.cpp \
+		  Views/Helpers/city_helpers.cpp 
 
 # Object files
 OBJECTS = $(SOURCES:.cpp=.o)

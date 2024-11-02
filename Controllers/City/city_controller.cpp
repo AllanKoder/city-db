@@ -166,6 +166,7 @@ namespace Controllers::City
             }
             
             snprintf(response.message, MAX_RESPONSE_MESSAGE, city->mayor.printMayor());
+            response.success = true;
         }
         catch(const std::exception& e)
         {

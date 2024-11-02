@@ -7,16 +7,8 @@ public:
     void decideAction(const char* input);
 
 private:
-    std::optional<const Models::City> resolveCityFromName(const char* cityName);
     bool containsArg1(char* arg1);
     bool containsArg2(char* arg2);
-    void seed();
-    void addCity(const char* cityName);
-    void updateCity(const char* cityName);
-    void deleteCity(const char* cityName);
-    void displayCity(const char* cityName);
-    void displayCities();
-    void displayMayor(const char* cityName);
     void calculateDistance(const char* city1, const char* city2);
     void displayPopulation(const char* cityName);
 };
