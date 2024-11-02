@@ -301,48 +301,150 @@ std::optional<const Models::City> CommandDecider::resolveCityFromName(const char
 
 void CommandDecider::updateCity(const char* cityName) 
 {
-    // Update city, check the name first, then verify which one, then update the fields with default being an empty enter
+    // Validate city name
     std::optional<const Models::City> city = resolveCityFromName(cityName);
-    if (city.has_value() == false)
+    if (!city.has_value())
     {
         std::cout << "Invalid city name\n";
         return;
     }
 
-    // Update the city:
+    const Models::City& rawCity = city.value(); 
+
+    // Validate population
+    char populationInput[20]; // Buffer for population input
+    size_t population = rawCity.population; // Default to current value
+    std::cout << "Enter new population (current: " << rawCity.population << ") or press Enter to keep current: ";
+    std::cin.getline(populationInput, sizeof(populationInput));
+
+    if (populationInput[0] != '\0') { // Check if input is not empty
+        try {
+            population = std::stoul(populationInput); // Convert to size_t
+        } catch (...) {
+            std::cout << "Invalid input. Keeping current population: " << rawCity.population << ".\n";
+            population = rawCity.population; // Revert to current value on error
+        }
+    }
+
+    // Validate founding year
+    char yearInput[20]; // Buffer for year input
+    unsigned int year = rawCity.year; // Default to current value
+    std::cout << "Enter new founding year (current: " << rawCity.year << ") or press Enter to keep current: ";
+    std::cin.getline(yearInput, sizeof(yearInput));
+
+    if (yearInput[0] != '\0') { // Check if input is not empty
+        try {
+            year = std::stoul(yearInput); // Convert to unsigned int
+            if (year > 9999) {
+                throw std::out_of_range("Year must be between 0 and 9999.");
+            }
+        } catch (...) {
+            std::cout << "Invalid input. Keeping current year: " << rawCity.year << ".\n";
+            year = rawCity.year; // Revert to current value on error
+        }
+    }
+
+    // Validate coordinates
+    char latitudeInput[20], longitudeInput[20]; // Buffers for coordinates input
+    double latitude = rawCity.coordinates[0]; // Default to current value
+    double longitude = rawCity.coordinates[1]; // Default to current value
+
+    std::cout << "Enter new latitude (current: " << rawCity.coordinates[0] << ", -90 to 90) or press Enter to keep current: ";
+    std::cin.getline(latitudeInput, sizeof(latitudeInput));
+    
+    if (latitudeInput[0] != '\0') { // Check if input is not empty
+        try {
+            latitude = std::stod(latitudeInput); // Convert to double
+            if (latitude < -90 || latitude > 90) {
+                throw std::out_of_range("Latitude must be between -90 and 90.");
+            }
+        } catch (...) {
+            std::cout << "Invalid input. Keeping current latitude: " << rawCity.coordinates[0] << ".\n";
+            latitude = rawCity.coordinates[0]; // Revert to current value on error
+        }
+    }
+
+    std::cout << "Enter new longitude (current: " << rawCity.coordinates[1] << ", -180 to 180) or press Enter to keep current: ";
+    std::cin.getline(longitudeInput, sizeof(longitudeInput));
+    
+    if (longitudeInput[0] != '\0') { // Check if input is not empty
+        try {
+            longitude = std::stod(longitudeInput); // Convert to double
+            if (longitude < -180 || longitude > 180) {
+                throw std::out_of_range("Longitude must be between -180 and 180.");
+            }
+        } catch (...) {
+            std::cout << "Invalid input. Keeping current longitude: " << rawCity.coordinates[1] << ".\n";
+            longitude = rawCity.coordinates[1]; // Revert to current value on error
+        }
+    }
+
+    // Prepare request
     Routes::Request request;
     request.type = Routes::RequestType::UPDATE_CITY;
 
-    const Models::City& rawCity = city.value(); 
     // Set the Id 
     request.data.updateCity.cityId = rawCity.id;
-    
+
     // Set the updated values
-    // History
-    std::strncpy(request.data.updateCity.history, rawCity.history, MAX_CITY_HISTORY);
-    // Population
-    request.data.updateCity.population = rawCity.population;
-    // Year
-    request.data.updateCity.year = rawCity.year; 
-    // Coordinates
-    std::copy(std::begin(rawCity.coordinates), std::end(rawCity.coordinates), std::begin(request.data.updateCity.coordinates));
-    // Mayor Name
-    std::strncpy(request.data.updateCity.mayor.name, rawCity.mayor.name, MAX_MAYOR_NAME);
-    // Mayor Address
-    std::strncpy(request.data.updateCity.mayor.address, rawCity.mayor.address, MAX_MAYOR_ADDRESS);
 
-    // Perform the action
-    Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
-    if (response.success)
-    {
-        std::cout << "successfully updated: " << cityName << "!\n";
+    // Update history, allowing it to remain unchanged if no input is provided.
+    char historyInput[MAX_CITY_HISTORY];
+    std::cout << "Enter new city history (current: " << rawCity.history << ") or press Enter to keep current: ";
+    std::cin.getline(historyInput, sizeof(historyInput));
+    
+    if (historyInput[0] != '\0') { 
+        std::strncpy(request.data.updateCity.history, historyInput, MAX_CITY_HISTORY);
+        request.data.updateCity.history[MAX_CITY_HISTORY - 1] = '\0'; // Ensure null termination
+    } else {
+        std::strncpy(request.data.updateCity.history, rawCity.history, MAX_CITY_HISTORY); // Keep current history
+        request.data.updateCity.history[MAX_CITY_HISTORY - 1] = '\0'; // Ensure null termination
     }
-    else
-    {
-        std::cout << "Failed to update: " << response.error << "\n";
-    }
+
+   request.data.updateCity.population = population;
+   request.data.updateCity.year = year;
+
+   request.data.updateCity.coordinates[0] = latitude;
+   request.data.updateCity.coordinates[1] = longitude;
+
+   // Mayor Name Input
+   char mayorNameInput[MAX_MAYOR_NAME];
+   std::cout << "Enter mayor's name (current: " << rawCity.mayor.name << ") or press Enter to keep current: ";
+   std::cin.getline(mayorNameInput, sizeof(mayorNameInput));
+   
+   if (mayorNameInput[0] != '\0') { 
+       std::strncpy(request.data.updateCity.mayor.name, mayorNameInput, MAX_MAYOR_NAME);
+       request.data.updateCity.mayor.name[MAX_MAYOR_NAME - 1] = '\0'; // Ensure null termination
+   } else {
+       std::strncpy(request.data.updateCity.mayor.name, rawCity.mayor.name, MAX_MAYOR_NAME); 
+       request.data.updateCity.mayor.name[MAX_MAYOR_NAME - 1] = '\0'; // Ensure null termination
+   }
+
+   // Mayor Address Input
+   char mayorAddressInput[MAX_MAYOR_ADDRESS];
+   std::cout << "Enter mayor's address (current: " << rawCity.mayor.address << ") or press Enter to keep current: ";
+   std::cin.getline(mayorAddressInput, sizeof(mayorAddressInput));
+   
+   if (mayorAddressInput[0] != '\0') { 
+       std::strncpy(request.data.updateCity.mayor.address, mayorAddressInput, MAX_MAYOR_ADDRESS);
+       request.data.updateCity.mayor.address[MAX_MAYOR_ADDRESS - 1] = '\0'; // Ensure null termination
+   } else {
+       std::strncpy(request.data.updateCity.mayor.address, rawCity.mayor.address, MAX_MAYOR_ADDRESS); 
+       request.data.updateCity.mayor.address[MAX_MAYOR_ADDRESS - 1] = '\0'; // Ensure null termination
+   }
+
+   // Perform the action
+   Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+    
+   if (response.success)
+   {
+       std::cout << "Successfully updated: " << cityName << "!\n";
+   }
+   else
+   {
+       std::cout << "Failed to update: " << response.error << "\n";
+   }
 }
-
 void CommandDecider::deleteCity(const char* cityName) 
 {
     // Check for which city, then delete it 
