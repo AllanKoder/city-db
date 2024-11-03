@@ -166,18 +166,20 @@ namespace Controllers::City
         
         try
         {
-            // Get the cities cords
-            double* cityCords = repo->getCityById(request.data.cityPair.city1)->coordinates;
-            double cityCords1[2] {cityCords[0], cityCords[1]};
-            
-            cityCords = repo->getCityById(request.data.cityPair.city1)->coordinates;
-            double cityCords2[2] {cityCords[0], cityCords[1]};
-            
-            // Calculate the distance
-            DistanceCalculator* calculator = Services::getInstance()->getDistanceCalculator();
-            double distance = calculator->distanceBetweenCoordinates(cityCords1, cityCords2);
+            // Get the cities
+            Models::City* city1 = repo->getCityById(request.data.cityPair.city1);
+            Models::City* city2 = repo->getCityById(request.data.cityPair.city2);
+            if (city1 == nullptr || city2 == nullptr)
+            {
+                response.success = false;
+                response.error = "One of the cities do not exist";
+                return response;
+            } 
 
-            snprintf(response.message, MAX_RESPONSE_MESSAGE-1, "The distance is %lf.", distance);
+            // Calculate distance from city
+            double distance = (*city1).getKmDistance(*city2);
+
+            snprintf(response.message, MAX_RESPONSE_MESSAGE-1, "The distance is %lf kilometers.", distance);
             response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';
             response.success = true;
         }

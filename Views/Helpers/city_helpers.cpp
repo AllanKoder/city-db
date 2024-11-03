@@ -68,8 +68,8 @@ namespace Views::Helpers
         // Hardcoded Data
         const int hardcodedPopulation[] = {500000, 24000, 20004, 2, 53};
         const int hardcodedYear[] = {1800, 2020, 10, 2034, 2011};
-        const float hardcodedLatitude[] = {34.0522, 34.0522, 34.0522, 34.0522, 34.0522};            // Example latitude for all
-        const float hardcodedLongitude[] = {-118.2437, -118.2437, -118.2437, -118.2437, -118.2437}; // Example longitude for all
+        const float hardcodedLatitude[] = {30.0522, 35.0522, 57.0522, -34.0522, -10.0522};  // Example latitude for all
+        const float hardcodedLongitude[] = {-178.2437, 118.2437, 18.2437, 7.34, 90.01}; // Example longitude for all
 
         // Hardcoded history, mayor names and addresses
         const char *hardcodedHistory[] = {

@@ -15,6 +15,7 @@ namespace Models
         char history[MAX_CITY_HISTORY];
         size_t population;
         unsigned int year;
+        // latitude then longitude
         double coordinates[2];
         Mayor mayor;
         
@@ -25,6 +26,8 @@ namespace Models
 
         const char* printCity() const;
         const char* printCityBrief() const;
+
+        double getKmDistance(const City& other) const;
 
         void setCoordinates(double latitude, double longitude);
     };

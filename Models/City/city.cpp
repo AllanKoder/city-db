@@ -1,6 +1,7 @@
 #include "city.h"
 #include <cstring>
 #include <stdexcept>
+#include "../../Services/services.h"
 
 namespace Models
 {
@@ -55,11 +56,16 @@ namespace Models
         return *this;
     }
 
+    double City::getKmDistance(const City& other) const
+    {
+        return Services::getInstance()->getDistanceCalculator()->HaversineDistanceKm(coordinates, other.coordinates);
+    }
+
     const char* City::printCityBrief() const
     {
         static char cityInfoBrief[1024]; 
         snprintf(cityInfoBrief, sizeof(cityInfoBrief), 
-                "History: %s\nCoordinates: (%.2f, %.2f)",
+                "History: %s\nLatitude: %.2f\nLongitude: %.2f\n",
                 history, coordinates[0], coordinates[1]);
 
         return cityInfoBrief; 
@@ -69,7 +75,7 @@ namespace Models
     {
         static char cityInfo[1024]; 
         snprintf(cityInfo, sizeof(cityInfo), 
-                "City Name: %s\nHistory: %s\nPopulation: %zu\nYear: %u\nCoordinates: (%.2f, %.2f)\n%s",
+                "City Name: %s\nHistory: %s\nPopulation: %zu\nYear: %u\nLatitude: %.2f\nLongitude: %.2f\n%s",
                 name, history, population, year,
                 coordinates[0], coordinates[1],
                 mayor.printMayor()); 

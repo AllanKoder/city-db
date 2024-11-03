@@ -330,6 +330,7 @@ namespace Views::City
         }
     }
 
+    // TODO: make sure both cities exist before doing resolve City from name function
     void calculateDistance(const char *cityName1, const char *cityName2)
     {
         // Get the cities
