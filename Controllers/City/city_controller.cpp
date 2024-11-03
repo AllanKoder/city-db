@@ -163,10 +163,30 @@ namespace Controllers::City
             response.success = true;
             return response;   
         }
+        
+        try
+        {
+            // Get the cities cords
+            double* cityCords = repo->getCityById(request.data.cityPair.city1)->coordinates;
+            double cityCords1[2] {cityCords[0], cityCords[1]};
+            
+            cityCords = repo->getCityById(request.data.cityPair.city1)->coordinates;
+            double cityCords2[2] {cityCords[0], cityCords[1]};
+            
+            // Calculate the distance
+            DistanceCalculator* calculator = Services::getInstance()->getDistanceCalculator();
+            double distance = calculator->distanceBetweenCoordinates(cityCords1, cityCords2);
 
-        strncpy(response.message, "test", MAX_RESPONSE_MESSAGE - 1);
-        response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';
-        response.success = true;
+            snprintf(response.message, MAX_RESPONSE_MESSAGE-1, "The distance is %lf.", distance);
+            response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';
+            response.success = true;
+        }
+        catch(const std::exception& e)
+        {
+            response.success = false;
+            response.error = e.what();
+        }
+        
         return response;
     }
 }

@@ -8,6 +8,7 @@ Services::Services()
     // Initalize the services
     dataRepo = new DataRepository();
     router = new Routes::CommandRouter();
+    distanceCalculator = new DistanceCalculator();
 }
 
 Services* Services::getInstance()
@@ -19,12 +20,17 @@ Services* Services::getInstance()
     return instancePtr;
 }
 
-DataRepository* Services::getDataRepo()
+DataRepository* Services::getDataRepo() const
 {
     return dataRepo;
 }
 
-Routes::CommandRouter* Services::getRouter()
+Routes::CommandRouter* Services::getRouter() const
 {
     return router;
+}
+
+DistanceCalculator* Services::getDistanceCalculator() const
+{
+    return distanceCalculator;
 }

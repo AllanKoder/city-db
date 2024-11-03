@@ -14,6 +14,7 @@ SOURCES = main.cpp \
           CommandLineInterface/command_decider.cpp \
           Services/DataRepository/data_repository.cpp \
           Services/Router/command_router.cpp \
+		  Services/DistanceCalculation/distance_calculator.cpp \
 		  Services/services.cpp \
 		  Views/City/views_city.cpp \
 		  Views/Mayor/views_mayor.cpp \

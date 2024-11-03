@@ -3,6 +3,7 @@
 
 #include "DataRepository/data_repository.h"
 #include "Router/command_router.h"
+#include "DistanceCalculation/distance_calculator.h"
 
 class Services
 {
@@ -12,13 +13,15 @@ private:
     // Put in Services here:
     DataRepository* dataRepo;
     Routes::CommandRouter* router;
+    DistanceCalculator* distanceCalculator;
 
     Services();
 public:
     static Services* getInstance();  
 
-    DataRepository* getDataRepo();
-    Routes::CommandRouter* getRouter();
+    DataRepository* getDataRepo() const;
+    Routes::CommandRouter* getRouter() const;
+    DistanceCalculator* getDistanceCalculator() const;
 };
 
 #endif
