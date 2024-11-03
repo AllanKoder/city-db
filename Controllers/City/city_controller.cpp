@@ -1,6 +1,6 @@
 #include <iostream>
 #include "city_controller.h"
-#include "../../DataRepository/data_repository.h"
+#include "../../Services/services.h"
 
 namespace Controllers::City
 {
@@ -11,7 +11,7 @@ namespace Controllers::City
  
         try {
             const Routes::CreateCityDTO& cityData = request.data.createCity;
-            DataRepository* repo = DataRepository::getInstance();
+            DataRepository* repo = Services::getInstance()->getDataRepo();
  
             // Create the city
             repo->createCity(cityData);
@@ -30,7 +30,7 @@ namespace Controllers::City
     {
         Routes::Response response;
         response.type = Routes::ResponseType::SUCCESS;
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
  
         try {
             const Routes::UpdateCityDTO& cityData = request.data.updateCity;
@@ -52,7 +52,7 @@ namespace Controllers::City
     {
         Routes::Response response;
         response.type = Routes::ResponseType::PRINT_MESSAGE;
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try {
             // Delete the city
@@ -73,7 +73,7 @@ namespace Controllers::City
         // Display the list of cities which are possible to get from the key
         Routes::Response response;
         DataStructures::Vector<size_t>* citiesIds = new DataStructures::Vector<size_t>();
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try
         {
@@ -106,7 +106,7 @@ namespace Controllers::City
     {
         Routes::Response response;
         response.type = Routes::ResponseType::PRINT_MESSAGE;
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try
         {
@@ -154,7 +154,15 @@ namespace Controllers::City
     {
         Routes::Response response;
         response.type = Routes::ResponseType::PRINT_MESSAGE;
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
+
+        if (request.data.cityPair.city1 == request.data.cityPair.city2)
+        {
+            strncpy(response.message, "Those are the same cities, silly!", MAX_RESPONSE_MESSAGE - 1);
+            response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';
+            response.success = true;
+            return response;   
+        }
 
         strncpy(response.message, "test", MAX_RESPONSE_MESSAGE - 1);
         response.message[MAX_RESPONSE_MESSAGE - 1 ] = '\0';

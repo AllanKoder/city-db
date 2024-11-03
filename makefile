@@ -7,14 +7,15 @@ CXXFLAGS = -std=c++17 -Wall -Wextra -Wreorder -g
 # Source files
 SOURCES = main.cpp \
           CommandLineInterface/repl.cpp \
-          DataRepository/data_repository.cpp \
           Models/City/city.cpp \
           Models/Mayor/mayor.cpp \
           Controllers/City/city_controller.cpp \
 		  Controllers/Mayor/mayor_controller.cpp \
           CommandLineInterface/command_decider.cpp \
-          Router/router.cpp \
-          Router/command_router.cpp \
+          Services/DataRepository/data_repository.cpp \
+          Services/Router/router.cpp \
+          Services/Router/command_router.cpp \
+		  Services/services.cpp \
 		  Views/City/views_city.cpp \
 		  Views/Mayor/views_mayor.cpp \
 		  Views/Helpers/city_helpers.cpp 

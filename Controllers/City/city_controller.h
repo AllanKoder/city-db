@@ -1,6 +1,6 @@
 #include "../../Models/City/city.h"
-#include "../../Router/request.h"
-#include "../../Router/response.h"
+#include "../../Services/Router/request.h"
+#include "../../Services/Router/response.h"
 
 namespace Controllers::City
 {

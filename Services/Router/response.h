@@ -1,9 +1,9 @@
 #ifndef RESPONSE_H
 #define RESPONSE_H
 
-#include "../Config/config.h"
-#include "../Models/City/city.h"
-#include "../DataStructures/vector.hpp"
+#include "../../Config/config.h"
+#include "../../Models/City/city.h"
+#include "../../DataStructures/vector.hpp"
 
 namespace Routes
 {

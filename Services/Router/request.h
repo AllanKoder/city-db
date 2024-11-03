@@ -1,6 +1,6 @@
 #ifndef REQUEST_H
 #define REQUEST_H
-#include "../Config/config.h"
+#include "../../Config/config.h"
 #include <cstdlib>
 
 namespace Routes

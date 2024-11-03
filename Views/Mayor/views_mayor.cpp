@@ -7,9 +7,9 @@
 
 #include "../../Models/City/city.h"
 
-#include "../../Router/router.h"
-#include "../../Router/request.h"
-#include "../../Router/response.h"
+#include "../../Services/Router/router.h"
+#include "../../Services/Router/request.h"
+#include "../../Services/Router/response.h"
 
 namespace Views::Mayor
 {

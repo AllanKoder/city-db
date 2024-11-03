@@ -1,9 +1,9 @@
 #ifndef COMMAND_ROUTER_H
 #define COMMAND_ROUTER_H
 
-#include "../Config/config.h"
-#include "../DataStructures/hash_map.hpp"
-#include "../DataStructures/hashable_number.h"
+#include "../../Config/config.h"
+#include "../../DataStructures/hash_map.hpp"
+#include "../../DataStructures/hashable_number.h"
 #include "request.h"
 #include "response.h"
 

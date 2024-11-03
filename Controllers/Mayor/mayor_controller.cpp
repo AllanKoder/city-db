@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../DataRepository/data_repository.h"
+#include "../../Services/services.h"
 #include "mayor_controller.h"
 
 namespace Controllers::Mayor
@@ -8,7 +8,7 @@ namespace Controllers::Mayor
     {
         Routes::Response response;
         response.type = Routes::ResponseType::PRINT_MESSAGE;
-        DataRepository* repo = DataRepository::getInstance();
+        DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try
         {

@@ -3,8 +3,8 @@
 #include "response.h"
 
 // Controllers
-#include "../Controllers/City/city_controller.h"
-#include "../Controllers/Mayor/mayor_controller.h"
+#include "../../Controllers/City/city_controller.h"
+#include "../../Controllers/Mayor/mayor_controller.h"
 
 namespace Routes
 {

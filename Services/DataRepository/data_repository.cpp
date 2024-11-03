@@ -1,20 +1,8 @@
 #include "data_repository.h"
 #include <iostream>
 
-// Initialize the static instance pointer
-DataRepository* DataRepository::instancePtr = nullptr;
 
 DataRepository::DataRepository() : cities(100), idToCity(100), auto_id(0) { }
-
-DataRepository* DataRepository::getInstance()
-{
-    if (instancePtr == nullptr)
-    {
-        instancePtr = new DataRepository();
-    }
-    return instancePtr;
-}
-
 Models::City* DataRepository::getCityById(size_t id) const
 {
     return idToCity.get(DataStructures::HashableNumber(id));
