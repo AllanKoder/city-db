@@ -7,6 +7,7 @@ Services::Services()
 { 
     // Initalize the services
     dataRepo = new DataRepository();
+    router = new Routes::CommandRouter();
 }
 
 Services* Services::getInstance()
@@ -21,4 +22,9 @@ Services* Services::getInstance()
 DataRepository* Services::getDataRepo()
 {
     return dataRepo;
+}
+
+Routes::CommandRouter* Services::getRouter()
+{
+    return router;
 }

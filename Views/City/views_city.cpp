@@ -11,7 +11,7 @@
 #include "../../DataStructures/vector.hpp"
 #include "../../Models/City/city.h"
 
-#include "../../Services/Router/router.h"
+#include "../../Services/services.h"
 #include "../../Services/Router/request.h"
 #include "../../Services/Router/response.h"
 
@@ -82,7 +82,7 @@ namespace Views::City
         std::cout << "Enter mayor's address: ";
         std::cin.getline(request.data.createCity.mayor.address, MAX_MAYOR_ADDRESS);
 
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success)
         {
@@ -258,7 +258,7 @@ namespace Views::City
         }
 
         // Perform the action
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success)
         {
@@ -283,7 +283,7 @@ namespace Views::City
         Routes::Request request;
         request.type = Routes::RequestType::DELETE_CITY;
         request.data.cityId = city.value().id;
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success == true)
         {
@@ -317,7 +317,7 @@ namespace Views::City
 
         Routes::Request request;
         request.type = Routes::RequestType::DISPLAY_CITIES;
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success)
         {
@@ -354,7 +354,7 @@ namespace Views::City
         request.data.cityPair.city1 = city1.value().id;
         request.data.cityPair.city2 = city2.value().id;
 
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
         if (response.success)
         {
             std::cout << "Distance is: " << response.message << "\n";

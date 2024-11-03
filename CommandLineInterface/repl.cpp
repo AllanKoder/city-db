@@ -2,8 +2,6 @@
 #include <iostream>
 #include <cstring>
 
-#include "../DataRepository/data_repository.h"
-#include "../Models/City/city.h"
 #include "../Config/config.h"
 
 #include "command_decider.h"

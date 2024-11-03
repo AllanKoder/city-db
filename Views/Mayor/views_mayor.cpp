@@ -7,7 +7,7 @@
 
 #include "../../Models/City/city.h"
 
-#include "../../Services/Router/router.h"
+#include "../../Services/services.h"
 #include "../../Services/Router/request.h"
 #include "../../Services/Router/response.h"
 
@@ -30,7 +30,7 @@ namespace Views::Mayor
         request.data.cityId = city.value().id;
 
         // Request the mayor 
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
         
         if (response.success)
         {

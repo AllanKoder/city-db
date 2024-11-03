@@ -13,7 +13,6 @@ SOURCES = main.cpp \
 		  Controllers/Mayor/mayor_controller.cpp \
           CommandLineInterface/command_decider.cpp \
           Services/DataRepository/data_repository.cpp \
-          Services/Router/router.cpp \
           Services/Router/command_router.cpp \
 		  Services/services.cpp \
 		  Views/City/views_city.cpp \

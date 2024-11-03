@@ -16,11 +16,11 @@ namespace Routes
 
         // Turns the Enum to the Hashable Number for routing
         DataStructures::HashMap<DataStructures::HashableNumber, CommandHandler> routes;
-    public:
-        CommandRouter();
 
         // Registers a new route (request type and its handler).
         void registerRoute(RequestType type, CommandHandler handler, bool save=false);
+    public:
+        CommandRouter();
 
         // Routes a given request to its registered handler.
         Response route(const Request& request);

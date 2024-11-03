@@ -1,16 +1,7 @@
 #include <cstring>
 #include <cstdio>
 #include <iostream>
-#include <limits>
 #include "../Config/config.h"
-
-#include "../DataStructures/vector.hpp"
-#include "../Models/City/city.h"
-#include "../Models/Mayor/mayor.h"
-
-#include "../Router/router.h"
-#include "../Router/request.h"
-#include "../Router/response.h"
 
 #include "../Views/City/views_city.h"
 #include "../Views/Mayor/views_mayor.h"

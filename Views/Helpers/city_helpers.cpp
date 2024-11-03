@@ -5,7 +5,7 @@
 
 #include "../../DataStructures/vector.hpp"
 
-#include "../../Services/Router/router.h"
+#include "../../Services/services.h"
 #include "../../Services/Router/request.h"
 #include "../../Services/Router/response.h"
 
@@ -18,7 +18,7 @@ namespace Views::Helpers
         request.type = Routes::RequestType::GET_CITY_OPTIONS;
         strncpy(request.data.requestCityOptions.cityName, cityName, MAX_CITY_NAME);
 
-        Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success == false)
         {
@@ -120,7 +120,7 @@ namespace Views::Helpers
             request.data.createCity.mayor.address[MAX_MAYOR_ADDRESS - 1] = '\0';
 
             // Route the request and handle the response
-            Routes::Response response = Routes::Router::getInstance()->getRouter().route(request);
+            Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
             if (response.success)
             {

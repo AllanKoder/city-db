@@ -2,11 +2,26 @@
 #include <cstring>
 #include <iostream>
 
+// Controllers
+#include "../../Controllers/City/city_controller.h"
+#include "../../Controllers/Mayor/mayor_controller.h"
+
 namespace Routes
 {   
-    CommandRouter::CommandRouter() {}
+    CommandRouter::CommandRouter() 
+    {
+        // Initalize Routes here
+        registerRoute(RequestType::CREATE_CITY, Controllers::City::createCity);
+        registerRoute(RequestType::UPDATE_CITY, Controllers::City::updateCity);
+        registerRoute(RequestType::DELETE_CITY, Controllers::City::deleteCity);
+        registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
+        registerRoute(RequestType::DISTANCE_BETWEEN_CITIES, Controllers::City::getDistanceBetweenCities);
+        registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
+        registerRoute(RequestType::DISPLAY_MAYOR, Controllers::Mayor::displayMayor);
+    }
 
     void CommandRouter::registerRoute(RequestType type, CommandHandler handler, bool save) {
+        // Insert the hashable number variant here.
         routes.put(DataStructures::HashableNumber((size_t) type), handler);
     }
 
