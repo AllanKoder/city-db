@@ -51,7 +51,11 @@ void CommandDecider::decideAction(const char *input)
 
     if (strcmp(command, "seed") == 0)
     {
-        Views::Helpers::seed();
+        if (containsArg1(arg1))
+        {
+            unsigned long times = strtoul(arg1, NULL, 10);
+            Views::Helpers::seed(times);
+        }
     }
     else if (strcmp(command, "add") == 0)
     {

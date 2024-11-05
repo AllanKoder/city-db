@@ -55,10 +55,10 @@ namespace Routes
         CREATE_CITY,
         UPDATE_CITY,
         DELETE_CITY,
-        GET_CITY_OPTIONS,
+        GET_CITIES,
+        GET_ALL_CITIES,
         DISTANCE_BETWEEN_CITIES,
         DISPLAY_MAYOR,
-        DISPLAY_CITIES,
     };
 
     /*

@@ -313,20 +313,29 @@ namespace Views::City
 
     void displayCities()
     {
-        std::cout << "Here are the Cities:\n";
-
         Routes::Request request;
-        request.type = Routes::RequestType::DISPLAY_CITIES;
+        request.type = Routes::RequestType::GET_ALL_CITIES;
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
-        if (response.success)
+        if (!response.success)
         {
-            // Print the cities
-            std::cout << response.message << "\n";
+            std::cout << "Failed to get cities: " << response.error << "\n";
+            return;
         }
-        else
+        
+        DataStructures::Vector<Models::City *>* cities = response.data.cities;
+
+        if (cities->size() == 0)
         {
-            std::cout << "Failed to get mayor: " << response.error << "\n";
+            std::cout << "No cities added yet :(\n";
+            return;
+        }
+
+        // Print all cities
+        for (size_t i = 0; i < cities->size(); i++)
+        {
+            std::cout << "City " << i+1 << "'\n";
+            std::cout << (*cities)[i]->printCity() << "\n";
         }
     }
 

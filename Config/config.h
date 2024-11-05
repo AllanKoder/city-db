@@ -17,7 +17,4 @@
 #define MAX_MAYOR_NAME 100
 #define MAX_MAYOR_ADDRESS 100
 
-// Max Cities with same name
-#define MAX_CITIES_SAME_NAME 20
-
 #endif

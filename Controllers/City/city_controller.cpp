@@ -68,11 +68,11 @@ namespace Controllers::City
         return response;
     }
    
-    Routes::Response getCityOptions(const Routes::Request& request)
+    Routes::Response getCities(const Routes::Request& request)
     {
         // Display the list of cities which are possible to get from the key
         Routes::Response response;
-        DataStructures::Vector<size_t>* citiesIds = new DataStructures::Vector<size_t>();
+        response.type = Routes::ResponseType::CITY_LIST;
         DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try
@@ -102,53 +102,37 @@ namespace Controllers::City
         return response;
     }
 
-    Routes::Response displayCities(const Routes::Request& _request)
+    Routes::Response getAllCities(const Routes::Request& request)
     {
+        // Display all Cities
         Routes::Response response;
-        response.type = Routes::ResponseType::PRINT_MESSAGE;
+        response.type = Routes::ResponseType::CITY_LIST;
         DataRepository* repo = Services::getInstance()->getDataRepo();
 
         try
         {
-            const DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
-            
-            char message[MAX_RESPONSE_MESSAGE] {0}; 
-            
-            if (cities->size() == 0) {
-                snprintf(message, sizeof(message), "No cities found.");
-                response.success = true; 
-            }
-            else
+            DataStructures::Vector<Models::City*>* cities = repo->getAllCities();
+
+            // Null cities
+            if (cities == nullptr)
             {
-                // Build the string for displaying all cities
-                size_t offset = 0;
-                for (size_t i = 0; i < cities->size(); i++)
-                {
-                    Models::City* city = (*cities)[i];
-                    if (city)
-                    {
-                        // Use printCity to get formatted details
-                        const char* cityDetails = city->printCity();
-                        offset += snprintf(message + offset, sizeof(message) - offset, "%zu.\n%s\n", i+1, cityDetails);
-
-                        if (offset >= sizeof(message)) {
-                            break; // Prevent buffer overflow
-                        }
-                    }
-                }
-                response.success = true;
+                response.success = false;
+                response.error = "Database not loaded, pointing to nothing";
+                return response;
             }
 
-            strncpy(response.message, message, MAX_RESPONSE_MESSAGE - 1);
-            response.message[MAX_RESPONSE_MESSAGE - 1] = '\0'; 
+            response.data.cities = cities;
+            response.success = true;
         }
         catch(const std::exception& e)
         {
             response.success = false;
             response.error = e.what();
         }
+
         return response;
     }
+
 
     Routes::Response getDistanceBetweenCities(const Routes::Request& request)
     {

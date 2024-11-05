@@ -17,6 +17,7 @@ namespace Routes
         PRINT_MESSAGE,
         SUCCESS,
         CITY_OPTIONS,
+        CITY_LIST,
         REQUEST_NOT_FOUND
     };
     struct Response

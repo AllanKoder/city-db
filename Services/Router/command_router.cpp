@@ -18,10 +18,10 @@ namespace Routes
         registerRoute(RequestType::DELETE_CITY, Controllers::City::deleteCity, true);
         
         // readonly 
-        registerRoute(RequestType::DISPLAY_CITIES, Controllers::City::displayCities);
-        registerRoute(RequestType::DISTANCE_BETWEEN_CITIES, Controllers::City::getDistanceBetweenCities);
-        registerRoute(RequestType::GET_CITY_OPTIONS, Controllers::City::getCityOptions);
+        registerRoute(RequestType::GET_CITIES, Controllers::City::getCities);
+        registerRoute(RequestType::GET_ALL_CITIES, Controllers::City::getAllCities);
         registerRoute(RequestType::DISPLAY_MAYOR, Controllers::Mayor::displayMayor);
+        registerRoute(RequestType::DISTANCE_BETWEEN_CITIES, Controllers::City::getDistanceBetweenCities);
     }
 
     void CommandRouter::registerRoute(RequestType type, CommandHandler handler, bool save) {
