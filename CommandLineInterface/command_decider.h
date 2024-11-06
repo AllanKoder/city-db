@@ -9,7 +9,6 @@ public:
 private:
     bool containsArg1(char* arg1);
     bool containsArg2(char* arg2);
-    void displayPopulation(const char* cityName);
 };
 
 void runREPL();

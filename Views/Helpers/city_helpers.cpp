@@ -11,21 +11,29 @@
 
 namespace Views::Helpers
 {
-    std::optional<const Models::City> resolveCityFromName(const char *cityName)
-    {
-        // Request all cities by the name, then filter out the
+    DataStructures::Vector<Models::City*>* getCitiesByName(const char* cityName) {
+        // Request all cities by the name
         Routes::Request request;
         request.type = Routes::RequestType::GET_CITIES;
         strncpy(request.data.requestCityOptions.cityName, cityName, MAX_CITY_NAME);
 
+        // Send the request and get the response
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
-        if (response.success == false)
-        {
+        // Check if the response was successful
+        if (!response.success) {
             std::cout << "Failed: " << response.error << "\n";
-            return {};
+            return nullptr; // Return nullptr on failure
         }
-        DataStructures::Vector<Models::City *>* cities = response.data.cities;
+
+        // Return the list of cities if successful
+        return response.data.cities;
+    }
+
+    std::optional<const Models::City> resolveCityFromName(const char *cityName)
+    {
+        // Request all cities by the name, then filter out the cities
+        DataStructures::Vector<Models::City *>* cities = getCitiesByName(cityName); 
 
         if (cities == nullptr || cities->size() == 0)
         {

@@ -339,9 +339,70 @@ namespace Views::City
         }
     }
 
-    // TODO: make sure both cities exist before doing resolve City from name function
+    void displayHistory(const char* cityName)
+    {
+        // Check for which city, then display the history of it
+        std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
+        if (city.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
+        std::cout << "City History: " << city.value().history << "\n";
+    }
+
+    void displayPopulation(const char* cityName)
+    {
+        // Check for which city, then display the population of it
+        std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
+        if (city.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
+        std::cout << "City Population: " << city.value().population << "\n";
+        
+    }
+
+    void displayYear(const char* cityName)
+    {
+        // Check for which city, then display the year of it
+        std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
+        if (city.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
+        std::cout << "City Year: " << city.value().year << "\n";
+    }
+
+    void displayCoordinates(const char* cityName)
+    {
+        // Check for which city, then display the coordinates of it
+        std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
+        if (city.has_value() == false)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
+        std::cout << "City (Latitude: " << city.value().coordinates[0] << ", Longitude: " 
+        << city.value().coordinates[1] << ")\n";
+    }
+
     void calculateDistance(const char *cityName1, const char *cityName2)
     {
+        // Check if second city exists:
+        auto* cities1 = Views::Helpers::getCitiesByName(cityName2);
+        if (cities1 == nullptr || cities1->size() == 0)
+        {
+            std::cout << "Invalid city name\n";
+            return;
+        }
+
         // Get the cities
         std::optional<const Models::City> city1 = Views::Helpers::resolveCityFromName(cityName1);
         if (city1.has_value() == false)
@@ -351,6 +412,7 @@ namespace Views::City
         }
 
         std::optional<const Models::City> city2 = Views::Helpers::resolveCityFromName(cityName2);
+        // Good practice to double check in case
         if (city2.has_value() == false)
         {
             std::cout << "Invalid city name\n";

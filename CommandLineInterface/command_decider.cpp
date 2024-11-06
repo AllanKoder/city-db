@@ -110,19 +110,28 @@ void CommandDecider::decideAction(const char *input)
     {
         Views::Helpers::exit_app();
     }
+    else if (strcmp(command, "history") == 0)
+    {
+        if (containsArg1(arg1))
+            Views::City::displayHistory(arg1);
+    }
     else if (strcmp(command, "population") == 0)
     {
         if (containsArg1(arg1))
-            displayPopulation(arg1);
+            Views::City::displayPopulation(arg1);
+    }
+    else if (strcmp(command, "year") == 0)
+    {
+        if (containsArg1(arg1))
+            Views::City::displayYear(arg1);
+    }
+    else if (strcmp(command, "coordinates") == 0)
+    {
+        if (containsArg1(arg1))
+            Views::City::displayCoordinates(arg1);
     }
     else
     {
         std::cout << "Unknown command\n";
     }
-}
-
-
-void CommandDecider::displayPopulation(const char *cityName)
-{
-    std::cout << "Displaying population for: " << cityName << "\n";
 }
