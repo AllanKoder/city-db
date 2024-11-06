@@ -24,9 +24,6 @@ void runREPL()
         std::cin.clear();
         std::cin.getline(input, MAX_INPUT_LENGTH);
 
-        if (strcmp(input, "exit") == 0) {
-            break;
-        } 
         decider.decideAction(input);
     }
 }

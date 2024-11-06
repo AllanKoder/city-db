@@ -334,8 +334,8 @@ namespace Views::City
         // Print all cities
         for (size_t i = 0; i < cities->size(); i++)
         {
-            std::cout << "City " << i+1 << "'\n";
-            std::cout << (*cities)[i]->printCity() << "\n";
+            std::cout << "City " << i+1 << ".\n";
+            std::cout << (*cities)[i]->printCity() << "\n\n";
         }
     }
 

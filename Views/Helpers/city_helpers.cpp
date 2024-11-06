@@ -54,7 +54,6 @@ namespace Views::Helpers
         }
         // return the const cast of the city
         const Models::City city = Models::City(*(*cities)[chosen_city]);
-        std::cout << "ID: " << city.id << "\n";
         return city;
     }
 
@@ -132,5 +131,27 @@ namespace Views::Helpers
             }
         }
         std::cout << "Seeded!\n";
+    }
+
+    void save()
+    {
+        std::cout << "saving...\n";
+        Services::getInstance()->getRouter()->saveQueueToLog();
+        std::cout << "saved!\n";
+    }
+
+    void exit_app()
+    {
+        // Quit the app with an exit()
+        // First, ask if the users wants to save, then exit the application
+        std::cout << "Would you like to save before quiting (Y/n)?\n";
+        int choice;
+        choice = getchar();
+        if (std::tolower(choice) != 'n')
+        {
+            save();
+        }
+        std::cout << "quitted.";
+        exit(EXIT_SUCCESS);
     }
 }

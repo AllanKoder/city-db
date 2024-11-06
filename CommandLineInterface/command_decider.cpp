@@ -102,6 +102,14 @@ void CommandDecider::decideAction(const char *input)
         if (containsArg1(arg1) && containsArg2(arg2))
             Views::City::calculateDistance(arg1, arg2);
     }
+    else if (strcmp(command, "save") == 0)
+    {
+        Views::Helpers::save();
+    }   
+    else if (strcmp(command, "exit") == 0)
+    {
+        Views::Helpers::exit_app();
+    }
     else if (strcmp(command, "population") == 0)
     {
         if (containsArg1(arg1))

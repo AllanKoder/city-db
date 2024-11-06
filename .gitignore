@@ -6,3 +6,6 @@
 
 # Object Files
 *.o
+
+# Database
+*.bytes

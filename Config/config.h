@@ -17,4 +17,7 @@
 #define MAX_MAYOR_NAME 100
 #define MAX_MAYOR_ADDRESS 100
 
+// Database
+#define DATABASE_FILE "database.bytes"
+
 #endif
