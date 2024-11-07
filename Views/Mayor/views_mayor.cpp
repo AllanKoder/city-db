@@ -13,10 +13,9 @@
 
 namespace Views::Mayor
 {
-    void displayMayor(const char* cityName) 
+    void displayMayor(const char *cityName)
     {
-      //std::cout << "Displaying mayor information for: " << cityName << "\n";
-        // Check the city, then print the mayor
+        //  Check the city, then print the mayor
         std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
         if (city.has_value() == false)
         {
@@ -29,9 +28,9 @@ namespace Views::Mayor
         request.type = Routes::RequestType::DISPLAY_MAYOR;
         request.data.cityId = city.value().id;
 
-        // Request the mayor 
+        // Request the mayor
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
-        
+
         if (response.success)
         {
             // Print the message

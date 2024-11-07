@@ -25,6 +25,7 @@ namespace Views::City
             return;
         }
 
+        // Crafting a request to the router
         Routes::Request request;
         request.type = Routes::RequestType::CREATE_CITY;
 
@@ -283,6 +284,8 @@ namespace Views::City
         Routes::Request request;
         request.type = Routes::RequestType::DELETE_CITY;
         request.data.cityId = city.value().id;
+
+        // Route delete city
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         if (response.success == true)
@@ -322,9 +325,10 @@ namespace Views::City
             std::cout << "Failed to get cities: " << response.error << "\n";
             return;
         }
-        
-        DataStructures::Vector<Models::City *>* cities = response.data.cities;
 
+        DataStructures::Vector<Models::City *> *cities = response.data.cities;
+
+        // No cities returned
         if (cities->size() == 0)
         {
             std::cout << "No cities added yet :(\n";
@@ -334,12 +338,12 @@ namespace Views::City
         // Print all cities
         for (size_t i = 0; i < cities->size(); i++)
         {
-            std::cout << "City " << i+1 << ".\n";
+            std::cout << "City " << i + 1 << ".\n";
             std::cout << (*cities)[i]->printCity() << "\n\n";
         }
     }
 
-    void displayHistory(const char* cityName)
+    void displayHistory(const char *cityName)
     {
         // Check for which city, then display the history of it
         std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
@@ -352,7 +356,7 @@ namespace Views::City
         std::cout << "City History: " << city.value().history << "\n";
     }
 
-    void displayPopulation(const char* cityName)
+    void displayPopulation(const char *cityName)
     {
         // Check for which city, then display the population of it
         std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
@@ -363,10 +367,9 @@ namespace Views::City
         }
 
         std::cout << "City Population: " << city.value().population << "\n";
-        
     }
 
-    void displayYear(const char* cityName)
+    void displayYear(const char *cityName)
     {
         // Check for which city, then display the year of it
         std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
@@ -379,7 +382,7 @@ namespace Views::City
         std::cout << "City Year: " << city.value().year << "\n";
     }
 
-    void displayCoordinates(const char* cityName)
+    void displayCoordinates(const char *cityName)
     {
         // Check for which city, then display the coordinates of it
         std::optional<const Models::City> city = Views::Helpers::resolveCityFromName(cityName);
@@ -389,17 +392,18 @@ namespace Views::City
             return;
         }
 
-        std::cout << "City (Latitude: " << city.value().coordinates[0] << ", Longitude: " 
-        << city.value().coordinates[1] << ")\n";
+        std::cout << "City (Latitude: " << city.value().coordinates[0] << ", Longitude: "
+                  << city.value().coordinates[1] << ")\n";
     }
 
     void calculateDistance(const char *cityName1, const char *cityName2)
     {
         // Check if second city exists:
-        auto* cities1 = Views::Helpers::getCitiesByName(cityName2);
+        auto *cities1 = Views::Helpers::getCitiesByName(cityName2);
+        // If does not exist, don't call this function
         if (cities1 == nullptr || cities1->size() == 0)
         {
-            std::cout << "Invalid city name\n";
+            std::cout << "Invalid city name, argument 2\n";
             return;
         }
 
@@ -407,7 +411,7 @@ namespace Views::City
         std::optional<const Models::City> city1 = Views::Helpers::resolveCityFromName(cityName1);
         if (city1.has_value() == false)
         {
-            std::cout << "Invalid city name\n";
+            std::cout << "Invalid city name, argument 1\n";
             return;
         }
 
@@ -419,13 +423,13 @@ namespace Views::City
             return;
         }
         std::cout << "Calculating distance between " << cityName1 << " and " << cityName2 << ":\n";
-        
+
         Routes::Request request;
         request.type = Routes::RequestType::DISTANCE_BETWEEN_CITIES;
 
         request.data.cityPair.city1 = city1.value().id;
         request.data.cityPair.city2 = city2.value().id;
-
+    
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
         if (response.success)
         {

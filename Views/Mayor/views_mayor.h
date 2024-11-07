@@ -3,6 +3,11 @@
 
 namespace Views::Mayor
 {
-    void displayMayor(const char* cityName);
+    /**
+     * @brief Displays information about the mayor of a specific city
+     * @param cityName The name of the city whose mayor's information to display
+     */
+    void displayMayor(const char *cityName);
 }
-#endif
+
+#endif // VIEWS_MAYOR_H

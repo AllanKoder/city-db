@@ -1,4 +1,5 @@
-
-Running Tests as of now:
+Running Tests:
 
 `g++ .\run.cpp .\DataStructures\test_hash_map.cpp .\DataStructures\test_vector.cpp testing.cpp -o run`
+
+Tests were only made for the data structures as they were the most complicated to implement.

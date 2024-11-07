@@ -1,6 +1,6 @@
 #include <cstring>
 #include <iostream>
-#include <limits> 
+#include <limits>
 
 #include "city_helpers.h"
 #include "../../Config/config.h"
@@ -13,7 +13,8 @@
 
 namespace Views::Helpers
 {
-    DataStructures::Vector<Models::City*>* getCitiesByName(const char* cityName) {
+    DataStructures::Vector<Models::City *> *getCitiesByName(const char *cityName)
+    {
         // Request all cities by the name
         Routes::Request request;
         request.type = Routes::RequestType::GET_CITIES;
@@ -23,7 +24,8 @@ namespace Views::Helpers
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
 
         // Check if the response was successful
-        if (!response.success) {
+        if (!response.success)
+        {
             std::cout << "Failed: " << response.error << "\n";
             return nullptr; // Return nullptr on failure
         }
@@ -35,7 +37,7 @@ namespace Views::Helpers
     std::optional<const Models::City> resolveCityFromName(const char *cityName)
     {
         // Request all cities by the name, then filter out the cities
-        DataStructures::Vector<Models::City *>* cities = getCitiesByName(cityName); 
+        DataStructures::Vector<Models::City *> *cities = getCitiesByName(cityName);
 
         if (cities == nullptr || cities->size() == 0)
         {
@@ -80,8 +82,8 @@ namespace Views::Helpers
             const int hardcodedPopulation[] = {500000, 24000, 20004, 2, 53};
 
             const int hardcodedYear[] = {1800, 2020, 10, 2034, 2011};
-            const float hardcodedLatitude[] = {30.0522, 35.0522, 57.0522, -34.0522, -10.0522};  // Example latitude for all
-            const float hardcodedLongitude[] = {-178.2437, 118.2437, 18.2437, 7.34, 90.01}; // Example longitude for all
+            const float hardcodedLatitude[] = {30.0522, 35.0522, 57.0522, -34.0522, -10.0522}; // Example latitude for all
+            const float hardcodedLongitude[] = {-178.2437, 118.2437, 18.2437, 7.34, 90.01};    // Example longitude for all
 
             // Hardcoded history, mayor names and addresses
             const char *hardcodedHistory[] = {
@@ -157,6 +159,7 @@ namespace Views::Helpers
         std::cout << "Would you like to save before quiting (Y/n)?\n";
         int choice;
         choice = getchar();
+        // default is Y, so only if input is "n", then we don't save
         if (std::tolower(choice) != 'n')
         {
             save();
