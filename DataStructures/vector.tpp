@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <cstddef>
 
-namespace DataStructures 
+namespace DataStructures
 {
     template <typename T>
     Vector<T>::Vector(size_t initalCapacity) : capacity(initalCapacity), elementCount(0)
@@ -21,7 +21,7 @@ namespace DataStructures
     }
 
     template <typename T>
-    Vector<T>::Vector(const Vector& other) : elementCount(other.elementCount), capacity(other.capacity)
+    Vector<T>::Vector(const Vector &other) : elementCount(other.elementCount), capacity(other.capacity)
     {
         // Create the array
         array = new T[capacity];
@@ -30,16 +30,17 @@ namespace DataStructures
     }
 
     template <typename T>
-    Vector<T>::~Vector() 
+    Vector<T>::~Vector()
     {
         // Delete
         delete[] array;
     }
 
     template <typename T>
-    Vector<T>& Vector<T>::operator=(const Vector& other) 
+    Vector<T> &Vector<T>::operator=(const Vector &other)
     {
-        if (this != &other) {
+        if (this != &other)
+        {
             // Delete since we lose the pointer to a new one
             delete[] array;
             // Copy the other element's properties
@@ -51,16 +52,18 @@ namespace DataStructures
         return *this;
     }
 
-    template<typename T>
-    Vector<T>& Vector<T>::operator=(Vector&& other) noexcept {
-        if (this != &other) {
-            delete[] array;  // Free existing resources
-            
+    template <typename T>
+    Vector<T> &Vector<T>::operator=(Vector &&other) noexcept
+    {
+        if (this != &other)
+        {
+            delete[] array; // Free existing resources
+
             // Transfer ownership
             array = other.array;
             elementCount = other.elementCount;
             capacity = other.capacity;
-            
+
             // Reset source object
             other.array = nullptr;
             other.elementCount = 0;
@@ -70,9 +73,10 @@ namespace DataStructures
     }
 
     template <typename T>
-    T& Vector<T>::operator[](size_t index)
+    T &Vector<T>::operator[](size_t index)
     {
-        if (index >= this->capacity) {
+        if (index >= this->capacity)
+        {
             throw std::out_of_range("Index out of bounds");
         }
         // return the element
@@ -80,9 +84,10 @@ namespace DataStructures
     }
 
     template <typename T>
-    const T& Vector<T>::operator[](size_t index) const
+    const T &Vector<T>::operator[](size_t index) const
     {
-        if (index >= this->capacity) {
+        if (index >= this->capacity)
+        {
             throw std::out_of_range("Index out of bounds");
         }
         // return the const element
@@ -96,19 +101,22 @@ namespace DataStructures
     }
 
     template <typename T>
-    void Vector<T>::add(const T& element) 
+    void Vector<T>::add(const T &element)
     {
-        if (elementCount >= capacity) resize(static_cast<unsigned int>(capacity * 1.5) + 1);
+        if (elementCount >= capacity)
+            resize(static_cast<unsigned int>(capacity * 1.5) + 1);
         // Add the element
         array[elementCount++] = element;
     }
 
     template <typename T>
-    void Vector<T>::remove(const T& element)
+    void Vector<T>::remove(const T &element)
     {
         // Shift all of the elements back by one once found, does not call destructor.
-        for (size_t i = 0; i < elementCount; ++i) {
-            if (array[i] == element) {
+        for (size_t i = 0; i < elementCount; ++i)
+        {
+            if (array[i] == element)
+            {
                 // Found, now shift everything else back by 1
                 std::copy(array + i + 1, array + elementCount, array + i);
                 --elementCount;
@@ -126,7 +134,7 @@ namespace DataStructures
         if (newCapacity > capacity)
         {
             // Make a bigger array and copy over the past elements
-            T* new_array = new T[newCapacity];
+            T *new_array = new T[newCapacity];
             std::copy(array, array + elementCount, new_array);
             delete[] array;
             array = new_array;
@@ -138,8 +146,9 @@ namespace DataStructures
     void Vector<T>::clear()
     {
         // remove all the elements by calling their destructor
-        for (size_t i = 0; i < elementCount; ++i) {
-            array[i].~T();  // Call destructor for each element
+        for (size_t i = 0; i < elementCount; ++i)
+        {
+            array[i].~T(); // Call destructor for each element
         }
         // The elements still exist, but we can overwrite them.
         elementCount = 0;
