@@ -5,17 +5,13 @@
 #include "../Config/config.h"
 #include "../Services/services.h"
 
-#include "command_decider.h"
+#include "view_decider.h"
 
 void runREPL() 
 { 
-    // Get saved data
-    // TODO: add error handling.
-    Services::getInstance()->getRouter()->loadDataFromLog();
-
     std::cout << "Started.\n";
     char* input = new char[MAX_INPUT_LENGTH];
-    CommandDecider decider;
+    ViewDecider decider;
 
     while(true)
     {
@@ -24,6 +20,7 @@ void runREPL()
         std::cin.clear();
         std::cin.getline(input, MAX_INPUT_LENGTH);
 
-        decider.decideAction(input);
+        // Decide which view to take, depending on the user input
+        decider.decideView(input);
     }
 }

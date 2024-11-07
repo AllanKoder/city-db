@@ -5,7 +5,7 @@ Services* Services::instancePtr = nullptr;
 
 Services::Services() 
 { 
-    // Initalize the services
+    // Initalize the services, singletons
     dataRepo = new DataRepository();
     router = new Routes::CommandRouter();
     distanceCalculator = new DistanceCalculator();

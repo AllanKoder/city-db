@@ -7,9 +7,9 @@
 #include "../Views/Mayor/views_mayor.h"
 #include "../Views/Helpers/city_helpers.h"
 
-#include "command_decider.h"
+#include "view_decider.h"
 
-bool CommandDecider::containsArg1(char *arg1)
+bool ViewDecider::containsArg1(char *arg1)
 {
     if (arg1 == nullptr || strcmp(arg1, "") == 0)
     {
@@ -19,7 +19,7 @@ bool CommandDecider::containsArg1(char *arg1)
     return true;
 }
 
-bool CommandDecider::containsArg2(char *arg2)
+bool ViewDecider::containsArg2(char *arg2)
 {
     if (arg2 == nullptr || strcmp(arg2, "") == 0)
     {
@@ -29,7 +29,7 @@ bool CommandDecider::containsArg2(char *arg2)
     return true;
 }
 
-void CommandDecider::decideAction(const char *input)
+void ViewDecider::decideView(const char *input)
 {
     if (input == nullptr || strlen(input) == 0)
     {
@@ -37,22 +37,32 @@ void CommandDecider::decideAction(const char *input)
         return;
     }
 
+    // Store the command
     char command[MAX_INPUT_LENGTH] = "";
     char arg1[MAX_INPUT_LENGTH] = "";
     char arg2[MAX_INPUT_LENGTH] = "";
 
-    int parsed = sscanf(input, "%s %s %s", command, arg1, arg2);
-
+    // Parse the string, with buffer limits
+    int parsed = sscanf(input, "%999s %999s %999s", command, arg1, arg2);
+    
+    // Ensure null termination
+    command[MAX_INPUT_LENGTH - 1] = 0;
+    arg1[MAX_INPUT_LENGTH - 1] = 0;
+    arg2[MAX_INPUT_LENGTH - 1] = 0;
+    
+    // Nothing read
     if (parsed < 1)
     {
         std::cout << "Invalid input: No command provided\n";
         return;
     }
 
+    // Perform the right command depending on the first string
     if (strcmp(command, "seed") == 0)
     {
         if (containsArg1(arg1))
         {
+            // turn number to int
             int times = std::stoi(arg1, NULL, 10);
             Views::Helpers::seed(times);
         }
