@@ -53,7 +53,7 @@ void CommandDecider::decideAction(const char *input)
     {
         if (containsArg1(arg1))
         {
-            unsigned long times = strtoul(arg1, NULL, 10);
+            int times = std::stoi(arg1, NULL, 10);
             Views::Helpers::seed(times);
         }
     }

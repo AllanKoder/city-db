@@ -1,9 +1,7 @@
 #ifndef VECTOR_HPP 
 #define VECTOR_HPP
 
-#include <stdexcept>
 #include <initializer_list>
-#include <cstddef>
 #include <cstdint>
 
 namespace DataStructures 

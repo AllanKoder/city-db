@@ -1,5 +1,7 @@
 #include <cstring>
 #include <iostream>
+#include <limits> 
+
 #include "city_helpers.h"
 #include "../../Config/config.h"
 
@@ -65,11 +67,11 @@ namespace Views::Helpers
         return city;
     }
 
-    void seed(unsigned long times)
+    void seed(int times)
     {
         for (int i = 0; i < times; i++)
         {
-            const unsigned int dataSize = 5;
+            const int dataSize = 5;
 
             // Hardcoded city names
             const char *cityName[] = {"london", "oxford", "london", "faker", "calgary"};

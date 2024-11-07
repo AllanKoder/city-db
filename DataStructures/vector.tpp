@@ -1,4 +1,6 @@
 #include "vector.hpp"
+#include <stdexcept>
+#include <cstddef>
 
 namespace DataStructures 
 {
