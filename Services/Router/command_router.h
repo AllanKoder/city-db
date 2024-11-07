@@ -8,25 +8,63 @@
 #include "response.h"
 
 namespace Routes
-{ 
-    // class for routing requests to designated functions.
-    class CommandRouter {
+{
+    /**
+     * @brief Routes requests to designated handler controller.
+     * This is the mediator between the Controllers and the Views.
+     *
+     * This class manages the routing of requests to their appropriate handler functions,
+     * and provides functionality for request logging and replay.
+     */
+    class CommandRouter
+    {
     private:
-        typedef Response (*CommandHandler)(const Request& request);
+        // Function pointer type for request handlers
+        typedef Response (*CommandHandler)(const Request &request);
 
-        // Turns the Enum to the Hashable Number for routing
+        // Maps request types to their handler functions
         DataStructures::HashMap<DataStructures::HashableNumber, CommandHandler> routes;
+
+        // Indicates whether a request type should be saved for logging
         DataStructures::HashMap<DataStructures::HashableNumber, bool> saveRequest;
+
+        // Queue for storing requests that need to be logged
         DataStructures::Vector<Request> requestQueue;
 
-        // Registers a new route (request type and its handler).
-        void registerRoute(RequestType type, CommandHandler handler, bool save=false);
-        void saveRequestToQueue(const Request& request);
+        /**
+         * @brief Registers a new route (request type and its handler).
+         * @param type The type of request to register.
+         * @param handler The function to handle this request type.
+         * @param save Whether to save this request type for logging (default: false).
+         */
+        void registerRoute(RequestType type, CommandHandler handler, bool save = false);
+
+        /**
+         * @brief Saves a request to the queue for later logging.
+         * @param request The request to save.
+         */
+        void saveRequestToQueue(const Request &request);
+
     public:
+        // Constructor
         CommandRouter();
-        // Routes a given request to its registered handler.
-        Response route(const Request& request, bool saveRequest = true);
+
+        /**
+         * @brief Routes a given request to its registered handler.
+         * @param request The request to route.
+         * @param saveRequest Whether to save this request for logging (default: true).
+         * @return The response from the handler function.
+         */
+        Response route(const Request &request, bool saveRequest = true);
+
+        /**
+         * @brief Loads and replays requests from a log file.
+         */
         void loadDataFromLog();
+
+        /**
+         * @brief Saves the current request queue to a log file.
+         */
         void saveQueueToLog();
     };
 }

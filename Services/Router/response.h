@@ -7,10 +7,9 @@
 
 namespace Routes
 {
-    /*
+    /**
      * @brief Handles the responses from the router
      * Responses do not need to be POD, and can be C++ specific
-     * 
      */
     enum class ResponseType 
     {
