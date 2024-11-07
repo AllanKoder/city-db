@@ -7,16 +7,25 @@
 
 namespace Models
 {
+    /**
+     * @brief A Model to hold the fields of a City
+     * including, name, history, population, etc..
+     * As well as other helper functions
+     * 
+     */
     class City
     {
     public:
+        // Primary key
         size_t id;
         char name[MAX_CITY_NAME];
         char history[MAX_CITY_HISTORY];
         size_t population;
+        // Founding year
         unsigned int year;
-        // latitude then longitude
+        // Latitude, then Longitude
         double coordinates[2];
+        // Mayor Model
         Mayor mayor;
         
         City();
@@ -24,12 +33,23 @@ namespace Models
         City(const City& other);
         City& operator=(const City& other);
 
+        /**
+         * @brief Returns a string with all the details of the city
+         */
         const char* printCity() const;
+        
+        /**
+         * @brief Returns a string with a brief overview of the details of a city
+         */
         const char* printCityBrief() const;
 
+        /**
+         * @brief get the distance in kilometers from another city, based on latitude and longitude
+         * 
+         * @param other Another city to compare against
+         * @returns The distance in kilometers
+         */
         double getKmDistance(const City& other) const;
-
-        void setCoordinates(double latitude, double longitude);
     };
 }
 

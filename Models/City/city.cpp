@@ -82,10 +82,4 @@ namespace Models
 
         return cityInfo; 
     }
-
-    void City::setCoordinates(double latitude, double longitude)
-    {
-        coordinates[0] = latitude;
-        coordinates[1] = longitude;
-    }
 }
