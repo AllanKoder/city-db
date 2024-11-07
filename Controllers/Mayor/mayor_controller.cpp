@@ -12,13 +12,18 @@ namespace Controllers::Mayor
 
         try
         {
+            // Get the city from id
             Models::City* city = repo->getCityById(request.data.cityId);
+            
+            // City does not exist
             if (city == nullptr)
             {
                 snprintf(response.message, MAX_RESPONSE_MESSAGE, "Cannot find the city requested");
             }
-            
-            snprintf(response.message, MAX_RESPONSE_MESSAGE, city->mayor.printMayor());
+            else
+            {
+                snprintf(response.message, MAX_RESPONSE_MESSAGE, city->mayor.printMayor());
+            }
             response.success = true;
         }
         catch(const std::exception& e)
