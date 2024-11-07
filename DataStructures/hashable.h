@@ -16,7 +16,7 @@ namespace DataStructures
 
         // Pure virtual function for comparing equality with another Hashable object
         // Prefered areEqual over operator== to be more verbose.
-        virtual bool areEqual(const Hashable& other) const = 0;
+        virtual bool areEqual(const Hashable &other) const = 0;
     };
 }
 

@@ -14,19 +14,22 @@ namespace DataStructures
         // Constructor
         HashableNumber(size_t number = 0) : number(number) {}
 
-        HashableNumber(const HashableNumber& other) {
+        HashableNumber(const HashableNumber &other)
+        {
             number = other.number;
         }
 
         // Override hash function, just return the number
-        size_t hash() const override {
+        size_t hash() const override
+        {
             return number;
         }
 
         // equality function
-        bool areEqual(const Hashable& other) const override {
-            const HashableNumber* othernNum = dynamic_cast<const HashableNumber*>(&other);
-            return othernNum->number == number; 
+        bool areEqual(const Hashable &other) const override
+        {
+            const HashableNumber *othernNum = dynamic_cast<const HashableNumber *>(&other);
+            return othernNum->number == number;
         }
     };
 }

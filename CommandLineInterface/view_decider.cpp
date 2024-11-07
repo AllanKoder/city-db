@@ -44,12 +44,12 @@ void ViewDecider::decideView(const char *input)
 
     // Parse the string, with buffer limits
     int parsed = sscanf(input, "%999s %999s %999s", command, arg1, arg2);
-    
+
     // Ensure null termination
     command[MAX_INPUT_LENGTH - 1] = 0;
     arg1[MAX_INPUT_LENGTH - 1] = 0;
     arg2[MAX_INPUT_LENGTH - 1] = 0;
-    
+
     // Nothing read
     if (parsed < 1)
     {
@@ -115,7 +115,7 @@ void ViewDecider::decideView(const char *input)
     else if (strcmp(command, "save") == 0)
     {
         Views::Helpers::save();
-    }   
+    }
     else if (strcmp(command, "exit") == 0)
     {
         Views::Helpers::exit_app();

@@ -11,7 +11,6 @@ namespace Models
      * @brief A Model to hold the fields of a City
      * including, name, history, population, etc..
      * As well as other helper functions
-     *
      */
     class City
     {

@@ -64,22 +64,25 @@ namespace DataStructures
         return key.hash(); // Use the hash method from the Hashable interface
     }
 
-    template<typename K, typename V>
-    void HashMap<K,V>::rehash()
+    template <typename K, typename V>
+    void HashMap<K, V>::rehash()
     {
         // Set the new size as double
         size_t newCapacity = capacity * 2;
         // Get the new bucket
-        KeyValuePair* newBuckets = new KeyValuePair[newCapacity];
+        KeyValuePair *newBuckets = new KeyValuePair[newCapacity];
 
         // Go through the old bucket to rehash into the new bigger bucket
-        for (size_t i = 0; i < capacity; ++i) {
+        for (size_t i = 0; i < capacity; ++i)
+        {
             // If there is a key/value pair here
-            if (buckets[i].state == BucketState::OCCUPIED) {
+            if (buckets[i].state == BucketState::OCCUPIED)
+            {
                 // rehash
                 size_t newIndex = hash(buckets[i].key) % newCapacity;
-                
-                while (newBuckets[newIndex].state == BucketState::OCCUPIED) {
+
+                while (newBuckets[newIndex].state == BucketState::OCCUPIED)
+                {
                     newIndex = (newIndex + 1) % newCapacity; // Find next available slot
                 }
 
@@ -95,11 +98,12 @@ namespace DataStructures
         capacity = newCapacity;
     }
 
-    template<typename K, typename V>
-    void HashMap<K,V>::put(const K& key, const V& value)
+    template <typename K, typename V>
+    void HashMap<K, V>::put(const K &key, const V &value)
     {
         // If past load factor, rehash
-        if (static_cast<float>(elementCount) / capacity > MAX_LOAD_FACTOR) {
+        if (static_cast<float>(elementCount) / capacity > MAX_LOAD_FACTOR)
+        {
             rehash();
         }
 
@@ -107,8 +111,10 @@ namespace DataStructures
         size_t index = hash(key) % capacity;
 
         // Linear probing for collision resolution
-        while (buckets[index].state == BucketState::OCCUPIED) {
-            if (buckets[index].key.areEqual(key)) { // Use areEqual to compare keys, from Hashable interface
+        while (buckets[index].state == BucketState::OCCUPIED)
+        {
+            if (buckets[index].key.areEqual(key))
+            {                                 // Use areEqual to compare keys, from Hashable interface
                 buckets[index].value = value; // Update value if key exists
                 return;
             }
@@ -118,7 +124,7 @@ namespace DataStructures
         // Insert new key-value pair
         buckets[index] = KeyValuePair(key, value);
         buckets[index].state = BucketState::OCCUPIED; // Set state to OCCUPIED
-        ++elementCount; // Increment element count
+        ++elementCount;                               // Increment element count
     }
 
     template <typename K, typename V>
@@ -154,8 +160,8 @@ namespace DataStructures
             if (buckets[index].state == BucketState::OCCUPIED && buckets[index].key.areEqual(key))
             {
                 buckets[index].state = BucketState::DELETED; // Mark as deleted
-                --elementCount; // Decrement count
-                return; // Successfully removed
+                --elementCount;                              // Decrement count
+                return;                                      // Successfully removed
             }
             index = (index + 1) % capacity; // Linear probing
         }
@@ -186,7 +192,7 @@ namespace DataStructures
     {
         // output
         Vector<V> values;
-        
+
         // Go through all the occupied keys, and add the values
         for (size_t i = 0; i < capacity; ++i)
         {
