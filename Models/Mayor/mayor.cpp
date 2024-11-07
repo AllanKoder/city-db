@@ -51,7 +51,9 @@ namespace Models
 
     const char* Mayor::printMayor() const
     {
+        // Static to persist
         static char mayorInfo[256];
+        // Print the mayor fields
         snprintf(mayorInfo, sizeof(mayorInfo), "Mayor Name: %s\nAddress: %s", this->name, this->address);
 
         return mayorInfo;
