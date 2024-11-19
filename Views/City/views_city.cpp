@@ -417,7 +417,7 @@ namespace Views::City
             return;
         }
 
-        std::cout << "City Year: " << city.value().year << "\n";
+        std::cout << "City Founding Year: " << city.value().year << "\n";
     }
 
     void displayCoordinates(const char *cityName)
