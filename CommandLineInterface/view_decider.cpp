@@ -82,6 +82,17 @@ void ViewDecider::decideView(const char *input)
         if (containsArg1(arg1))
             Views::City::deleteCity(arg1);
     }
+    else if (strcmp(command, "sorted") == 0)
+    {
+        if (strcmp(arg1, "cities") == 0)
+        {
+            Views::City::sortedCities();
+        }
+        else
+        {
+            std::cout << "Invalid sorted type: Use 'cities'\n";
+        }
+    }
     else if (strcmp(command, "display") == 0)
     {
         if (!containsArg1(arg1))
@@ -104,7 +115,7 @@ void ViewDecider::decideView(const char *input)
         }
         else
         {
-            std::cout << "Invalid display type: Use 'mayor' or 'city'\n";
+            std::cout << "Invalid display type: Use 'mayor', 'city', or 'cities'\n";
         }
     }
     else if (strcmp(command, "distance") == 0)

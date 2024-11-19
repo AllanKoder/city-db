@@ -45,7 +45,7 @@ namespace Views::City
 
         // Get founding year
         std::cout << "Enter founding year:";
-        while (!(std::cin >> request.data.createCity.year) || request.data.createCity.year < 0 || request.data.createCity.year > 9999)
+        while (!(std::cin >> request.data.createCity.year) || request.data.createCity.year > 9999)
         {
             std::cout << "Invalid input.\nPlease enter a valid year (YYYY): ";
             std::cin.clear();
@@ -340,6 +340,44 @@ namespace Views::City
         {
             std::cout << "City " << i + 1 << ".\n";
             std::cout << (*cities)[i]->printCity() << "\n\n";
+        }
+    }
+
+    void sortedCities()
+    {
+        Routes::Request request;
+        request.type = Routes::RequestType::GET_ALL_CITIES;
+        Routes::Response response = Services::getInstance()->getRouter()->route(request);
+
+        if (!response.success)
+        {
+            std::cout << "Failed to get cities: " << response.error << "\n";
+            return;
+        }
+
+        // Sort the cities
+        DataStructures::Vector<Models::City *> *cities = response.data.cities;
+        DataStructures::Vector<Models::City> citiesSorted(cities->size());
+
+        // No cities returned
+        if (cities->size() == 0)
+        {
+            std::cout << "No cities added yet :(\n";
+            return;
+        }
+
+        for (size_t i = 0; i < cities->size(); i++)
+        {
+            citiesSorted.add(Models::City(*(*cities)[i]));
+        }
+        citiesSorted.sort();
+
+        // Print all cities
+        std::cout << "Sorted:\n";
+        for (size_t i = 0; i < citiesSorted.size(); i++)
+        {
+            std::cout << "City " << i + 1 << ".\n";
+            std::cout << citiesSorted[i].printCity() << "\n\n";
         }
     }
 

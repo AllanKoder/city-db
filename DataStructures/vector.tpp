@@ -143,6 +143,22 @@ namespace DataStructures
     }
 
     template <typename T>
+    void Vector<T>::sort()
+    {
+        // A simple bubble sort
+        for (size_t i = 0; i < elementCount - 1; ++i)
+        {
+            for (size_t j = 0; j < elementCount - i - 1; ++j)
+            {
+                if (array[j] > array[j + 1])
+                {
+                    std::swap(array[j], array[j + 1]);
+                }
+            }
+        }
+    }
+
+    template <typename T>
     void Vector<T>::clear()
     {
         // remove all the elements by calling their destructor

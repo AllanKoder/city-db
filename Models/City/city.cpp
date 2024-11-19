@@ -59,6 +59,11 @@ namespace Models
         return *this;
     }
 
+    bool City::operator>(const City &other)
+    {
+        return strncmp(this->name, other.name, MAX_CITY_NAME) > 0;
+    }
+
     double City::getKmDistance(const City &other) const
     {
         // Use the distance service to get Haversine distance

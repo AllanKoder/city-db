@@ -36,6 +36,9 @@ namespace Models
         // Assignment Initatization
         City &operator=(const City &other);
 
+        // > operator for sorting
+        bool operator>(const City &other);
+
         /**
          * @brief Returns a string with all the details of the city
          */

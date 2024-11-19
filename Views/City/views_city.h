@@ -30,11 +30,14 @@ namespace Views::City
     void displayCity(const char *cityName);
 
     /**
-     * @brief Displays a list of all cities
+     * @brief displays a list of all cities
      */
     void displayCities();
-
-    // Field-specific display functions
+    
+    /**
+     * @brief Displays the cities sorted
+     */
+    void sortedCities();
 
     /**
      * @brief Displays the history of a specific city

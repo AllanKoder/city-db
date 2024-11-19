@@ -67,6 +67,11 @@ namespace DataStructures
         void resize(size_t newCapacity);
 
         /**
+         * @brief Sorts the vector
+         */
+        void sort();
+
+        /**
          * @brief Remove all elements from the vector.
          */
         void clear();
