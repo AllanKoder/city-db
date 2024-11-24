@@ -108,7 +108,7 @@ namespace Views::City
         const Models::City &rawCity = city.value();
 
         // Validate population
-        char populationInput[20];               // Buffer for population input
+        char populationInput[12];               // Buffer for population input
         size_t population = rawCity.population; // Default to current value
         std::cout << "Enter new population (current: " << rawCity.population << ") or press Enter to keep current: ";
         std::cin.getline(populationInput, sizeof(populationInput));
@@ -122,6 +122,8 @@ namespace Views::City
             catch (...)
             {
                 std::cout << "Invalid input. Keeping current population: " << rawCity.population << ".\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 population = rawCity.population; // Revert to current value on error
             }
         }
@@ -145,6 +147,8 @@ namespace Views::City
             catch (...)
             {
                 std::cout << "Invalid input. Keeping current year: " << rawCity.year << ".\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 year = rawCity.year; // Revert to current value on error
             }
         }
@@ -171,6 +175,8 @@ namespace Views::City
             catch (...)
             {
                 std::cout << "Invalid input. Keeping current latitude: " << rawCity.coordinates[0] << ".\n";
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin.clear();
                 latitude = rawCity.coordinates[0]; // Revert to current value on error
             }
         }
@@ -191,6 +197,8 @@ namespace Views::City
             catch (...)
             {
                 std::cout << "Invalid input. Keeping current longitude: " << rawCity.coordinates[1] << ".\n";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 longitude = rawCity.coordinates[1]; // Revert to current value on error
             }
         }
@@ -467,7 +475,7 @@ namespace Views::City
 
         request.data.cityPair.city1 = city1.value().id;
         request.data.cityPair.city2 = city2.value().id;
-    
+
         Routes::Response response = Services::getInstance()->getRouter()->route(request);
         if (response.success)
         {

@@ -156,7 +156,7 @@ namespace Views::Helpers
     {
         // Quit the app with an exit()
         // First, ask if the users wants to save, then exit the application
-        std::cout << "Would you like to save before quiting (Y/n)?\n";
+        std::cout << "Would you like to save before quitting (Y/n)?\n";
         int choice;
         choice = getchar();
         // default is Y, so only if input is "n", then we don't save
