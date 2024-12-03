@@ -152,6 +152,26 @@ namespace Views::Helpers
         std::cout << "saved!\n";
     }
 
+    void help()
+    {
+        std::cout << "COMMANDS: \n";
+        std::cout << "seed <count>: seed some sample data\n";
+        std::cout << "add <city name>: add a city\n";
+        std::cout << "update <city name>: update a city\n";
+        std::cout << "delete <city name>: delete a city\n";
+        std::cout << "display city <city name>: show the city\n";
+        std::cout << "display mayor <city name>: show the mayor of city\n";
+        std::cout << "history <city name>: history of the city\n";
+        std::cout << "population <city name>: population of the city\n";
+        std::cout << "year <city name>: year of the city\n";
+        std::cout << "coordinates <city name>: coordinates of the city\n";
+        std::cout << "display cities: show all cities, unsorted\n"; 
+        std::cout << "sorted cities: shows the cities sorted alphabetically ascending\n";
+        std::cout << "distance <city name> <city name>: Km distance between two cities\n";
+        std::cout << "save: save the data\n";
+        std::cout << "exit: exit the application\n";
+    }
+
     void exit_app()
     {
         // Quit the app with an exit()

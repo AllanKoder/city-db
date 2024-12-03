@@ -32,6 +32,11 @@ namespace Views::Helpers
     void save();
 
     /**
+     * @brief show all commands and their descriptions, for help
+     */
+    void help();
+
+    /**
      * @brief Exits the application
      */
     void exit_app();

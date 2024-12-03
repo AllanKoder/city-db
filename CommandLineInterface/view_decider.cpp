@@ -123,14 +123,6 @@ void ViewDecider::decideView(const char *input)
         if (containsArg1(arg1) && containsArg2(arg2))
             Views::City::calculateDistance(arg1, arg2);
     }
-    else if (strcmp(command, "save") == 0)
-    {
-        Views::Helpers::save();
-    }
-    else if (strcmp(command, "exit") == 0)
-    {
-        Views::Helpers::exit_app();
-    }
     else if (strcmp(command, "history") == 0)
     {
         if (containsArg1(arg1))
@@ -150,6 +142,18 @@ void ViewDecider::decideView(const char *input)
     {
         if (containsArg1(arg1))
             Views::City::displayCoordinates(arg1);
+    }
+    else if (strcmp(command, "save") == 0)
+    {
+        Views::Helpers::save();
+    }
+    else if (strcmp(command, "exit") == 0)
+    {
+        Views::Helpers::exit_app();
+    }
+    else if (strcmp(command, "help") == 0)
+    {
+        Views::Helpers::help();
     }
     else
     {
