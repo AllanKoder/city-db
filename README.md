@@ -15,6 +15,12 @@ not need to understand the inner workings of the backend, such as "Backends for 
 Services are usuable code that is throughout the application, creating greater seperation of business logic that is 
 not directly related to the models.
 
+## Write-Ahead Log
+
+This project uses a write-ahead log (WAL) to ensure data durability. All state-changing operations (CREATE_CITY, UPDATE_CITY, DELETE_CITY)
+are logged to a binary file before being applied to the data models. On startup, the application replays all logged requests to reconstruct
+the previous state. This guarantees no data loss even if the application crashes unexpectedly.
+
 # Running the code:
 
 `make; ./exec.exe`
