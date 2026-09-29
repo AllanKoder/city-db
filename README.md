@@ -27,35 +27,70 @@ the previous state. This guarantees no data loss even if the application crashes
 
 # Usage Guide
 
-Once the application is running, you can perform the following operations:
+After running the application, you'll see a `db >` prompt. Enter commands to interact with the city database.
 
-## Supported Operations
+## Available Commands
 
-**CREATE_CITY** - Add a new city with mayor information
-- Provide city name, history, population, year established, and coordinates (latitude, longitude)
-- Include mayor name and address
-- All changes are automatically logged for durability
+**add <city_name>**
+- Creates a new city. You'll be prompted to enter city history, population, year of establishment, coordinates, and mayor information.
+- Example: `add London`
 
-**UPDATE_CITY** - Modify an existing city
-- Update city history, population, year, or coordinates
-- Modify associated mayor information
-- Changes are logged and persist across restarts
+**update <city_name>**
+- Modifies an existing city's information including history, population, year, coordinates, and mayor details.
+- Example: `update London`
 
-**DELETE_CITY** - Remove a city from the database
-- All associated data is deleted and logged
+**delete <city_name>**
+- Removes a city and all its associated data from the database.
+- Example: `delete London`
 
-**GET_ALL_CITIES** - View all cities in the database
-- Returns a list of all stored cities with their information
+**display city <city_name>**
+- Shows all details for a specific city.
+- Example: `display city London`
 
-**GET_CITIES** - Query a specific city by name
-- Search for city by name
-- Returns detailed information including mayor details
+**display cities**
+- Shows all cities in the database.
+- Example: `display cities`
 
-**DISPLAY_MAYOR** - View mayor information
-- Retrieve details about a city's mayor
+**display mayor <city_name>**
+- Shows the mayor information for a specific city.
+- Example: `display mayor London`
 
-**DISTANCE_BETWEEN_CITIES** - Calculate geographic distance
-- Compute distance between two cities using their coordinates
-- Useful for spatial queries
+**distance <city_name_1> <city_name_2>**
+- Calculates the geographic distance between two cities based on their coordinates.
+- Example: `distance London Paris`
 
-All data-modifying operations are automatically persisted via the write-ahead log, ensuring your data survives application restarts or crashes.
+**history <city_name>**
+- Displays the history of a specific city.
+- Example: `history London`
+
+**population <city_name>**
+- Displays the population of a specific city.
+- Example: `population London`
+
+**year <city_name>**
+- Displays the year a city was established.
+- Example: `year London`
+
+**coordinates <city_name>**
+- Displays the latitude and longitude coordinates of a city.
+- Example: `coordinates London`
+
+**sorted cities**
+- Displays all cities in sorted order.
+- Example: `sorted cities`
+
+**seed <number>**
+- Generates sample city data for testing. Useful for populating the database quickly.
+- Example: `seed 5`
+
+**save**
+- Manually saves all pending changes to the write-ahead log.
+- Example: `save`
+
+**help**
+- Shows all available commands.
+- Example: `help`
+
+**exit**
+- Exits the application and saves all data.
+- Example: `exit`
