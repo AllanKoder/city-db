@@ -24,3 +24,38 @@ the previous state. This guarantees no data loss even if the application crashes
 # Running the code:
 
 `make; ./exec.exe`
+
+# Usage Guide
+
+Once the application is running, you can perform the following operations:
+
+## Supported Operations
+
+**CREATE_CITY** - Add a new city with mayor information
+- Provide city name, history, population, year established, and coordinates (latitude, longitude)
+- Include mayor name and address
+- All changes are automatically logged for durability
+
+**UPDATE_CITY** - Modify an existing city
+- Update city history, population, year, or coordinates
+- Modify associated mayor information
+- Changes are logged and persist across restarts
+
+**DELETE_CITY** - Remove a city from the database
+- All associated data is deleted and logged
+
+**GET_ALL_CITIES** - View all cities in the database
+- Returns a list of all stored cities with their information
+
+**GET_CITIES** - Query a specific city by name
+- Search for city by name
+- Returns detailed information including mayor details
+
+**DISPLAY_MAYOR** - View mayor information
+- Retrieve details about a city's mayor
+
+**DISTANCE_BETWEEN_CITIES** - Calculate geographic distance
+- Compute distance between two cities using their coordinates
+- Useful for spatial queries
+
+All data-modifying operations are automatically persisted via the write-ahead log, ensuring your data survives application restarts or crashes.
